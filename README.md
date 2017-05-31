@@ -35,3 +35,25 @@ Note that if you are using a "managed" Chromebook, you will need to ask an admin
 ### License
 RocketTux is released under the General Public License Version 3, 29 June 2007. See the [LICENSE](LICENSE) file for more information.
 
+### Credits
+This is an open source project that stands on the backs of many others, which is something I truly appreciate! The following is a list of people and groups who either directly or indirectly contributed to RocketTux. Without their effort, this project would not exist.
+
+#### Software
+- Game Engine: [Phaser](http://phaser.io), [Chromium Browser](https://www.chromium.org/), [Google Chrome Browser](https://www.google.com/chrome/index.html).
+- Operating System: [Debian](http://www.debian.org/), [Linux Mint](https://linuxmint.com/), [XFCE](https://xfce.org/), [Google ChromeOS](https://www.chromium.org/chromium-os).
+- Graphics: [GIMP](https://www.gimp.org/).
+- Sound: [Audacity](http://www.audacityteam.org/), [Sunvox](http://www.warmplace.ru/soft/sunvox/) by Alexander Zolotov.
+- Misc: [Git](https://git-scm.com/), [GitHub](https://github.com/), [Geany](http://www.geany.org/), [Thunar](https://en.wikipedia.org/wiki/Thunar), [Firefox Browser](https://www.mozilla.org/en-US/).
+
+#### Graphics
+- [SuperTux2](https://supertuxproject.org/) Team for the art style and many assets.
+- [Tinyspeck](http://www.glitchthegame.com/public-domain-game-art/) for the use of artwork from Glitch.
+
+#### Sound and Music
+- Sounds: [Richard Boulanger](http://www.csounds.com/boulanger/), [Mike Koenig](https://soundcloud.com/koenig).
+- Music: [R. Bassett Jr.](http://www.tpot.ca).
+
+#### Special Thanks
+- My family. You guys rock!
+- The [Phaser](http://phaser.io) and [HTML5 Game Devs](http://www.html5gamedevs.com) communities for sharing their knowledge!
+
