@@ -14,7 +14,7 @@ RocketTux is a side scroller adventure with player-influenced random level gener
 - Pull request for bug fixes welcome.
 
 ### Target Audience
-- RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn more about programming. Indeed, it is possible to create this entire game on a Chromebook in ChromeOS directly, with the proper apps! 
+RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn more about programming. Indeed, it is possible to create this entire game on a Chromebook in ChromeOS directly, with the proper apps! 
 
 ### Installation
 RocketTux is built as an "HTML5 web app" for the Chrome browser, optimized to run well on basic Chromebooks. Until version 1.0 is complete and the game is added to the Google Chrome Store, you can download a copy of this repository, unzip it, and add it to Chrome like so:
@@ -40,13 +40,13 @@ Note that if you are using a "managed" Chromebook, you will need to ask an admin
 - Down Arrow: Hover when in the air. Do NOT altitude when collecting coins (handy for collecting a row of coins). Duck when on the ground.
 
 ### License
-RocketTux is released under the General Public License Version 3, 29 June 2007. See the [LICENSE](LICENSE) file for more information.
+The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information.
 
 ### Credits
 This is an open source project that stands on the backs of many others, which is something I truly appreciate! The following is a list of people and groups who either directly or indirectly contributed to RocketTux. Without their effort, this project would not exist.
 
 #### Software
-- Game Engine: [Phaser](http://phaser.io), [Chromium Browser](https://www.chromium.org/), [Google Chrome Browser](https://www.google.com/chrome/index.html).
+- Game Engine: [Phaser CE 2.8.0](http://phaser.io/download/stable), [Chromium Browser](https://www.chromium.org/), [Google Chrome Browser](https://www.google.com/chrome/index.html).
 - Operating System: [Debian](http://www.debian.org/), [Linux Mint](https://linuxmint.com/), [XFCE](https://xfce.org/), [Google ChromeOS](https://www.chromium.org/chromium-os).
 - Graphics: [GIMP](https://www.gimp.org/).
 - Sound: [Audacity](http://www.audacityteam.org/), [Sunvox](http://www.warmplace.ru/soft/sunvox/) by Alexander Zolotov.
@@ -55,6 +55,7 @@ This is an open source project that stands on the backs of many others, which is
 #### Graphics
 - [SuperTux2](https://supertuxproject.org/) Team for the art style and many assets.
 - [Tinyspeck](http://www.glitchthegame.com/public-domain-game-art/) for the use of artwork from Glitch.
+- [Ville Seppanen](https://opengameart.org/content/gem-jewel-diamond-glass) for the use of his gems.
 
 #### Sound and Music
 - Sounds: [Richard Boulanger](http://www.csounds.com/boulanger/), [Mike Koenig](https://soundcloud.com/koenig).
