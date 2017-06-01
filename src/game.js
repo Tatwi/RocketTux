@@ -11,9 +11,10 @@ var config = {
     }
 };
 
-var game = new Phaser.Game(config);
+var game = new Phaser.Game(config); 
 
 function preload() {
+    game.load.atlas('world', 'data/platforms.png', 'data/platforms.json');
     game.load.image('ground', 'data/platform.png');
     game.load.spritesheet('tux', 'data/tux.png', 64, 64);
     game.load.spritesheet('coin', 'data/coin.png', 32, 64);
@@ -63,24 +64,19 @@ function create() {
     backdrop = game.add.bitmapData(levelLength, 720);
     backdrop.addToWorld();
     drawBackdrop(0x11315c, 0x48b6cd);
-    
 
-    //  The platforms group contains the ground and the 2 ledges we can jump on
+    //  Add group for all platforms and the ground
     platforms = game.add.group();
-
-    //  We will enable physics for any object that is created in this group
     platforms.enableBody = true;
 
-    // Here we create the ground.
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
+    // Load the ground
+    var groundCount = 0;
+    for (var i = 0; i < levelLength / 32; i++){
+        grnd = addPlatform(groundCount, game.world.height - 64, 32, 64, 'world', 'snow001');
+        groundCount += 32;
+    }
 
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(levelLength / 400, 2);
-
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-
-    //  Now let's create some ledges
+    //  Create platforms
     var spacer = 100;
     var numOfLedges = Math.floor(levelLength / 12) - (Math.random() * 20);
     
@@ -99,7 +95,7 @@ function create() {
 
     // The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'tux');
-    player.scale.setTo(0.50,0.50);
+    player.scale.setTo(0.66,0.66);
     
     // Add player animations
     player.animations.add('stand', [6], 10, true);
@@ -349,4 +345,14 @@ function drawBackdrop(top, bottom){
 
         y += 2;
     }
+}
+
+function addPlatform(worldX, worldY, objW, objH, atlas, objName){
+    var newPlatform = game.add.tileSprite(worldX, worldY, objW, objH, atlas, objName);
+    game.physics.arcade.enable(newPlatform);
+    newPlatform.enableBody = true;
+    newPlatform.body.immovable = true;
+    platforms.add(newPlatform);
+    
+    return newPlatform;
 }
