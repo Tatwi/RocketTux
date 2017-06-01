@@ -38,7 +38,7 @@ var boostBlast;
 // Player variables
 var movingLeft = false;
 var movingRight = false;
-var rocketOn = false;
+var rocketOn = 'right'; // right, left
 var boostOnCooldown = false;
 
 // Interface
@@ -99,6 +99,7 @@ function create() {
 
     // The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'tux');
+    player.scale.setTo(0.50,0.50);
     
     // Add player animations
     player.animations.add('stand', [6], 10, true);
@@ -112,8 +113,8 @@ function create() {
     game.physics.arcade.enable(player);
 
     //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
+    player.body.bounce.y = 0;
+    player.body.gravity.y = 100;
     player.body.collideWorldBounds = true;
 
     // Camera follows player
@@ -161,6 +162,7 @@ function create() {
                 var coin = coins.create(coinDrop, 0, 'coin');
 
                 //  Let gravity do its thing
+                coin.body.checkCollision.up = false; // So player doesn't bounce off
                 coin.body.gravity.y = 300;
                 coin.animations.add('coin-turn', [0,1,2,3,4,5,6,7], 10, true);
                 coin.animations.play('coin-turn');
@@ -195,7 +197,7 @@ function create() {
     cursors = game.input.keyboard.createCursorKeys();
 }
 
-// GAME LOOP
+// START GAME LOOP # # # # # # # # # # # # # # # # # # # # # # # #
 function update() {
     // Collide the player and the coins with the platforms
     game.physics.arcade.collide(player, platforms);
@@ -204,87 +206,103 @@ function update() {
     // If player overlaps with a coin, collect the coin
     game.physics.arcade.overlap(player, coins, collectCoin, null, this);
 
-    //  Reset player movement
+    //  Reset player
     player.body.velocity.x = 0;
-    
-    movingLeft = false;
-    movingRight = false;
-    
-    // Do move left/right
-    if (cursors.left.isDown){
-        player.body.velocity.x = -200;
-        movingLeft = true;
-    } else if (cursors.right.isDown){
-        player.body.velocity.x = 200;
-        movingRight = true;
-    } else if (cursors.down.isDown){
-        player.animations.play('duck');
-    } else{
-        //  Stand still
-        player.play('stand');
-    }
-    
-    //  Do Jump
-    if (cursors.up.isDown && player.body.touching.down)
-    {
-        player.body.velocity.y = -333;
-    } else if (cursors.up.isDown) {
-        player.body.acceleration.y = -66;
+    if (!player.body.touching.down){ // Always on when in the air
+        if (rocketOn == 'left')
+            rocketPackIs('left');
+            
+        if (rocketOn == 'right')
+            rocketPackIs('right');
     } else {
-        player.body.acceleration.y = 0;
-        
-        flames.y = game.world.height + 128; // hide rocket pack exhaust
+        rocketPackIs('off');
     }
     
-    // Do Boost
+//===========Player Input, Movement, and Animations============
+    // Left/Right Keys
+    if (cursors.left.isDown){
+        player.body.velocity.x = -300;
+        
+        if (player.body.touching.down){
+            player.animations.play('left'); // Running
+        } else if (!player.body.touching.down){
+            rocketPackIs('left'); // Flying
+        }
+    } else if (cursors.right.isDown){
+        player.body.velocity.x = 300;
+        
+        if (player.body.touching.down){
+            player.animations.play('right');
+        } else if (!player.body.touching.down){
+            rocketPackIs('right'); // Flying
+        }
+    } else {
+         player.play('stand'); // Facing right
+         
+         if (!player.body.touching.down)
+            rocketPackIs('right'); // Flying
+    }
+        
+    // Up/Down Keys
+    if (cursors.up.isDown || cursors.down.isDown){
+        if (cursors.down.isDown && player.body.touching.down){
+            player.body.velocity.x = 0;
+            player.animations.play('duck'); // Duck when standing
+        } else if (!player.body.touching.down){
+            if (player.body.velocity.y > 0)
+                player.body.velocity.y = 0; // Hover when not moving up or down in the air
+        }
+            
+        // Note: collectCoin() will boost the player up when cursors.up.isDown = true
+    } else {
+        player.body.acceleration.y = 0; // Fall
+    }
+    
+    // Special Functions
+    
+    // Spacebar
     if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && player.body.touching.down)
     {
         if (canBoost > 0 && boostOnCooldown == false){
-            player.body.velocity.y = -600;
+            player.body.velocity.y = -333;
             canBoost--;
             boostText.text = 'Boost: ' + canBoost;
             doRocketBoost();
         }
     }
+//=============================================================
     
-    // Play player animations
-    if (movingLeft){
-        player.animations.play('left');
-    } else if (movingRight){
-        player.animations.play('right');
-    } 
-    
-    if (!player.body.touching.down){ // Jumping
-        if (movingLeft){
-            flames.x = player.body.x + 36;
-            flames.y = player.body.y + 22;
-            flames.animations.play('flames-left');
-            player.animations.play('jump-left');
-        } else {
-            flames.x = player.body.x - 36;
-            flames.y = player.body.y + 22;
-            flames.animations.play('flames-right');
-            player.animations.play('jump-right');
-        }
-    }
-    
-    // Update UI 
+
+//===================== Update UI =============================
     uiTick++;
     
     if (uiTick > uiTickRate){
         levelProgressText.text = 'Progress: ' + Math.floor(player.body.x) + "/" + levelLength;
         
         uiTick = 0;
-    } 
+    }
+//=============================================================
 }
+// END GAME LOOP # # # # # # # # # # # # # # # # # # # # # # # #
 
-function collectCoin (player, coin) {
-    // Removes the coin from the screen
-    coin.kill();
-
-    //  Add and update the score
-    score += 1;
-    scoreText.text = 'Coins: ' + score + "/" + numCoins;
+function rocketPackIs(stateIs){
+    if (stateIs == 'left'){
+        // Moving left
+        flames.x = player.body.x + 36;
+        flames.y = player.body.y + 22;
+        flames.animations.play('flames-left');
+        player.animations.play('jump-left');
+        rocketOn = 'left';
+    } else if (stateIs == 'right'){
+        // Moving right or not pressing left or right keys and falling
+        flames.x = player.body.x - 36;
+        flames.y = player.body.y + 22;
+        flames.animations.play('flames-right');
+        player.animations.play('jump-right');
+        rocketOn = 'right';
+    } else if (stateIs == 'off'){
+        flames.y = game.world.height + 128; // hide rocket pack exhaust off the screen
+    }
 }
 
 function douseFlames(){
@@ -300,6 +318,19 @@ function doRocketBoost(){
     boostBlast.animations.play('blast');
     game.time.events.add(Phaser.Timer.SECOND * 0.5, douseFlames, boostBlast);
     boostOnCooldown = true;
+}
+
+function collectCoin (player, coin) {
+    // Removes the coin from the screen
+    coin.kill();
+    
+    // Give boost (prevented by pressing down arrow)
+    if (cursors.up.isDown)
+        player.body.velocity.y = -160;
+
+    //  Add and update the score
+    score += 1;
+    scoreText.text = 'Coins: ' + score + "/" + numCoins;
 }
 
 function drawBackdrop(top, bottom){

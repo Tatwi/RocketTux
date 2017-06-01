@@ -32,6 +32,13 @@ RocketTux is built as an "HTML5 web app" for the Chrome browser, optimized to ru
 
 Note that if you are using a "managed" Chromebook, you will need to ask an administrator to add RocketTux for you. 
 
+### Controls
+- The idea is to collect as many coins as you can. You have a limited amount of boosts and "coins jumps" to reach the high ones.
+- Left/Right Arrows: Move left and right.
+- Spacebar: Boost into the air.
+- Up Arrow: Gain altitude when collecting coins ("coin jump"). Hover when in the air.
+- Down Arrow: Hover when in the air. Do NOT altitude when collecting coins (handy for collecting a row of coins). Duck when on the ground.
+
 ### License
 RocketTux is released under the General Public License Version 3, 29 June 2007. See the [LICENSE](LICENSE) file for more information.
 
