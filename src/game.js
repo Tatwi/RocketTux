@@ -1,6 +1,17 @@
-var windowWidth = 1280;
-var windowHeight = 720;
-var game = new Phaser.Game(windowWidth, windowHeight, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var config = {
+    width: 1280,
+    height: 720,
+    renderer: Phaser.AUTO,
+    antialias: false,
+    multiTexture: true,
+    state: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var game = new Phaser.Game(config);
 
 function preload() {
     game.load.image('ground', 'data/platform.png');
@@ -40,6 +51,8 @@ var uiTick = 0;
 
 // GAME CONFIG
 function create() {
+    game.renderer.setTexturePriority(['tux', 'coin', 'effects', 'ground']);
+    
     // Set world bounds
     game.world.setBounds(0, 0, levelLength, 720);
      
@@ -174,7 +187,7 @@ function create() {
     boostText.text = 'Boost: ' + canBoost;
     
     // Show level progress
-    levelProgressText = game.add.text(16, windowHeight - 58, 'score: 0', { fontSize: '32px', fill: '#000' });
+    levelProgressText = game.add.text(16, game.world.height - 58, 'score: 0', { fontSize: '32px', fill: '#000' });
     levelProgressText.fixedToCamera = true;
     levelProgressText.text = 'Progress: ' + Math.floor(player.body.x) + "/" + levelLength;
 
@@ -220,7 +233,7 @@ function update() {
     } else {
         player.body.acceleration.y = 0;
         
-        flames.y = windowHeight + 128; // hide rocket pack exhaust
+        flames.y = game.world.height + 128; // hide rocket pack exhaust
     }
     
     // Do Boost
