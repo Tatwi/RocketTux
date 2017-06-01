@@ -24,7 +24,7 @@ function preload() {
 // Level Config
 var backdrop;
 var levelLength = Math.floor((Math.random() * 12000)) + 4000; // 4000 min, 16000 max
-var canBoost = 500;//Math.floor(levelLength / 3000); // DEBUG
+var canBoost = Math.floor(levelLength / 3000);
 var platforms;
 var numCoins;
 var cursors;
