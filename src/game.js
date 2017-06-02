@@ -7,15 +7,15 @@ var config = {
     state: {
         preload: preload,
         create: create,
-        update: update
+        update: update,
+        render: render
     }
 };
 
 var game = new Phaser.Game(config); 
 
 function preload() {
-    game.load.atlas('world', 'data/platforms.png', 'data/platforms.json');
-    game.load.image('ground', 'data/platform.png');
+    game.load.image('tiles', 'data/platforms.png');
     game.load.spritesheet('tux', 'data/tux.png', 64, 64);
     game.load.spritesheet('coin', 'data/coin.png', 32, 64);
     game.load.spritesheet('effects', 'data/effects.png', 64, 64);
@@ -24,13 +24,15 @@ function preload() {
 // GLOBAL VARIABLES
 // Level Config
 var backdrop;
-var levelLength = Math.floor((Math.random() * 12000)) + 4000; // 4000 min, 16000 max
+var levelLength = 32 * game.rnd.between(125, 500); // 4000 min, 16000 max
 var canBoost = Math.floor(levelLength / 3000);
 var platforms;
 var numCoins;
 var cursors;
+var fileContents = "none";
 
 // Objects
+var theLevel;
 var player;
 var coins;
 var flames;
@@ -52,7 +54,7 @@ var uiTick = 0;
 
 // GAME CONFIG
 function create() {
-    game.renderer.setTexturePriority(['tux', 'coin', 'effects', 'ground']);
+    game.renderer.setTexturePriority(['tiles','tux', 'coin', 'effects']);
     
     // Set world bounds
     game.world.setBounds(0, 0, levelLength, 720);
@@ -68,30 +70,17 @@ function create() {
     //  Add group for all platforms and the ground
     platforms = game.add.group();
     platforms.enableBody = true;
+    
+    createTileMap();
 
     // Load the ground
-    var groundCount = 0;
+/*    var groundCount = 0;
     for (var i = 0; i < levelLength / 32; i++){
         grnd = addPlatform(groundCount, game.world.height - 64, 32, 64, 'world', 'snow001');
         groundCount += 32;
     }
+*/
 
-    //  Create platforms
-    var spacer = 100;
-    var numOfLedges = Math.floor(levelLength / 12) - (Math.random() * 20);
-    
-    for (var i = 0; i < numOfLedges; i++) {
-        var xPos = spacer;
-        var yPos = Math.floor((Math.random() * game.world.height / 1.5) + 1) + 100; // 100 leaves some room at the top of the screen
-        
-        yPos = Math.min(512, yPos); // Player can walk under the lowest platform
-
-        var ledge = platforms.create(xPos, yPos, 'ground');
-        ledge.scale.setTo(Math.min(Math.random() + 0.05, 0.3), Math.random() + 1);
-        ledge.body.immovable = true;
-        
-        spacer += 150 + (Math.random() * 50);
-    }
 
     // The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'tux');
@@ -196,15 +185,15 @@ function create() {
 // START GAME LOOP # # # # # # # # # # # # # # # # # # # # # # # #
 function update() {
     // Collide the player and the coins with the platforms
-    game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(coins, platforms);
+    game.physics.arcade.collide(player, theLevel);
+    game.physics.arcade.collide(coins, theLevel);
 
     // If player overlaps with a coin, collect the coin
     game.physics.arcade.overlap(player, coins, collectCoin, null, this);
 
     //  Reset player
     player.body.velocity.x = 0;
-    if (!player.body.touching.down){ // Always on when in the air
+    if (!player.body.blocked.down){ // Always on when in the air
         if (rocketOn == 'left')
             rocketPackIs('left');
             
@@ -219,32 +208,32 @@ function update() {
     if (cursors.left.isDown){
         player.body.velocity.x = -300;
         
-        if (player.body.touching.down){
+        if (player.body.blocked.down){
             player.animations.play('left'); // Running
-        } else if (!player.body.touching.down){
+        } else if (!player.body.blocked.down){
             rocketPackIs('left'); // Flying
         }
     } else if (cursors.right.isDown){
         player.body.velocity.x = 300;
         
-        if (player.body.touching.down){
+        if (player.body.blocked.down){
             player.animations.play('right');
-        } else if (!player.body.touching.down){
+        } else if (!player.body.blocked.down){
             rocketPackIs('right'); // Flying
         }
     } else {
          player.play('stand'); // Facing right
          
-         if (!player.body.touching.down)
+         if (!player.body.blocked.down)
             rocketPackIs('right'); // Flying
     }
         
     // Up/Down Keys
     if (cursors.up.isDown || cursors.down.isDown){
-        if (cursors.down.isDown && player.body.touching.down){
+        if (cursors.down.isDown && player.body.blocked.down){
             player.body.velocity.x = 0;
             player.animations.play('duck'); // Duck when standing
-        } else if (!player.body.touching.down){
+        } else if (!player.body.blocked.down){
             if (player.body.velocity.y > 0)
                 player.body.velocity.y = 0; // Hover when not moving up or down in the air
         }
@@ -257,7 +246,7 @@ function update() {
     // Special Functions
     
     // Spacebar
-    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && player.body.touching.down)
+    if (game.input.keyboard.isDown(Phaser.Keyboard.ALT) && player.body.blocked.down)
     {
         if (canBoost > 0 && boostOnCooldown == false){
             player.body.velocity.y = -333;
@@ -266,8 +255,6 @@ function update() {
             doRocketBoost();
         }
     }
-//=============================================================
-    
 
 //===================== Update UI =============================
     uiTick++;
@@ -277,7 +264,6 @@ function update() {
         
         uiTick = 0;
     }
-//=============================================================
 }
 // END GAME LOOP # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -355,4 +341,67 @@ function addPlatform(worldX, worldY, objW, objH, atlas, objName){
     platforms.add(newPlatform);
     
     return newPlatform;
+}
+
+function createTileMap(){
+    var data = '';
+    var tilesHigh = 23; // 759px, cropped by game window to 720px
+    var tilesWide = levelLength / 32;
+    var rng;
+    
+    // Random choices
+    var grnd = []; grnd = grounds[Math.floor(Math.random() * grounds.length)];
+
+    // Build the map
+    for (var y = 0; y < tilesHigh; y++)
+    {
+        for (var x = 0; x < tilesWide; x++)
+        {
+            if (tilesHigh - y == 1){
+                // Add ground layer top
+                data += grnd[0];
+            } else if (tilesHigh - y == 0){
+                // Add ground layer bottom
+                data += grnd[1];
+            } else {
+                data += '171'; // Empty
+            }
+
+            if (x < tilesWide - 1)
+            {
+                data += ',';
+            }
+        }
+
+        if (y < tilesHigh - 1)
+        {
+            data += "\n";
+        }
+    }
+
+    // console.log(data);
+
+    //  Add data to the cache
+    game.cache.addTilemap('dynamicMap', null, data, Phaser.Tilemap.CSV);
+
+    //  Create our map (the 16x16 is the tile size)
+    map = game.add.tilemap('dynamicMap', 32, 32);
+
+    //  'tiles' = cache image key, 16x16 = tile size
+    map.addTilesetImage('tiles', 'tiles', 32, 32);
+    
+    map.setCollisionBetween(0, 128);
+
+    //  0 is important
+    theLevel = map.createLayer(0);
+
+    //  Scroll it
+    theLevel.resizeWorld();
+
+}
+
+
+function render() {
+    //game.debug.bodyInfo(player, 32, 320);
+
 }
