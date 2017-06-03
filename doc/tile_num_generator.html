@@ -1,0 +1,90 @@
+<!-- 
+Created by R. Bassett Jr. (Tatwi) for use with the SuperTux2 0.3.3 level editor, while creating Rescue Girlies in 2013.
+Modified in 2017 to make numbered grid references for tilemap png files created with GIMP.
+
+Released under the General Public Licence, version 3
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<script>
+
+
+function gogo(form){
+	var tilenum = parseFloat(form.elements['tilenum'].value);
+    var square = parseFloat(form.elements['square'].value);
+    var tilesize = parseFloat(form.elements['tilesize'].value);
+	var tilewidth = parseFloat(form.elements['tilewidth'].value);
+	var tileheight = parseFloat(form.elements['tileheight'].value);
+	var blocks = tilewidth * tileheight;
+	var colret = 0;
+    var posY = 0;
+    var posX = 0;
+	
+    document.write("<div style='width:"+ square +"px;height:"+ square +"px;position:fixed;top:0px;left:0px;margin:0px;padding:0px;background-color:yellow;opacity: 0.5;'></div>");
+    
+	for (var i=0;i<blocks;i++){ 
+		document.write("<div style='margin:0px;padding:0px;width:32;height:32;text-align:center;font-size:12px;position:fixed;top:" + posY + "px;left:" + posX + "px;>" + tilenum + "</div>");
+		colret++;
+        posX += tilesize;
+        document.write("<div style='margin:0px;padding:0px;width:32;height:32;text-align:center;font-size:12px;position:fixed;top:" + posY + "px;left:" + posX + "px;>" + (tilenum+1) + "</div>");
+        tilenum++
+		if (colret == tilewidth){ 
+			//document.write("<br>");
+            posY += tilesize;
+            posX = 0;
+			colret = 0;
+		}
+	 }
+ }
+
+</script>
+</head>
+<body>
+<form id="frm1">
+	<h1>Tile Number Grid Generator</h1>
+	<br />
+	Starting Tile Number: <input type="input" name="tilenum" size="6" value="0" />
+    
+    <p>Tile Size: <input type="input" name="tilesize" size="6" value="0" />
+    
+    <p>Square Size: <input type="input" name="square" size="6" value="0" />
+	
+	<p>Object Width: <input type="input" name="tilewidth" size="6" value="0" />
+ 
+	<p>Object Hieght: <input type="input" name="tileheight" size="6" value="0" />	
+	
+	<p><input type="button" value="Calculate" onclick="gogo(this.form)" />
+	<p>
+	<pre>
+    - Each tile is "Tile Size"px by "Tile Size"px
+    - Square Size: draws a yellow square behind the numbers
+    
+    Handy for making a number grid to put behind a tile map imagine in GIMP!
+    
+    <strong>1024x1024 with 32x32 tiles:</strong>
+    Starting Tile Number: -1
+    Square Size: 1024
+    Tile Size: 32
+    Object Width: 32
+    Object Hieght: 32
+    
+    <strong>1024x1024 with 64x64 tiles:</strong>
+    Starting Tile Number: -1
+    Tile Size: 64
+    Object Width: 16
+    Object Hieght: 16
+    
+    Due to the small size of my screen (1600x900), I had to zoom out 50% in
+    the web browser. After that, I took a screenshot of the output, pasted
+    it into a layer in GIMP, selected the yellow box, cropped the layer to
+    they selection (512x512), and then scaled the layer up to 1024x1024. The
+    text is legible enough. :)
+    
+    </pre>
+	
+	</p>
+ </form>
+</body>
+</html>
