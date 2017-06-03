@@ -15,16 +15,37 @@ RocketTux.Preload.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
  
   	// Load game assets
-    this.load.image('tiles', 'data/platforms.png');
-    this.load.spritesheet('tux', 'data/tux.png', 64, 64);
-    this.load.spritesheet('coin', 'data/coin.png', 32, 64);
-    this.load.spritesheet('effects', 'data/effects.png', 64, 64);
+    this.load.image('world', 'data/world.png');
+    this.load.spritesheet('entities', 'data/entities.png', 64, 64);
     this.load.audio('collect', 'data/sounds/collect.ogg');
     this.load.audio('menu', 'data/music/menu.ogg');
     this.load.audio('song1', 'data/music/song1.ogg');
     this.load.audio('song2', 'data/music/song2.ogg');
+    
+    // Initialize variables used to generate levels
+    this.worldObjects(); // Tiled objects from world texture
+    this.otherVariables();
+    
+    // Initialize player saved data and preferences
+    this.loadSavedData();
   },
   create: function() {
   	this.state.start('MainMenu');
+  },
+  worldObjects: function(){
+    // g = ground, p = platform, 3x2 = 3 wide, 2 high
+      
+    // Default Theme (Snow)
+    RocketTux.snow1 = {
+        g:[1,2], 
+        p3x3:[1,3,2,4,5,6,7,8],
+        p3x2:[1,3,2,4,5,6,4,8],
+    };
+  },
+  otherVariables: function(){
+    // N/A atm
+  },
+  loadSavedData: function(){
+    // N/A atm
   }
 };

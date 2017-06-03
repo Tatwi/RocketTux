@@ -1,11 +1,10 @@
 var RocketTux = RocketTux || {};
  
-//title screen
 RocketTux.Game = function(){};
  
 RocketTux.Game.prototype = {
   create: function() {
-    this.game.renderer.setTexturePriority(['tiles','tux', 'coin', 'effects']);
+    this.game.renderer.setTexturePriority(['world']);
     
     music.stop();
     music = this.game.add.audio('song2');
@@ -26,6 +25,11 @@ RocketTux.Game.prototype = {
     } else {
         this.drawBackdrop(0x000000, 0x11315c, levelLength); // Night
     } 
+    
+    // DEBUG
+    var myDebugText = this.game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FF0000' });
+    myDebugText.fixedToCamera = true;
+    myDebugText.text = RocketTux.snow1.g[0];
     
   },
   update: function() {
