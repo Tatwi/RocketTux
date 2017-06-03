@@ -18,6 +18,7 @@ RocketTux.MainMenu.prototype = {
   },
   update: function() {
     if(this.game.input.activePointer.justPressed()) {
+      music.destroy();
       this.game.state.start('Game');
     }
   }

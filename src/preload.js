@@ -24,7 +24,7 @@ RocketTux.Preload.prototype = {
     
     // Initialize variables used to generate levels
     this.worldObjects(); // Tiled objects from world texture
-    this.otherVariables();
+    this.otherVariables(); // Misc objects
     
     // Initialize player saved data and preferences
     this.loadSavedData();
@@ -43,7 +43,7 @@ RocketTux.Preload.prototype = {
     };
   },
   otherVariables: function(){
-    // N/A atm
+    RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
   },
   loadSavedData: function(){
     // N/A atm
