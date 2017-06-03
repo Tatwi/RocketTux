@@ -54,8 +54,6 @@ This is an open source project that stands on the backs of many others, which is
 
 #### Graphics
 - [SuperTux2](https://supertuxproject.org/) Team for the art style and many assets.
-- [Tinyspeck](http://www.glitchthegame.com/public-domain-game-art/) for the use of artwork from Glitch.
-- [Ville Seppanen](https://opengameart.org/content/gem-jewel-diamond-glass) for the use of his gems.
 
 #### Sound and Music
 - Sounds: [Richard Boulanger](http://www.csounds.com/boulanger/), [Mike Koenig](https://soundcloud.com/koenig).
