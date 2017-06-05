@@ -56,68 +56,60 @@ RocketTux.Game.prototype = {
         y += 2;
     }
   },
+  pickRandomProperty: function(obj) {
+        var result;
+        var count = 0;
+        for (var prop in obj)
+            if (Math.random() < 1/++count)
+               result = prop;
+        return result;
+    },
   createTileMap: function(levelLength){
     var sections = levelLength / 32 / 10; // Screen Pixels / Tile Width Px / Section Width
     var data = '';
     var row1,row2,row3,row4,row5,row6,row7,row8,row9,row10,row11,row12,row13,row14,row15,row16,row17,row18,row19,row20,row21,row22,row23;
     row1=row2=row3=row4=row5=row6=row7=row8=row9=row10=row11=row12=row13=row14=row15=row16=row17=row18=row19=row20=row21=row22=row23=''; // Prevents white line on left of screen
+
+    // Pick a theme
+    var theme = RocketTux.candyland;
+    var rng = this.roll();
+    if (rng > 95)
+        var theme = RocketTux.candyland;
+    if (rng > 75)
+        var theme = RocketTux.candyland;
+    if (rng > 50)
+        var theme = RocketTux.candyland;
+    if (rng > 25)
+        var theme = RocketTux.candyland;
     
-    // Minus 1 from every value, because Tiled starts tiling at 1 and Phaser maps images starting at 0.
-    var tmpNumber;
-    var tmpString = '';
-    for (var i = 0; i < 23; i++){
-        var tmpArray = RocketTux.candyland1[i].split(",")
-            
-        // Convert to numbers
-        for(var j=0; j<tmpArray.length; j++) { tmpArray[j] = +tmpArray[j]; }
-        
-        for (var k = 0; k < 10; k++){
-            tmpNumber = tmpArray[k];
-            
-            if (tmpNumber == undefined)
-                tmpNumber = 0;
-            
-            if (tmpNumber > 0)
-                tmpNumber -= 1;
-                
-            tmpString += tmpNumber + ",";
-        }
-
-        RocketTux.candyland1[i] = tmpString; // save corrected numbers
-        
-        if (i == 0)
-            this.myDebugText.text = "       " + RocketTux.candyland1[i];
-        
-        tmpNumber = 0;
-        tmpString = '';
-    }
-
     // Generate the width of the map
     for (var i = 0; i < sections; i++)
     {
-        row1 += RocketTux.candyland1[0];
-        row2 += RocketTux.candyland1[1];
-        row3 += RocketTux.candyland1[2];
-        row4 += RocketTux.candyland1[3];
-        row5 += RocketTux.candyland1[4];
-        row6 += RocketTux.candyland1[5];
-        row7 += RocketTux.candyland1[6];
-        row8 += RocketTux.candyland1[7];
-        row9 += RocketTux.candyland1[8];
-        row10 += RocketTux.candyland1[9];
-        row11 += RocketTux.candyland1[10];
-        row12 += RocketTux.candyland1[11];
-        row13 += RocketTux.candyland1[12];
-        row14 += RocketTux.candyland1[13];
-        row15 += RocketTux.candyland1[14];
-        row16 += RocketTux.candyland1[15];
-        row17 += RocketTux.candyland1[16];
-        row18 += RocketTux.candyland1[17];
-        row19 += RocketTux.candyland1[18];
-        row20 += RocketTux.candyland1[19];
-        row21 += RocketTux.candyland1[20];
-        row22 += RocketTux.candyland1[21];
-        row23 += RocketTux.candyland1[22];
+        var rngSection = this.pickRandomProperty(theme);
+        
+        row1 += theme[rngSection][0];
+        row2 += theme[rngSection][1];
+        row3 += theme[rngSection][2];
+        row4 += theme[rngSection][3];
+        row5 += theme[rngSection][4];
+        row6 += theme[rngSection][5];
+        row7 += theme[rngSection][6];
+        row8 += theme[rngSection][7];
+        row9 += theme[rngSection][8];
+        row10 += theme[rngSection][9];
+        row11 += theme[rngSection][10];
+        row12 += theme[rngSection][11];
+        row13 += theme[rngSection][12];
+        row14 += theme[rngSection][13];
+        row15 += theme[rngSection][14];
+        row16 += theme[rngSection][15];
+        row17 += theme[rngSection][16];
+        row18 += theme[rngSection][17];
+        row19 += theme[rngSection][18];
+        row20 += theme[rngSection][19];
+        row21 += theme[rngSection][20];
+        row22 += theme[rngSection][21];
+        row23 += theme[rngSection][22];
     }
     
     // Consolidate the width and height into the single data variable

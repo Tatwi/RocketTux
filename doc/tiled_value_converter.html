@@ -1,0 +1,94 @@
+<!-- 
+Tiled Tile Value Converter
+Created by R. Bassett Jr. (Tatwi)
+
+Released under the General Public Licence, version 3
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<script>
+
+
+function justCSV(form){
+	var data = form.elements['inputData'].value;
+    var tmpNumber;
+    var tmpArray = data.split(",")
+            
+    // Convert to numbers
+    for(var j=0; j<tmpArray.length; j++) { tmpArray[j] = +tmpArray[j]; }
+    
+    var lineCount = 1;
+    
+    for (var k = 0; k < tmpArray.length; k++){
+        tmpNumber = tmpArray[k];
+
+        if (tmpNumber > 0)
+            tmpNumber -= 1;
+        
+        document.write(tmpNumber + ",");
+        
+        if (lineCount > 9){
+            document.write("<br>");
+            lineCount = 0;
+        }
+            
+        lineCount++;
+    }
+ }
+ 
+ function rocketTux(form){
+	var data = form.elements['inputData'].value;
+    var tmpNumber;
+    var tmpArray = data.split(",")
+            
+    // Convert to numbers
+    for(var j=0; j<tmpArray.length; j++) { tmpArray[j] = +tmpArray[j]; }
+    
+    var lineCount = 1;
+    
+    document.write("NAME:[<br>'"); // Start output
+    
+    for (var k = 0; k < tmpArray.length; k++){
+        tmpNumber = tmpArray[k];
+
+        if (tmpNumber > 0)
+            tmpNumber -= 1;
+        
+        document.write(tmpNumber + ",");
+        
+        if (lineCount > 9){
+            if (k < 229){
+                document.write("',<br>'");
+            } else {
+                document.write("'<br>],");
+            }
+            
+            lineCount = 0;
+        }
+            
+        lineCount++;
+    }
+ }
+
+</script>
+</head>
+<body>
+<form id="frm1">
+	<h1>Tile Number Grid Generator</h1>
+	<br />
+	Input Values: <input type="text" name="inputData" value="0" />
+	
+	<p><input type="button" value="Just CSV" onclick="justCSV(this.form)" />
+    <p><input type="button" value="For RocketTux" onclick="rocketTux(this.form)" />
+	<p>
+	<pre>
+    Shifts non-zero values down by 1, because Tiled starts its tile numbers at
+    1, but Phaser starts its tiles (from an image) at 0.
+    </pre>
+	
+	</p>
+ </form>
+</body>
+</html>
