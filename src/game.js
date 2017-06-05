@@ -4,7 +4,7 @@ RocketTux.Game = function(){};
  
 RocketTux.Game.prototype = {
   create: function() {
-    this.game.renderer.setTexturePriority(['world']);
+    this.game.renderer.setTexturePriority(['world', 'entities']);
     
     var pickSong = Math.floor(Math.random() * RocketTux.songs.length)
     music = this.game.add.audio(RocketTux.songs[pickSong]);
@@ -15,7 +15,7 @@ RocketTux.Game.prototype = {
     var levelLength = 32 * this.game.rnd.between(125, 500); // 4000 min, 16000 max
     this.game.world.setBounds(0, 0, levelLength, 720);
     
-    var rng = this.roll(); 
+    var rng = this.roll();
 
     //  Add Background
     var showSun = false;
@@ -34,13 +34,144 @@ RocketTux.Game.prototype = {
     // DEBUG
     this.myDebugText = this.game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FF0000' });
     this.myDebugText.fixedToCamera = true;
-    this.myDebugText.text = pickSong; //RocketTux.snow1.g[0];
+    this.myDebugText.text = '';
     
     this.createTileMap(levelLength);
     
+    // Add the player
+    this.player = this.game.add.sprite(32, this.game.world.height - 150, 'entities');
+    this.player.animations.add('stand', [3], 10, true);
+    this.player.animations.add('right', [6, 7, 8, 9, 10, 11], 12, true);
+    this.player.animations.add('left', [13, 14, 15, 16, 17, 18], 12, true);
+    this.player.animations.add('jump-right', [4], 10, true);
+    this.player.animations.add('jump-left', [12], 10, true);
+    this.player.animations.add('duck', [3], 10, true);
+    this.setPhysicsProperties(this.player, 100, 0, 40, 40, 8, 20);
+    this.game.camera.follow(this.player);
+    this.rocketOn = 'right';
+    
+    // Add flames for the player's rocketpack
+    this.flames = this.game.add.sprite(this.player.body.x, this.player.body.y, 'entities');
+    this.flames.animations.add('flames-right', [22,23,24,25], 12, true);
+    this.flames.animations.add('flames-left', [26,27,28,29], 12, true);
+    this.flames.animations.add('idle', [19,20,21], 8, true);
+    
+    // Input
+    this.cursors = this.game.input.keyboard.createCursorKeys();
+    
   },
   update: function() {
+    this.game.physics.arcade.collide(this.player, this.theLevel);
+    
+    //  Reset player
+    this.player.body.velocity.x = 0;
+    if (!this.player.body.blocked.down){ // Always on when in the air
+        if (this.rocketOn == 'left'){
+            this.rocketPackIs('left');
+        } else if (this.rocketOn == 'right'){
+            this.rocketPackIs('right');
+        } else if (this.rocketOn == 'idle'){
+            this.rocketPackIs('idle');
+            this.player.play('stand');
+        }
+    } else {
+        this.rocketPackIs('off');
+    }
+    
+    //===========Player Input, Movement, and Animations============
+    // Left/Right Keys
+    if (this.cursors.left.isDown){
+        this.player.body.velocity.x = -300;
+        
+        if (this.player.body.blocked.down){
+            this.player.animations.play('left'); // Running
+        } else if (!this.player.body.blocked.down){
+            this.rocketPackIs('left'); // Flying
+        }
+    } else if (this.cursors.right.isDown){
+        this.player.body.velocity.x = 300;
+        
+        if (this.player.body.blocked.down){
+            this.player.animations.play('right');
+        } else if (!this.player.body.blocked.down){
+            this.rocketPackIs('right'); // Flying
+        }
+    } else {
+         this.player.play('stand'); // On ground
+         
+         if (!this.player.body.blocked.down) // In air
+            this.rocketPackIs('idle');
+    }
+        
+    // Up/Down Keys
+    if (this.cursors.up.isDown || this.cursors.down.isDown){
+        if (this.cursors.down.isDown && this.player.body.blocked.down){
+            this.player.body.velocity.x = 0;
+            this.player.animations.play('duck'); // Duck when standing
+        } else if (!this.player.body.blocked.down){
+            if (this.player.body.velocity.y > 0)
+                this.player.body.velocity.y = 0; // Hover when not moving up or down in the air
+        }
+            
+        // Note: collectCoin() will boost the player up when this.cursors.up.isDown = true
+    } else {
+        this.player.body.acceleration.y = 0; // Fall
+    }
+    
+    // Spacebar
+    if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.player.body.blocked.down){
+        //if (canBoost > 0 && boostOnCooldown == false){
+            this.player.body.velocity.y = -333;
+            //canBoost--;
+            //boostText.text = 'Boost: ' + canBoost;
+            this.boostBlast = this.game.add.sprite(this.player.body.x, this.player.body.y + 32, 'entities');
+            this.boostBlast.animations.add('blast', [32,33,32,34,35], 10, true);
+            this.boostBlast.animations.play('blast');
+            this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.douseFlames, this);
+        //}
+    }
       
+  },
+  render: function() {
+    //this.game.debug.bodyInfo(this.player, 10, 10);
+  },
+  rocketPackIs: function (stateIs){
+    if (stateIs == 'left'){
+        this.flames.x = this.player.body.x + 30;
+        this.flames.y = this.player.body.y + 7;
+        this.flames.animations.play('flames-left');
+        this.player.animations.play('jump-left');
+        this.rocketOn = 'left';
+    } else if (stateIs == 'right'){
+        // Moving right or not pressing left or right keys and falling
+        this.flames.x = this.player.body.x - 45;
+        this.flames.y = this.player.body.y + 8;
+        this.flames.animations.play('flames-right');
+        this.player.animations.play('jump-right');
+        this.rocketOn = 'right';
+    } else if (stateIs == 'idle'){
+        this.flames.x = this.player.body.x - 10;
+        this.flames.y = this.player.body.y + 44;
+        this.flames.animations.play('idle');
+        this.rocketOn = 'idle';
+    } else if (stateIs == 'off'){
+        this.flames.y = this.game.world.height + 128; // hide rocket pack exhaust off the screen
+    }
+  },
+  douseFlames: function(){
+    this.boostBlast.destroy();
+    
+    //if (boostOnCooldown)
+      //  boostOnCooldown = false;
+  },
+  setPhysicsProperties: function(entity, gravity, bounce, boundingBoxSizeX, boundingBoxSizeY, boundingBoxPosX, boundingBoxPosY){
+    this.game.physics.arcade.enable(entity);
+    entity.body.bounce.y = bounce;
+    entity.body.gravity.y = gravity;
+    entity.body.collideWorldBounds = true;
+    
+    if (boundingBoxSizeX > 0)
+        entity.body.setSize(boundingBoxSizeX, boundingBoxSizeY, boundingBoxPosX, boundingBoxPosY);
   },
   roll: function() {
     return this.game.rnd.between(0, 100);
@@ -145,13 +276,13 @@ RocketTux.Game.prototype = {
     map.addTilesetImage('world', 'world', 32, 32);
     
     // Set collision values on tiles
-    map.setCollisionBetween(0, 128);
+    map.setCollisionBetween(896, 1022);
 
     //  0 is important
-    var theLevel = map.createLayer(0);
+    this.theLevel = map.createLayer(0);
 
     //  Scroll it
-    theLevel.resizeWorld();
+    this.theLevel.resizeWorld();
 
     },
 };
