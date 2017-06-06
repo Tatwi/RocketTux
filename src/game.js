@@ -33,7 +33,7 @@ RocketTux.Game.prototype = {
     } 
     
     // DEBUG
-    this.myDebugText = this.game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FF0000' });
+    this.myDebugText = this.game.add.text(16, 16, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
     this.myDebugText.fixedToCamera = true;
     this.myDebugText.text = '';
     
@@ -68,7 +68,11 @@ RocketTux.Game.prototype = {
     
     // Input
     this.cursors = this.game.input.keyboard.createCursorKeys();
+    this.globalCooldown = false;
+    this.abilityCooldown = false;
     
+    //UI
+    this.uiTimer = 0;
   },
   update: function() {
     this.game.physics.arcade.collide(this.player, this.theLevel);
@@ -93,20 +97,20 @@ RocketTux.Game.prototype = {
     //===========Player Input, Movement, and Animations============
     // Left/Right Keys
     if (this.cursors.left.isDown){
-        this.player.body.velocity.x = -300;
-        
         if (this.player.body.blocked.down){
             this.player.animations.play('left'); // Running
+            this.player.body.velocity.x = RocketTux.groundSpeed * -1;
         } else if (!this.player.body.blocked.down){
             this.rocketPackIs('left'); // Flying
+            this.player.body.velocity.x = RocketTux.airSpeed * -1;
         }
     } else if (this.cursors.right.isDown){
-        this.player.body.velocity.x = 300;
-        
         if (this.player.body.blocked.down){
             this.player.animations.play('right');
+            this.player.body.velocity.x = RocketTux.groundSpeed;
         } else if (!this.player.body.blocked.down){
             this.rocketPackIs('right'); // Flying
+            this.player.body.velocity.x = RocketTux.airSpeed;
         }
     } else {
          this.player.play('stand'); // On ground
@@ -130,39 +134,81 @@ RocketTux.Game.prototype = {
         this.player.body.acceleration.y = 0; // Fall
     }
     
-    // Spacebar Boost (5 second cooldown)
-    if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5)){
-        this.sndRocketWindup.play();
-        this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.rocketPackGo, this);
-    }
+    // Ability cooldown throttled actions
+    this.doPlayerAbilities();
     
+    // Global cooldown throttled actions (1 sec)
+    this.throttledInput();
+    
+    // UI Updates (Throttled using FPS)
+    if (this.uiTimer > 20)
+        this.uiUpdate();
+        
+    this.uiTimer++;
+  },
+  render: function() {
+    //this.game.debug.bodyInfo(this.player, 10, 10);
+  },
+  globalCooldownStart: function(seconds){
+      this.globalCooldown = true;
+      this.game.time.events.add(Phaser.Timer.SECOND * seconds, this.globalReset, this);
+  },
+  globalReset: function(){
+      this.globalCooldown = false;
+  },
+  throttledInput: function(){
+      if (this.globalCooldown)
+        return;
+
     // M , . keys for music volume
     if (this.game.input.keyboard.downDuration(Phaser.Keyboard.PERIOD, 1)){
         if (music.volume > 0.9)
             return;
             
         music.volume += 0.1;
+        this.globalCooldownStart(1);
     } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.COMMA, 1)){
         if (music.volume < 0.1)
             return;
             
         music.volume -= 0.1;
+        this.globalCooldownStart(1);
     } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.M, 1)){ 
         if (music.volume > 0){
             music.volume = 0; // Mute
         } else {
             music.volume = 0.5;
         }
+        
+        this.globalCooldownStart(1);
     }
-      
   },
-  render: function() {
-    //this.game.debug.bodyInfo(this.player, 10, 10);
+  uiUpdate: function(){ 
+    this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
+    this.uiTimer = 0;
+  },
+  abilityCooldownStart: function(seconds){
+      this.abilityCooldown = true;
+      this.game.time.events.add(Phaser.Timer.SECOND * seconds, this.abilityReset, this);
+  },
+  abilityReset: function(){
+      this.abilityCooldown = false;
+  },
+  doPlayerAbilities: function(){
+    if (this.abilityCooldown)
+        return;
+        
+    // Spacebar Boost (5 second cooldown)
+    if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5)){
+        this.sndRocketWindup.play();
+        this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.rocketPackGo, this);
+        this.abilityCooldownStart(5);
+    }
   },
   rocketPackGo: function(){
     this.doExplosion(this.player.body.x, this.player.body.y + 10);
     this.rocketPackSoundOn(true, true);
-    this.player.body.velocity.y = -333;
+    this.player.body.velocity.y = RocketTux.boostSpeed * -1;
   },
   rocketPackSoundOn: function(on, boost){
     if (on){

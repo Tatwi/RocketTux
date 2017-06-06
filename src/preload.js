@@ -28,13 +28,22 @@ RocketTux.Preload.prototype = {
     
     // Initialize variables used to generate levels
     this.worldObjects(); // Tiled objects from world texture
-    this.otherVariables(); // Misc objects
+    this.otherVariables(); // Misc objects, variables, settings
     
     // Initialize player saved data and preferences
     this.loadSavedData();
   },
   create: function() {
   	this.state.start('MainMenu');
+  },
+    otherVariables: function(){
+    RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
+    RocketTux.groundSpeed = 180; // Preference up to 220
+    RocketTux.airSpeed = 300; // Preference up to 340. Star +10.
+    RocketTux.boostSpeed = 333; // Preference up to 340. Flame guy +20 at time of collision.
+  },
+  loadSavedData: function(){
+    // N/A atm
   },
   worldObjects: function(){
     // Each of these are 10 tile wide sections of maps. 
@@ -117,10 +126,4 @@ RocketTux.Preload.prototype = {
         ],
     }
   },
-  otherVariables: function(){
-    RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
-  },
-  loadSavedData: function(){
-    // N/A atm
-  }
 };
