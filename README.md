@@ -4,32 +4,47 @@ A pengiun with a rocket pack? It sure is as awesome as you're imagining!
 RocketTux is a side scroller adventure with player-influenced random level generation. Collect and spend coins, defeat bad guys, and have fun doing it! The ultimate goal is to buy all the level components so that you may generate more iteresting levels based on your preferences (or your crazy whims).
 
 ### About Development
-- Current Version: 0.2 (June 2017)
-- Programmed from scratch using [Phaser CS](http://phaser.io/download/stable).
+- **Current Version:** 0.1 (June 2017)
+- **Next Version Expected:** July 2017
+- **Version 1.0 Expected:** February 4th, 2018 (My 40th birthday!)
+- Programmed from scratch using [Phaser CE](http://phaser.io/download/stable), as a way to learn the Phaser CE framework and because making games is fun!
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/).
 - RocketTux is its own unique game, rather than a clone of Supertux.
 - Created with Linux Mint 17 on an AMD FX-8320 / R9 270 based desktop PC. 
 - Tested on an [HP Chromebook 14 G4](https://support.hp.com/us-en/product/hp-chromebook-14-g4/8326221/document/c04828937).
 - Optimized for Chromebooks, designed for 1280x720 resolution.
-- Pull request for bug fixes welcome.
+- **No advertisements, subscriptions, micro-transaction, or purchase fees.** Just free, open source fun! 
 
 #### Milestones
-- The current version
 - Vesion 0.0: Prototype converted into a real project.
 - Vesion 0.1: Player, sound, music, level generation, and entity spawning mechanics. 
 - Vesion 0.2: Complete the sprites, tiles, paralax, and day/night art.
 - Vesion 0.3: Enemy game mechanics.
 - Vesion 0.4: Create all the level themes and tile sections.
-- Vesion 0.5: In level UI completion
+- Vesion 0.5: In level UI completion.
 - Vesion 0.6: Quest and Reputation system backend.
 - Vesion 0.7: Main Menu > Settings/Preferences UI.
 - Vesion 0.8: Main Menu > Quest/Inventory/Reputation/Wiki UI.
-- Vesion 0.9: Main Menu > Coin store. Conversion from totally random levels to based on game-coin (not real money...) purchases. Stat bumps for coins will be added here too.
+- Vesion 0.9: Main Menu > Coin store. Conversion from totally random levels to based on game-coin (not real money...) purchases. Stat bumps for coins and backup/restore game to local CSV file will be added here too.
 - Vesion 1.0: Final release!
 - Version 1.+: Inevitable bug fixes... :)
 
 ### Target Audience
 RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn more about programming. Indeed, it is possible to create this entire game on a Chromebook in ChromeOS directly, with the proper apps! 
+
+### Gameplay
+When version 1.0 is released, the following game play will be available.
+- Boost and fly around collecting coins to spend on preferences, upgrades and new locales.
+- "Coin-Bounce" or use a boost to move up higher in the air. Hold up/down to maintain height. Puzzle your way through the obstacles to collect all the coins.
+- Meet new people, do quests for them, and gain reputation with them to unlock unique rewards.
+- Randomly generated levels with 26 different tiles per theme.
+- Use a set of sliders to influence the generation of levels. Unlock each slider with coins!
+- Collect stuff to sell or use in quests by vanquishing enemies!
+- No death mechanic. If you bump into an enemy, you lose some coins. 
+- No time limits. Stop and smell the Fire Flowers!
+- No forced movement through levels. This ain't no "endless runner" game!
+- No need to reach the end of a level to "beat it". In fact, you'll probably go back and forth a few times! The level ends when you feel like leaving it. You get a bonus for collecting all the coins though.
+- No "secret areas" or other potentially annoying mechanics that you'll need to look up on the Internet just to understand!
 
 ### Installation
 RocketTux is built as an "HTML5 web app" for the Chrome browser, optimized to run well on basic Chromebooks. Until version 1.0 is complete and the game is added to the Google Chrome Store, you can download a copy of this repository, unzip it, and add it to Chrome like so:
@@ -56,7 +71,7 @@ Note that if you are using a "managed" Chromebook, you will need to ask an admin
 - Music Controls: M for mute, Comma for quieter, Period for louder.
 
 ### License
-The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information.
+The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information. You may *not* copy or "fork" this repository and sell RocketTux as your own creation, no matter how you've repackaged or re-branded it. 
 
 ### Credits
 This is an open source project that stands on the backs of many others, which is something I truly appreciate! The following is a list of people and groups who either directly or indirectly contributed to RocketTux. Without their effort, this project would not exist.
