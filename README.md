@@ -3,15 +3,30 @@ A pengiun with a rocket pack? It sure is as awesome as you're imagining!
 
 RocketTux is a side scroller adventure with player-influenced random level generation. Collect and spend coins, defeat bad guys, and have fun doing it! The ultimate goal is to buy all the level components so that you may generate more iteresting levels based on your preferences (or your crazy whims).
 
-### Development
-- Status: Just begun!
-- Programmed from scratch using [Crafty JS](http://craftyjs.com/).
+### About Development
+- Current Version: 0.2 (June 2017)
+- Programmed from scratch using [Phaser CS](http://phaser.io/download/stable).
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/).
-- Intended as its own unique game rather than a clone of Supertux.
+- RocketTux is its own unique game, rather than a clone of Supertux.
 - Created with Linux Mint 17 on an AMD FX-8320 / R9 270 based desktop PC. 
 - Tested on an [HP Chromebook 14 G4](https://support.hp.com/us-en/product/hp-chromebook-14-g4/8326221/document/c04828937).
 - Optimized for Chromebooks, designed for 1280x720 resolution.
 - Pull request for bug fixes welcome.
+
+#### Milestones
+- The current version
+- Vesion 0.0: Prototype converted into a real project.
+- Vesion 0.1: Player, sound, music, level generation, and entity spawning mechanics. 
+- Vesion 0.2: Complete the sprites, tiles, paralax, and day/night art.
+- Vesion 0.3: Enemy game mechanics.
+- Vesion 0.4: Create all the level themes and tile sections.
+- Vesion 0.5: In level UI completion
+- Vesion 0.6: Quest and Reputation system backend.
+- Vesion 0.7: Main Menu > Settings/Preferences UI.
+- Vesion 0.8: Main Menu > Quest/Inventory/Reputation/Wiki UI.
+- Vesion 0.9: Main Menu > Coin store. Conversion from totally random levels to based on game-coin (not real money...) purchases. Stat bumps for coins will be added here too.
+- Vesion 1.0: Final release!
+- Version 1.+: Inevitable bug fixes... :)
 
 ### Target Audience
 RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn more about programming. Indeed, it is possible to create this entire game on a Chromebook in ChromeOS directly, with the proper apps! 
@@ -38,6 +53,7 @@ Note that if you are using a "managed" Chromebook, you will need to ask an admin
 - Spacebar: Boost into the air.
 - Up Arrow: Gain altitude when collecting coins ("coin jump"). Hover when in the air.
 - Down Arrow: Hover when in the air. Do NOT altitude when collecting coins (handy for collecting a row of coins). Duck when on the ground.
+- Music Controls: M for mute, Comma for quieter, Period for louder.
 
 ### License
 The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information.
@@ -47,6 +63,7 @@ This is an open source project that stands on the backs of many others, which is
 
 #### Software
 - Game Engine: [Phaser CE 2.8.0](http://phaser.io/download/stable), [Chromium Browser](https://www.chromium.org/), [Google Chrome Browser](https://www.google.com/chrome/index.html).
+- Level Building: [Tiled](http://www.mapeditor.org/) by Thorbjørn Lindeijer.
 - Operating System: [Debian](http://www.debian.org/), [Linux Mint](https://linuxmint.com/), [XFCE](https://xfce.org/), [Google ChromeOS](https://www.chromium.org/chromium-os).
 - Graphics: [GIMP](https://www.gimp.org/).
 - Sound: [Audacity](http://www.audacityteam.org/), [Sunvox](http://www.warmplace.ru/soft/sunvox/) by Alexander Zolotov.

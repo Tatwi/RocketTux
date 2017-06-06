@@ -9,6 +9,7 @@ RocketTux.Game.prototype = {
     var pickSong = Math.floor(Math.random() * RocketTux.songs.length)
     music = this.game.add.audio(RocketTux.songs[pickSong]);
     music.loop = true;
+    music.volume = 0.5;
     music.play();
 
     // Set world bounds
@@ -59,6 +60,12 @@ RocketTux.Game.prototype = {
     // Put flames behind player
     this.player.bringToTop();
     
+    // Rocketpack sounds
+    this.sndRocketStart = this.game.add.audio('rocketpack-start');
+    this.sndRocketRunning = this.game.add.audio('rocketpack-running');
+    this.sndRocketWindup = this.game.add.audio('rocketpack-windup');
+    this.sndRocketBoost = this.game.add.audio('rocketpack-boost');
+    
     // Input
     this.cursors = this.game.input.keyboard.createCursorKeys();
     
@@ -77,8 +84,10 @@ RocketTux.Game.prototype = {
             this.rocketPackIs('idle');
             this.player.play('stand');
         }
+        this.rocketPackSoundOn(true, false);
     } else {
         this.rocketPackIs('off');
+        this.rocketPackSoundOn(false, false);
     }
     
     //===========Player Input, Movement, and Animations============
@@ -121,22 +130,59 @@ RocketTux.Game.prototype = {
         this.player.body.acceleration.y = 0; // Fall
     }
     
-    // Spacebar
-    if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.player.body.blocked.down){
-        //if (canBoost > 0 && boostOnCooldown == false){
-            this.player.body.velocity.y = -333;
-            //canBoost--;
-            //boostText.text = 'Boost: ' + canBoost;
-            this.boostBlast = this.game.add.sprite(this.player.body.x, this.player.body.y + 32, 'entities');
-            this.boostBlast.animations.add('blast', [32,33,32,34,35], 10, true);
-            this.boostBlast.animations.play('blast');
-            this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.douseFlames, this);
-        //}
+    // Spacebar Boost (5 second cooldown)
+    if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5)){
+        this.sndRocketWindup.play();
+        this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.rocketPackGo, this);
+    }
+    
+    // M , . keys for music volume
+    if (this.game.input.keyboard.downDuration(Phaser.Keyboard.PERIOD, 1)){
+        if (music.volume > 0.9)
+            return;
+            
+        music.volume += 0.1;
+    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.COMMA, 1)){
+        if (music.volume < 0.1)
+            return;
+            
+        music.volume -= 0.1;
+    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.M, 1)){ 
+        if (music.volume > 0){
+            music.volume = 0; // Mute
+        } else {
+            music.volume = 0.5;
+        }
     }
       
   },
   render: function() {
     //this.game.debug.bodyInfo(this.player, 10, 10);
+  },
+  rocketPackGo: function(){
+    this.doExplosion(this.player.body.x, this.player.body.y + 10);
+    this.rocketPackSoundOn(true, true);
+    this.player.body.velocity.y = -333;
+  },
+  rocketPackSoundOn: function(on, boost){
+    if (on){
+        if (boost){
+            this.sndRocketBoost.play();
+            this.sndRocketRunning.loopFull(1.0);
+            this.sndRocketRunning.play();
+        } else {
+            if (this.sndRocketRunning.isPlaying)
+                return;
+            
+            if (!this.sndRocketStart.isPlaying)
+                this.sndRocketStart.play();
+                
+            this.sndRocketRunning.loopFull(1.0);
+            this.sndRocketRunning.play();
+        }        
+    } else {
+        this.sndRocketRunning.fadeOut(333);
+    }
   },
   rocketPackIs: function (stateIs){
     if (stateIs == 'left'){
@@ -160,6 +206,12 @@ RocketTux.Game.prototype = {
     } else if (stateIs == 'off'){
         this.flames.y = this.game.world.height + 128; // hide rocket pack exhaust off the screen
     }
+  },
+  doExplosion: function(x, y){
+    this.boostBlast = this.game.add.sprite(x, y, 'entities');
+    this.boostBlast.animations.add('blast', [32,33,32,34,35], 10, true);
+    this.boostBlast.animations.play('blast');
+    this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.douseFlames, this);
   },
   douseFlames: function(){
     this.boostBlast.destroy();

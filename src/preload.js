@@ -21,6 +21,10 @@ RocketTux.Preload.prototype = {
     this.load.audio('menu', 'data/music/menu.ogg');
     this.load.audio('song1', 'data/music/song1.ogg');
     this.load.audio('song2', 'data/music/song2.ogg');
+    this.load.audio('rocketpack-start', 'data/sounds/rocketpack-start.ogg');
+    this.load.audio('rocketpack-windup', 'data/sounds/rocketpack-windup.ogg');
+    this.load.audio('rocketpack-boost', 'data/sounds/rocketpack-boost.ogg');
+    this.load.audio('rocketpack-running', 'data/sounds/rocketpack-running.ogg');
     
     // Initialize variables used to generate levels
     this.worldObjects(); // Tiled objects from world texture
