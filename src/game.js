@@ -54,7 +54,10 @@ RocketTux.Game.prototype = {
     this.flames = this.game.add.sprite(this.player.body.x, this.player.body.y, 'entities');
     this.flames.animations.add('flames-right', [22,23,24,25], 12, true);
     this.flames.animations.add('flames-left', [26,27,28,29], 12, true);
-    this.flames.animations.add('idle', [19,20,21], 8, true);
+    this.flames.animations.add('idle', [19,20,21,30,31], 8, true);
+    
+    // Put flames behind player
+    this.player.bringToTop();
     
     // Input
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -150,8 +153,8 @@ RocketTux.Game.prototype = {
         this.player.animations.play('jump-right');
         this.rocketOn = 'right';
     } else if (stateIs == 'idle'){
-        this.flames.x = this.player.body.x - 10;
-        this.flames.y = this.player.body.y + 44;
+        this.flames.x = this.player.body.x - 12;
+        this.flames.y = this.player.body.y + 37;
         this.flames.animations.play('idle');
         this.rocketOn = 'idle';
     } else if (stateIs == 'off'){
