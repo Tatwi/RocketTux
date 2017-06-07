@@ -15,8 +15,9 @@ RocketTux.Boot.prototype = {
 	this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	this.scale.minWidth = 800;
 	this.scale.minHeight = 450;
-	this.scale.maxWidth = 1280;
-	this.scale.maxHeight = 720;
+    // Graphics designed for 1280x720
+	this.scale.maxWidth = 3840;
+	this.scale.maxHeight = 2160;
 
 	this.scale.pageAlignHorizontally = true;
  

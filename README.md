@@ -12,7 +12,7 @@ RocketTux is a side scroller adventure with player-influenced random level gener
 - RocketTux is its own unique game, rather than a clone of Supertux.
 - Created with Linux Mint 17 on an AMD FX-8320 / R9 270 based desktop PC. 
 - Tested on an [HP Chromebook 14 G4](https://support.hp.com/us-en/product/hp-chromebook-14-g4/8326221/document/c04828937).
-- Optimized for Chromebooks, designed for 1280x720 resolution.
+- Optimized for Chromebooks, designed for 1280x720 resolution (will stretch up to 3840×2160 aka 4K, but likely will terrible past 1080p).
 - **No advertisements, subscriptions, micro-transaction, or purchase fees.** Just free, open source fun! 
 
 #### Milestones
