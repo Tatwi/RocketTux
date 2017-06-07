@@ -17,14 +17,14 @@ RocketTux is a side scroller adventure with player-influenced random level gener
 
 #### Milestones
 - Vesion 0.0: Prototype converted into a real project.
-- Vesion 0.1: Player, sound, music, level generation, and entity spawning mechanics. 
-- Vesion 0.2: Complete the sprites, tiles, paralax, and day/night art.
-- Vesion 0.3: Enemy game mechanics.
+- Vesion 0.1: Basic world generation and player movement.
+- Vesion 0.2: Complete player, level generation, and entity spawning mechanics. 
+- Vesion 0.3: Complete the sprites, tiles, paralax, and day/night art, the enemy game mechanics, and the game sounds.
 - Vesion 0.4: Create all the level themes and tile sections.
-- Vesion 0.5: In level UI completion.
+- Vesion 0.5: In level UI completion. Loot and inventory mechanics.
 - Vesion 0.6: Quest and Reputation system backend.
-- Vesion 0.7: Main Menu > Settings/Preferences UI.
-- Vesion 0.8: Main Menu > Quest/Inventory/Reputation/Wiki UI.
+- Vesion 0.7: Main Menu > Settings, Preferences UI.
+- Vesion 0.8: Main Menu > Quest, Inventory, Reputation, Wiki UI.
 - Vesion 0.9: Main Menu > Coin store. Conversion from totally random levels to based on game-coin (not real money...) purchases. Stat bumps for coins and backup/restore game to local CSV file will be added here too.
 - Vesion 1.0: Final release!
 - Version 1.+: Inevitable bug fixes... :)
