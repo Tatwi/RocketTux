@@ -280,10 +280,11 @@ RocketTux.Game.prototype = {
   drawBackdrop: function(top, bottom, levelLength){
     var out = [];
     var y = 0;
+    var rowsToDraw = this.game.world.height / 2;
 
-    for (var i = 0; i < 360; i++){
-        var c = Phaser.Color.interpolateColor(top, bottom, 360, i);
-        this.background.rect(0, y, levelLength, y+2, Phaser.Color.getWebRGB(c));
+    for (var i = 0; i < rowsToDraw; i++){
+        var c = Phaser.Color.interpolateColor(top, bottom, rowsToDraw, i);
+        this.background.rect(0, y, this.game.world.width + 320, y+2, Phaser.Color.getWebRGB(c));
         out.push(Phaser.Color.getWebRGB(c));
         y += 2;
     }
@@ -299,9 +300,8 @@ RocketTux.Game.prototype = {
   createTileMap: function(levelLength){
     var sections = levelLength / 32 / 10; // Screen Pixels / Tile Width Px / Section Width
     var data = '';
-    var row1,row2,row3,row4,row5,row6,row7,row8,row9,row10,row11,row12,row13,row14,row15,row16,row17,row18,row19,row20,row21,row22,row23;
-    row1=row2=row3=row4=row5=row6=row7=row8=row9=row10=row11=row12=row13=row14=row15=row16=row17=row18=row19=row20=row21=row22=row23=''; // Prevents white line on left of screen
-
+    var rows = ["","","","","","","","","","","","","","","","","","","","","","",""];
+    
     // Pick a theme
     var theme = RocketTux.candyland;
     var rng = this.roll();
@@ -319,55 +319,16 @@ RocketTux.Game.prototype = {
     {
         var rngSection = this.pickRandomProperty(theme);
         
-        row1 += theme[rngSection][0];
-        row2 += theme[rngSection][1];
-        row3 += theme[rngSection][2];
-        row4 += theme[rngSection][3];
-        row5 += theme[rngSection][4];
-        row6 += theme[rngSection][5];
-        row7 += theme[rngSection][6];
-        row8 += theme[rngSection][7];
-        row9 += theme[rngSection][8];
-        row10 += theme[rngSection][9];
-        row11 += theme[rngSection][10];
-        row12 += theme[rngSection][11];
-        row13 += theme[rngSection][12];
-        row14 += theme[rngSection][13];
-        row15 += theme[rngSection][14];
-        row16 += theme[rngSection][15];
-        row17 += theme[rngSection][16];
-        row18 += theme[rngSection][17];
-        row19 += theme[rngSection][18];
-        row20 += theme[rngSection][19];
-        row21 += theme[rngSection][20];
-        row22 += theme[rngSection][21];
-        row23 += theme[rngSection][22];
+        for (var j = 0; j < 23; j++) {
+            rows[j] += theme[rngSection][j];
+        }
     }
     
     // Consolidate the width and height into the single data variable
-    data += row1 + "\n";
-    data += row2 + "\n";
-    data += row3 + "\n";
-    data += row4 + "\n";
-    data += row5 + "\n";
-    data += row6 + "\n";
-    data += row7 + "\n";
-    data += row8 + "\n";
-    data += row9 + "\n";
-    data += row10 + "\n";
-    data += row11 + "\n";
-    data += row12 + "\n";
-    data += row13 + "\n";
-    data += row14 + "\n";
-    data += row15 + "\n";
-    data += row16 + "\n";
-    data += row17 + "\n";
-    data += row18 + "\n";
-    data += row19 + "\n";
-    data += row20 + "\n";
-    data += row21 + "\n";
-    data += row22 + "\n";
-    data += row23 + "\n";
+    for (var i = 0; i < 23; i++){
+        var tmpRow = rows[i].toString();
+        data += tmpRow.slice(0, -1) + "\n"; // Remove trailing comma to prevent white line of right edge of screen
+    }
 
     //  Add data to the cache
     this.game.cache.addTilemap('dynamicMap', null, data, Phaser.Tilemap.CSV);
@@ -384,6 +345,5 @@ RocketTux.Game.prototype = {
 
     //  Scroll it
     this.theLevel.resizeWorld();
-
     },
 };
