@@ -16,21 +16,23 @@ RocketTux.Game.prototype = {
     var levelLength = 32 * this.game.rnd.between(125, 500); // 4000 min, 16000 max
     this.game.world.setBounds(0, 0, levelLength, 720);
     
-    var rng = this.roll();
-
-    //  Add Background
-    var showSun = false;
-    this.background = this.game.add.bitmapData(levelLength, 720);
-    this.background.addToWorld();
-    if (rng > 50){
-        this.drawBackdrop(0x11315c, 0x48b6cd, levelLength); // Day
-        if (rng > 90)
-            showSun = true;
+    // Add Backgrounds
+    var skyRNG = this.game.rnd.between(0, 6);
+    if (skyRNG < 4){
+        this.skiesNormal = this.game.add.sprite(0, 0, 'skies');
+        this.skiesNormal.animations.add('stand', [skyRNG], 1, true);
+        this.skiesNormal.scale.setTo(1.25, 0.71); //wide, tall
+        this.skiesNormal.play('stand');
+        this.skiesNormal.bringToTop();
+        this.skiesNormal.fixedToCamera = true;
     } else {
-        this.drawBackdrop(0x000000, 0x11315c, levelLength); // Night
-        if (rng < 10)
-            showSun = true;
-    } 
+        this.skiesSpecial = this.game.add.sprite(0, 0, 'skies-special');
+        this.skiesSpecial.animations.add('stand', [skyRNG-3], 1, true);
+        this.skiesSpecial.scale.setTo(1.25, 0.71); //wide, tall
+        this.skiesSpecial.play('stand');
+        this.skiesSpecial.bringToTop();
+        this.skiesSpecial.fixedToCamera = true;
+    }
     
     // DEBUG
     this.myDebugText = this.game.add.text(16, 16, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
@@ -59,6 +61,19 @@ RocketTux.Game.prototype = {
     
     // Put flames behind player
     this.player.bringToTop();
+    
+    // Cheap full screen tint for sunset and night. Not sure if I like this as it dulls the awesome backgrounds I made!.
+    if (skyRNG == 2){
+        tintmap = this.game.add.tilemap('dynamicMap', 32, 32);
+        this.tintLayer = tintmap.createLayer(0);
+        this.tintLayer.tint = 0x3e0058;
+        this.tintLayer.alpha = 0.1;
+    } else if (skyRNG == 3){
+        tintmap = this.game.add.tilemap('dynamicMap', 32, 32);
+        this.tintLayer = tintmap.createLayer(0);
+        this.tintLayer.tint = 0x004cb3;
+        this.tintLayer.alpha = 0.1;
+    }
     
     // Rocketpack sounds
     this.sndRocketStart = this.game.add.audio('rocketpack-start');
@@ -276,18 +291,6 @@ RocketTux.Game.prototype = {
   },
   roll: function() {
     return this.game.rnd.between(0, 100);
-  },
-  drawBackdrop: function(top, bottom, levelLength){
-    var out = [];
-    var y = 0;
-    var rowsToDraw = this.game.world.height / 2;
-
-    for (var i = 0; i < rowsToDraw; i++){
-        var c = Phaser.Color.interpolateColor(top, bottom, rowsToDraw, i);
-        this.background.rect(0, y, this.game.world.width + 320, y+2, Phaser.Color.getWebRGB(c));
-        out.push(Phaser.Color.getWebRGB(c));
-        y += 2;
-    }
   },
   pickRandomProperty: function(obj) {
         var result;
