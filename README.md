@@ -91,6 +91,12 @@ This is an open source project that stands on the backs of many others, which is
 - Sounds: [Richard Boulanger](http://www.csounds.com/boulanger/), [Mike Koenig](https://soundcloud.com/koenig).
 - Music: [R. Bassett Jr.](http://www.tpot.ca).
 
+#### QA Testers
+- Baylea Bassett, Abby Bassett. 
+
+#### Artistic Advisers
+- Neillia Bassett, Baylea Bassett, Abby Bassett.
+
 #### Special Thanks
 - My family. You guys rock!
 - The [Phaser](http://phaser.io) and [HTML5 Game Devs](http://www.html5gamedevs.com) communities for sharing their knowledge!
