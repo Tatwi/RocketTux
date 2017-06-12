@@ -14,8 +14,8 @@ RocketTux.Game.prototype = {
 
     // Set world bounds
     this.mapSections = this.game.rnd.between(6, 14); // 7680px min, 25,600 max (with +6 bonus)
-    var levelLength = 32 * 40 * this.mapSections; // Tile width * Tiles per section * sections
-    this.game.world.setBounds(0, 0, levelLength, 720);
+    this.levelLength = 32 * 40 * this.mapSections; // Tile width * Tiles per section * sections
+    this.game.world.setBounds(0, 0, this.levelLength, 720);
     
     // Add Backgrounds
     var skyRNG = this.game.rnd.between(0, 6);
@@ -34,6 +34,11 @@ RocketTux.Game.prototype = {
         this.skiesSpecial.bringToTop();
         this.skiesSpecial.fixedToCamera = true;
     }
+    
+    // Add group for coins
+    this.coins = this.game.add.group();
+    this.coinsCollected = 0;
+    this.coinSound = this.game.add.audio('collect');
     
     // DEBUG
     this.myDebugText = this.game.add.text(16, 16, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
@@ -89,9 +94,17 @@ RocketTux.Game.prototype = {
     
     //UI
     this.uiTimer = 0;
+    this.displayCoins = this.game.add.text(16, 64, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
+    this.displayCoins.fixedToCamera = true;
+    this.displayCoins.text = 'Coins: ';
+    
+    // Populate map
+    this.spawnCoins();
   },
   update: function() {
     this.game.physics.arcade.collide(this.player, this.theLevel);
+    this.game.physics.arcade.collide(this.coins, this.theLevel);
+    this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     
     //  Reset player
     this.player.body.velocity.x = 0;
@@ -201,6 +214,7 @@ RocketTux.Game.prototype = {
   },
   uiUpdate: function(){ 
     this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
+    this.displayCoins.text = 'Coins: ' + this.coinsCollected;
     this.uiTimer = 0;
   },
   abilityCooldownStart: function(seconds){
@@ -302,51 +316,102 @@ RocketTux.Game.prototype = {
         return result;
     },
   createTileMap: function(){
-    var data = '';
-    var rows = ["","","","","","","","","","","","","","","","","","","","","","",""];
-    
-    // Pick a theme
-    var theme = RocketTux.candyland;
-    var rng = this.roll();
-    if (rng > 95)
-        var theme = RocketTux.candyland;
-    if (rng > 75)
-        var theme = RocketTux.candyland;
-    if (rng > 50)
-        var theme = RocketTux.candyland;
-    if (rng > 25)
-        var theme = RocketTux.candyland;
-    
-    // Generate the width of the map
-    for (var i = 0; i < this.mapSections; i++)
-    {
-        var rngSection = this.pickRandomProperty(theme);
+        var data = '';
+        var rows = ["","","","","","","","","","","","","","","","","","","","","","",""];
         
-        for (var j = 0; j < 23; j++) {
-            rows[j] += theme[rngSection][j];
+        // Pick a theme
+        var theme = RocketTux.candyland;
+        var rng = this.roll();
+        if (rng > 95)
+            var theme = RocketTux.candyland;
+        if (rng > 75)
+            var theme = RocketTux.candyland;
+        if (rng > 50)
+            var theme = RocketTux.candyland;
+        if (rng > 25)
+            var theme = RocketTux.candyland;
+        
+        // Generate the width of the map
+        for (var i = 0; i < this.mapSections; i++)
+        {
+            var rngSection = this.pickRandomProperty(theme);
+            
+            for (var j = 0; j < 23; j++) {
+                rows[j] += theme[rngSection][j];
+            }
         }
-    }
-    
-    // Consolidate the width and height into the single data variable
-    for (var i = 0; i < 23; i++){
-        var tmpRow = rows[i].toString();
-        data += tmpRow.slice(0, -1) + "\n"; // Remove trailing comma to prevent white line of right edge of screen
-    }
+        
+        // Consolidate the width and height into the single data variable
+        for (var i = 0; i < 23; i++){
+            var tmpRow = rows[i].toString();
+            data += tmpRow.slice(0, -1) + "\n"; // Remove trailing comma to prevent white line of right edge of screen
+        }
 
-    //  Add data to the cache
-    this.game.cache.addTilemap('dynamicMap', null, data, Phaser.Tilemap.CSV);
+        //  Add data to the cache
+        this.game.cache.addTilemap('dynamicMap', null, data, Phaser.Tilemap.CSV);
 
-    //  Create the tile map
-    map = this.game.add.tilemap('dynamicMap', 32, 32);
-    map.addTilesetImage('world', 'world', 32, 32);
-    
-    // Set collision values on tiles
-    map.setCollisionBetween(2881, 4096);
+        //  Create the tile map
+        this.map = this.game.add.tilemap('dynamicMap', 32, 32);
+        this.map.addTilesetImage('world', 'world', 32, 32);
+        
+        // Set collision values on tiles
+        this.map.setCollisionBetween(2881, 4096);
 
-    //  0 is important
-    this.theLevel = map.createLayer(0);
+        //  0 is important
+        this.theLevel = this.map.createLayer(0);
 
-    //  Scroll it
-    this.theLevel.resizeWorld();
+        //  Scroll it
+        this.theLevel.resizeWorld();
     },
+    spawnCoins: function (){
+        var columns = this.mapSections * 40; // 32px tiles
+
+        for (var i = 5; i < columns; i++){
+            if (this.roll() > 80){
+                var tilePosY = this.game.rnd.between(0, 20);
+                var targetTile = this.map.getTile(i, tilePosY, this.theLevel, true);
+               
+                if (!targetTile) // Prevent crash if null
+                    continue;
+                    
+                var TargetTileIndex = targetTile.index;
+                var coin;
+                var posX = i * 32;
+                var posY = tilePosY * 32;
+                
+                if (TargetTileIndex != 2881){
+                    coin = this.coins.create(posX, posY, 'entities');
+                    coin.animations.add('spin', [36,37,38,39,40], 10, true);
+                    coin.animations.play('spin');
+                    coin.bringToTop();
+                    this.setPhysicsProperties(coin, 300, 0, 32, 64, 0, 0);
+                } else {
+                    // Try again!
+                    y = this.game.rnd.between(0, 20);
+                    targetTile = this.map.getTile(posX, posY, this.theLevel, true).index;
+                    
+                    if (TargetTileIndex != 2881){
+                        coin = this.coins.create(posX, posY + 16, 'entities');
+                        coin.animations.add('spin', [36,37,38,39,40], 12, true);
+                        coin.animations.play('spin');
+                        coin.bringToTop();
+                        this.setPhysicsProperties(coin, 300, 0, 32, 64, 0, 0);
+                    }
+                }
+            }
+        }
+  },
+  collectCoin: function(player, coin) {
+    // Removes the coin from the screen
+    coin.kill();
+
+    // Give boost (prevented by pressing down arrow)
+    if (this.cursors.up.isDown)
+        this.player.body.velocity.y = -160;
+
+    //  Add and update the score
+    this.coinsCollected += 1;
+    this.displayCoins.text = 'Coins: ' + this.coinsCollected;
+    this.coinSound.play();
+  },
 };
