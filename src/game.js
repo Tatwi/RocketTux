@@ -54,7 +54,7 @@ RocketTux.Game.prototype = {
     this.player.animations.add('left', [13, 14, 15, 16, 17, 18], 12, true);
     this.player.animations.add('jump-right', [4], 10, true);
     this.player.animations.add('jump-left', [12], 10, true);
-    this.player.animations.add('duck', [3], 10, true);
+    this.player.animations.add('duck', [5], 10, true);
     this.setPhysicsProperties(this.player, 100, 0, 20, 40, 24, 20);
     this.game.camera.follow(this.player);
     this.rocketOn = 'right';
@@ -153,6 +153,7 @@ RocketTux.Game.prototype = {
         if (this.cursors.down.isDown && this.player.body.blocked.down){
             this.player.body.velocity.x = 0;
             this.player.animations.play('duck'); // Duck when standing
+            this.setPhysicsProperties(this.player, 100, 0, 20, 20, 24, 40);
         } else if (!this.player.body.blocked.down){
             if (this.player.body.velocity.y > 0)
                 this.player.body.velocity.y = 0; // Hover when not moving up or down in the air
@@ -161,6 +162,7 @@ RocketTux.Game.prototype = {
         // Note: collectCoin() will boost the player up when this.cursors.up.isDown = true
     } else {
         this.player.body.acceleration.y = 0; // Fall
+        this.setPhysicsProperties(this.player, 100, 0, 20, 40, 24, 20);
     }
     
     // Ability cooldown throttled actions
@@ -230,6 +232,9 @@ RocketTux.Game.prototype = {
         
     // Spacebar Boost (5 second cooldown)
     if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5)){
+        if (this.cursors.down.isDown)
+            return; // no boost while crouching or flying while holding down
+        
         this.sndRocketWindup.play();
         this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.rocketPackGo, this);
         this.abilityCooldownStart(5);
