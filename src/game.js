@@ -13,7 +13,8 @@ RocketTux.Game.prototype = {
     music.play();
 
     // Set world bounds
-    var levelLength = 32 * this.game.rnd.between(125, 500); // 4000 min, 16000 max
+    this.mapSections = this.game.rnd.between(6, 14); // 7680px min, 25,600 max (with +6 bonus)
+    var levelLength = 32 * 40 * this.mapSections; // Tile width * Tiles per section * sections
     this.game.world.setBounds(0, 0, levelLength, 720);
     
     // Add Backgrounds
@@ -39,7 +40,7 @@ RocketTux.Game.prototype = {
     this.myDebugText.fixedToCamera = true;
     this.myDebugText.text = '';
     
-    this.createTileMap(levelLength);
+    this.createTileMap();
     
     // Add the player
     this.player = this.game.add.sprite(32, this.game.world.height - 150, 'entities');
@@ -300,8 +301,7 @@ RocketTux.Game.prototype = {
                result = prop;
         return result;
     },
-  createTileMap: function(levelLength){
-    var sections = levelLength / 32 / 10; // Screen Pixels / Tile Width Px / Section Width
+  createTileMap: function(){
     var data = '';
     var rows = ["","","","","","","","","","","","","","","","","","","","","","",""];
     
@@ -318,7 +318,7 @@ RocketTux.Game.prototype = {
         var theme = RocketTux.candyland;
     
     // Generate the width of the map
-    for (var i = 0; i < sections; i++)
+    for (var i = 0; i < this.mapSections; i++)
     {
         var rngSection = this.pickRandomProperty(theme);
         
@@ -341,7 +341,7 @@ RocketTux.Game.prototype = {
     map.addTilesetImage('world', 'world', 32, 32);
     
     // Set collision values on tiles
-    map.setCollisionBetween(896, 1022);
+    map.setCollisionBetween(2881, 4096);
 
     //  0 is important
     this.theLevel = map.createLayer(0);
