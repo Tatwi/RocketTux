@@ -55,7 +55,7 @@ RocketTux.Game.prototype = {
     this.player.animations.add('jump-right', [4], 10, true);
     this.player.animations.add('jump-left', [12], 10, true);
     this.player.animations.add('duck', [3], 10, true);
-    this.setPhysicsProperties(this.player, 100, 0, 40, 40, 8, 20);
+    this.setPhysicsProperties(this.player, 100, 0, 20, 40, 24, 20);
     this.game.camera.follow(this.player);
     this.rocketOn = 'right';
     
@@ -262,20 +262,20 @@ RocketTux.Game.prototype = {
   },
   rocketPackIs: function (stateIs){
     if (stateIs == 'left'){
-        this.flames.x = this.player.body.x + 30;
+        this.flames.x = this.player.body.x + 12;
         this.flames.y = this.player.body.y + 7;
         this.flames.animations.play('flames-left');
         this.player.animations.play('jump-left');
         this.rocketOn = 'left';
     } else if (stateIs == 'right'){
         // Moving right or not pressing left or right keys and falling
-        this.flames.x = this.player.body.x - 45;
+        this.flames.x = this.player.body.x - 64;
         this.flames.y = this.player.body.y + 8;
         this.flames.animations.play('flames-right');
         this.player.animations.play('jump-right');
         this.rocketOn = 'right';
     } else if (stateIs == 'idle'){
-        this.flames.x = this.player.body.x - 12;
+        this.flames.x = this.player.body.x - 28;
         this.flames.y = this.player.body.y + 37;
         this.flames.animations.play('idle');
         this.rocketOn = 'idle';
