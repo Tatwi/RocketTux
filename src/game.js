@@ -241,7 +241,7 @@ RocketTux.Game.prototype = {
     }
   },
   rocketPackGo: function(){
-    this.doExplosion(this.player.body.x, this.player.body.y + 10);
+    this.doExplosion(this.player.body.x - 10, this.player.body.y + 10);
     this.rocketPackSoundOn(true, true);
     this.player.body.velocity.y = RocketTux.boostSpeed * -1;
   },
