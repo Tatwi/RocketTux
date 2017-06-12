@@ -66,9 +66,15 @@ Note that if you are using a "managed" Chromebook, you will need to ask an admin
 - The idea is to collect as many coins as you can. You have a limited amount of boosts and "coins jumps" to reach the high ones.
 - Left/Right Arrows: Move left and right.
 - Spacebar: Boost into the air.
+- Control: Small jump that will move you up a single "block", when you are standing or running. 
 - Up Arrow: Gain altitude when collecting coins ("coin jump"). Hover when in the air.
 - Down Arrow: Hover when in the air. Do NOT altitude when collecting coins (handy for collecting a row of coins). Duck when on the ground.
 - Music Controls: M for mute, Comma for quieter, Period for louder.
+
+### Gameplay Tips
+- Each map is a puzzle, where the idea is to collect as many coins as possible. However, you only have so many boosts and "coin jumps" to get up to the high coins and to get over obstacles. So the biggest tip is to go back and forth and get all the highest coins first, then work your way down. 
+- If you have run out of boosts and you're stuck between obstacles, unable to small-jump out, then that's it for you this level!
+- Don't sweat it if you weren't able to collect all the coins in a map. There are an infinite amount of chances ahead of you to collect more!
 
 ### License
 The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information. You may *not* copy or "fork" this repository and sell RocketTux as your own creation, no matter how you've repackaged or re-branded it. 
@@ -88,8 +94,8 @@ This is an open source project that stands on the backs of many others, which is
 - [SuperTux2](https://supertuxproject.org/) Team for the art style and many assets.
 
 #### Sound and Music
-- Sounds: [Richard Boulanger](http://www.csounds.com/boulanger/), [Mike Koenig](https://soundcloud.com/koenig).
-- Music: [R. Bassett Jr.](http://www.tpot.ca).
+- Sounds: [SuperTux](https://supertuxproject.org/), [Richard Boulanger](http://www.csounds.com/boulanger/), [Mike Koenig](https://soundcloud.com/koenig).
+- Music: [R. Bassett Jr.](http://www.tpot.ca), aka Me!
 
 #### QA Testers
 - Baylea Bassett, Abby Bassett. 

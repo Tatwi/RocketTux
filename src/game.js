@@ -230,14 +230,23 @@ RocketTux.Game.prototype = {
     if (this.abilityCooldown)
         return;
         
-    // Spacebar Boost (5 second cooldown)
     if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5)){
+        // Spacebar Boost (5 second cooldown)
         if (this.cursors.down.isDown)
             return; // no boost while crouching or flying while holding down
         
         this.sndRocketWindup.play();
         this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.rocketPackGo, this);
         this.abilityCooldownStart(5);
+    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.CONTROL, 1)){
+        // Small, single tile jump (1 second cooldown)
+        if (!this.player.body.blocked.down)
+            return;
+        
+        if (this.cursors.down.isDown)
+            return;
+            
+        this.player.body.velocity.y = -100;
     }
   },
   rocketPackGo: function(){
