@@ -378,7 +378,7 @@ RocketTux.Game.prototype = {
         this.theLevel.resizeWorld();
         
         // debug
-        this.theLevel.alpha = 0.5;
+        //this.theLevel.alpha = 0.5;
     },
     spawnCoins: function (){
         var columns = this.mapSections * 40; // 32px tiles
@@ -401,7 +401,7 @@ RocketTux.Game.prototype = {
                     coin.animations.add('spin', [36,37,38,39,40], 10, true);
                     coin.animations.play('spin');
                     coin.bringToTop();
-                    this.setPhysicsProperties(coin, 300, 0, 32, 64, 0, 0);
+                    this.setPhysicsProperties(coin, 300, 0, 32, 32, 0, 0);
                 }
             }
         }
