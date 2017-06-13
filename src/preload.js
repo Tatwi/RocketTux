@@ -20,6 +20,8 @@ RocketTux.Preload.prototype = {
     this.load.spritesheet('skies', 'data/skies.png', 1024, 1024);
     this.load.spritesheet('skies-special', 'data/skies-special.png', 1024, 1024);
     this.load.audio('collect', 'data/sounds/collect.ogg');
+    this.load.audio('mouseover', 'data/sounds/mouseover.ogg');
+    this.load.audio('warp', 'data/sounds/warp.ogg');
     this.load.audio('menu', 'data/music/menu.ogg');
     this.load.audio('song1', 'data/music/song1.ogg');
     this.load.audio('song2', 'data/music/song2.ogg');

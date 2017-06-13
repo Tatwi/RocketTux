@@ -98,6 +98,23 @@ RocketTux.Game.prototype = {
     this.displayCoins = this.game.add.text(16, 64, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
     this.displayCoins.fixedToCamera = true;
     this.displayCoins.text = 'Coins: ';
+    // Home button
+    this.btGoHome = this.game.add.sprite(window.innerWidth - 80, 8, 'entities');
+    this.btGoHome.animations.add('stand', [254], 1, true);
+    this.btGoHome.animations.add('over', [255], 1, true);
+    this.btGoHome.play('stand');
+    this.btGoHome.fixedToCamera = true;
+    this.btGoHome.inputEnabled = true;
+    this.btGoHome.input.useHandCursor = true;
+    this.game.input.onTap.add(this.btOnTap, this);
+    this.btGoHome.events.onInputOver.add(this.btOver, this);
+    this.btGoHome.events.onInputOut.add(this.btOut, this);
+    this.GoHomeText = this.game.add.text(window.innerWidth - 74, 16, 'Go Home', { fontSize: '12px', fill: '#2097c4' });
+    this.GoHomeText.fixedToCamera = true;
+    
+    // Sounds
+    this.sndMouseOver = this.game.add.audio('mouseover');
+    this.sndWarp = this.game.add.audio('warp');
     
     // Populate map
     this.spawnCoins();
@@ -219,6 +236,7 @@ RocketTux.Game.prototype = {
   uiUpdate: function(){ 
     this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
     this.displayCoins.text = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
+    
     this.uiTimer = 0;
   },
   abilityCooldownStart: function(seconds){
@@ -419,5 +437,25 @@ RocketTux.Game.prototype = {
     //  Add and update the score
     this.coinsCollected += 1;
     this.coinSound.play();
+  },
+  btOnTap: function(){
+    this.sndWarp.play();
+    this.theLevel.destroy();
+    music.destroy();
+    this.coins.destroy();
+    this.sndRocketStart.destroy();
+    this.sndRocketRunning.destroy();
+    this.sndRocketWindup.destroy();
+    this.sndRocketBoost.destroy();
+    this.game.state.start('MainMenu', true, false); // Destroy all - yes. Clear cache - no.
+  },
+  btOver: function(){
+    this.btGoHome.play('over');
+    this.GoHomeText.fill = '#FFFFFF';
+    this.sndMouseOver.play();
+  },
+  btOut: function(){
+    this.btGoHome.play('stand');
+    this.GoHomeText.fill = '#2097c4'; 
   },
 };
