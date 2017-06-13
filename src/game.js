@@ -101,6 +101,7 @@ RocketTux.Game.prototype = {
     
     // Populate map
     this.spawnCoins();
+    this.game.world.bringToTop(this.coins);
   },
   update: function() {
     this.game.physics.arcade.collide(this.player, this.theLevel);
@@ -401,7 +402,6 @@ RocketTux.Game.prototype = {
                     coin = this.coins.create(posX, posY, 'entities');
                     coin.animations.add('spin', [36,37,38,39,40], 10, true);
                     coin.animations.play('spin');
-                    coin.bringToTop();
                     this.setPhysicsProperties(coin, 300, 0, 32, 32, 0, 0);
                     this.coinsInLevel++;
                 }
