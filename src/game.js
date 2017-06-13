@@ -38,6 +38,7 @@ RocketTux.Game.prototype = {
     // Add group for coins
     this.coins = this.game.add.group();
     this.coinsCollected = 0;
+    this.coinsInLevel = 0;
     this.coinSound = this.game.add.audio('collect');
     
     // DEBUG
@@ -216,7 +217,7 @@ RocketTux.Game.prototype = {
   },
   uiUpdate: function(){ 
     this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
-    this.displayCoins.text = 'Coins: ' + this.coinsCollected;
+    this.displayCoins.text = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
     this.uiTimer = 0;
   },
   abilityCooldownStart: function(seconds){
@@ -402,6 +403,7 @@ RocketTux.Game.prototype = {
                     coin.animations.play('spin');
                     coin.bringToTop();
                     this.setPhysicsProperties(coin, 300, 0, 32, 32, 0, 0);
+                    this.coinsInLevel++;
                 }
             }
         }
@@ -416,7 +418,6 @@ RocketTux.Game.prototype = {
 
     //  Add and update the score
     this.coinsCollected += 1;
-    this.displayCoins.text = 'Coins: ' + this.coinsCollected;
     this.coinSound.play();
   },
 };
