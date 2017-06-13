@@ -376,6 +376,9 @@ RocketTux.Game.prototype = {
 
         //  Scroll it
         this.theLevel.resizeWorld();
+        
+        // debug
+        this.theLevel.alpha = 0.5;
     },
     spawnCoins: function (){
         var columns = this.mapSections * 40; // 32px tiles
@@ -393,24 +396,12 @@ RocketTux.Game.prototype = {
                 var posX = i * 32;
                 var posY = tilePosY * 32;
                 
-                if (TargetTileIndex != 2881){
+                if (TargetTileIndex < 2881){
                     coin = this.coins.create(posX, posY, 'entities');
                     coin.animations.add('spin', [36,37,38,39,40], 10, true);
                     coin.animations.play('spin');
                     coin.bringToTop();
                     this.setPhysicsProperties(coin, 300, 0, 32, 64, 0, 0);
-                } else {
-                    // Try again!
-                    y = this.game.rnd.between(0, 20);
-                    targetTile = this.map.getTile(posX, posY, this.theLevel, true).index;
-                    
-                    if (TargetTileIndex != 2881){
-                        coin = this.coins.create(posX, posY + 16, 'entities');
-                        coin.animations.add('spin', [36,37,38,39,40], 12, true);
-                        coin.animations.play('spin');
-                        coin.bringToTop();
-                        this.setPhysicsProperties(coin, 300, 0, 32, 64, 0, 0);
-                    }
                 }
             }
         }
