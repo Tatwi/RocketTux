@@ -4,7 +4,7 @@ A pengiun with a rocket pack? It sure is as awesome as you're imagining!
 RocketTux is a side scroller adventure with player-influenced random level generation. Collect and spend coins, defeat bad guys, and have fun doing it! The ultimate goal is to buy all the level components so that you may generate more iteresting levels based on your preferences (or your crazy whims).
 
 ### About Development
-- **Current Version:** 0.1 (June 2017)
+- **Current Version:** 0.2 (June 2017)
 - **Next Version Expected:** July 2017
 - **Version 1.0 Expected:** February 4th, 2018 (My 40th birthday!)
 - Programmed from scratch using [Phaser CE](http://phaser.io/download/stable), as a way to learn the Phaser CE framework and because making games is fun!
@@ -17,10 +17,10 @@ RocketTux is a side scroller adventure with player-influenced random level gener
 
 #### Milestones
 - Vesion 0.0: Prototype converted into a real project.
-- Vesion 0.1: Basic world generation and player movement.
+- Vesion 0.1: Basic world generation and player movement, and day/night art.
 - Vesion 0.2: Complete player, level generation, and entity spawning mechanics. 
-- Vesion 0.3: Complete the sprites, tiles, paralax, and day/night art, the enemy game mechanics, and the game sounds.
-- Vesion 0.4: Create all the level themes and tile sections.
+- Vesion 0.3: Complete the sprites, tiles, the enemy game mechanics, and the game sounds.
+- Vesion 0.4: Create all the level themes and level sections.
 - Vesion 0.5: In level UI completion. Loot and inventory mechanics.
 - Vesion 0.6: Quest and Reputation system backend.
 - Vesion 0.7: Main Menu > Settings, Preferences UI.
