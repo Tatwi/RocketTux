@@ -41,6 +41,9 @@ RocketTux.Game.prototype = {
     this.coinsInLevel = 0;
     this.coinSound = this.game.add.audio('collect');
     
+    // Add boosts
+    this.boosts = Math.max(2, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 2 + bonus
+    
     // DEBUG
     this.myDebugText = this.game.add.text(16, 16, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
     this.myDebugText.fixedToCamera = true;
@@ -87,6 +90,7 @@ RocketTux.Game.prototype = {
     this.sndRocketRunning = this.game.add.audio('rocketpack-running');
     this.sndRocketWindup = this.game.add.audio('rocketpack-windup');
     this.sndRocketBoost = this.game.add.audio('rocketpack-boost');
+    this.sndRocketBoostFail = this.game.add.audio('rocketpack-boost-fail');
     
     // Input
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -98,6 +102,9 @@ RocketTux.Game.prototype = {
     this.displayCoins = this.game.add.text(16, 64, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
     this.displayCoins.fixedToCamera = true;
     this.displayCoins.text = 'Coins: ';
+    this.displayBoosts = this.game.add.text(16, 84, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
+    this.displayBoosts.fixedToCamera = true;
+    this.displayBoosts.text = 'Boosts: ' + this.boosts;
     // Home button
     this.btGoHome = this.game.add.sprite(window.innerWidth - 80, 8, 'entities');
     this.btGoHome.animations.add('stand', [254], 1, true);
@@ -236,6 +243,7 @@ RocketTux.Game.prototype = {
   uiUpdate: function(){ 
     this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
     this.displayCoins.text = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
+    this.displayBoosts.text = 'Boosts: ' + this.boosts;
     
     this.uiTimer = 0;
   },
@@ -252,6 +260,13 @@ RocketTux.Game.prototype = {
         
     if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5)){
         // Spacebar Boost (5 second cooldown)
+         if (this.boosts < 1){
+            this.sndRocketBoostFail.play();
+            this.abilityCooldownStart(5);
+            
+            return;
+        }
+        
         if (this.cursors.down.isDown)
             return; // no boost while crouching or flying while holding down
         
@@ -273,6 +288,7 @@ RocketTux.Game.prototype = {
     this.doExplosion(this.player.body.x - 10, this.player.body.y + 10);
     this.rocketPackSoundOn(true, true);
     this.player.body.velocity.y = RocketTux.boostSpeed * -1;
+    this.boosts--;
   },
   rocketPackSoundOn: function(on, boost){
     if (on){

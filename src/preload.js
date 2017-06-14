@@ -29,6 +29,7 @@ RocketTux.Preload.prototype = {
     this.load.audio('rocketpack-windup', 'data/sounds/rocketpack-windup.ogg');
     this.load.audio('rocketpack-boost', 'data/sounds/rocketpack-boost.ogg');
     this.load.audio('rocketpack-running', 'data/sounds/rocketpack-running.ogg');
+    this.load.audio('rocketpack-boost-fail', 'data/sounds/rocketpack-boost-fail.ogg');
     
     // Initialize variables used to generate levels
     this.worldObjects(); // Tiled objects from world texture
@@ -45,6 +46,7 @@ RocketTux.Preload.prototype = {
     RocketTux.groundSpeed = 180; // Preference up to 220
     RocketTux.airSpeed = 300; // Preference up to 340. Star +10.
     RocketTux.boostSpeed = 325; // Preference up to 340. Flame guy +20 at time of collision.
+    RocketTux.bonusBoosts = 0; // Preference up to 3
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
   },
   loadSavedData: function(){
