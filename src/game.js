@@ -420,7 +420,7 @@ RocketTux.Game.prototype = {
                     coin = this.coins.create(posX, posY, 'entities');
                     coin.animations.add('spin', [36,37,38,39,40], 10, true);
                     coin.animations.play('spin');
-                    this.setPhysicsProperties(coin, 300, 0, 32, 32, 0, 0);
+                    this.setPhysicsProperties(coin, 0, 0, 32, 32, 0, 0);
                     this.coinsInLevel++;
                 }
             }
