@@ -44,7 +44,8 @@ RocketTux.Preload.prototype = {
     RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
     RocketTux.groundSpeed = 180; // Preference up to 220
     RocketTux.airSpeed = 300; // Preference up to 340. Star +10.
-    RocketTux.boostSpeed = 333; // Preference up to 340. Flame guy +20 at time of collision.
+    RocketTux.boostSpeed = 325; // Preference up to 340. Flame guy +20 at time of collision.
+    RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
   },
   loadSavedData: function(){
     // N/A atm

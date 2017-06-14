@@ -56,7 +56,7 @@ RocketTux.Game.prototype = {
     this.player.animations.add('jump-right', [4], 10, true);
     this.player.animations.add('jump-left', [12], 10, true);
     this.player.animations.add('duck', [5], 10, true);
-    this.setPhysicsProperties(this.player, 100, 0, 20, 40, 24, 20);
+    this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 20, 40, 24, 20);
     this.game.camera.follow(this.player);
     this.rocketOn = 'right';
     
@@ -172,7 +172,7 @@ RocketTux.Game.prototype = {
         if (this.cursors.down.isDown && this.player.body.blocked.down){
             this.player.body.velocity.x = 0;
             this.player.animations.play('duck'); // Duck when standing
-            this.setPhysicsProperties(this.player, 100, 0, 20, 20, 24, 40);
+            this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 20, 20, 24, 40);
         } else if (!this.player.body.blocked.down){
             if (this.player.body.velocity.y > 0)
                 this.player.body.velocity.y = 0; // Hover when not moving up or down in the air
@@ -181,7 +181,7 @@ RocketTux.Game.prototype = {
         // Note: collectCoin() will boost the player up when this.cursors.up.isDown = true
     } else {
         this.player.body.acceleration.y = 0; // Fall
-        this.setPhysicsProperties(this.player, 100, 0, 20, 40, 24, 20);
+        this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 20, 40, 24, 20);
     }
     
     // Ability cooldown throttled actions
