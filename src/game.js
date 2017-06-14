@@ -106,7 +106,7 @@ RocketTux.Game.prototype = {
     this.btGoHome.fixedToCamera = true;
     this.btGoHome.inputEnabled = true;
     this.btGoHome.input.useHandCursor = true;
-    this.game.input.onTap.add(this.btOnTap, this);
+    this.btGoHome.events.onInputDown.add(this.btOnClick, this);
     this.btGoHome.events.onInputOver.add(this.btOver, this);
     this.btGoHome.events.onInputOut.add(this.btOut, this);
     this.GoHomeText = this.game.add.text(window.innerWidth - 74, 16, 'Go Home', { fontSize: '12px', fill: '#2097c4' });
@@ -438,7 +438,7 @@ RocketTux.Game.prototype = {
     this.coinsCollected += 1;
     this.coinSound.play();
   },
-  btOnTap: function(){
+  btOnClick: function(){
     saveStorage('myCoins', rtStorage.myCoins + this.coinsCollected);
     this.sndWarp.play();
     this.theLevel.destroy();
