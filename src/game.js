@@ -447,7 +447,7 @@ RocketTux.Game.prototype = {
     coin.kill();
 
     // Give boost (prevented by pressing down arrow)
-    if (this.cursors.up.isDown)
+    if (!this.cursors.down.isDown)
         this.player.body.velocity.y = -160;
 
     //  Add and update the score
