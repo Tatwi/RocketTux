@@ -439,6 +439,7 @@ RocketTux.Game.prototype = {
     this.coinSound.play();
   },
   btOnTap: function(){
+    saveStorage('myCoins', rtStorage.myCoins + this.coinsCollected);
     this.sndWarp.play();
     this.theLevel.destroy();
     music.destroy();
