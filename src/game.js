@@ -108,19 +108,10 @@ RocketTux.Game.prototype = {
     this.displayBoosts.fixedToCamera = true;
     this.displayBoosts.text = 'Boosts: ' + this.boosts;
     // Home button
-    this.btGoHome = this.game.add.sprite(window.innerWidth - 80, 8, 'entities');
-    this.btGoHome.animations.add('stand', [254], 1, true);
-    this.btGoHome.animations.add('over', [255], 1, true);
-    this.btGoHome.play('stand');
-    this.btGoHome.fixedToCamera = true;
-    this.btGoHome.inputEnabled = true;
-    this.btGoHome.input.useHandCursor = true;
-    this.btGoHome.events.onInputDown.add(this.btOnClick, this);
-    this.btGoHome.events.onInputOver.add(this.btOver, this);
-    this.btGoHome.events.onInputOut.add(this.btOut, this);
-    this.GoHomeText = this.game.add.text(window.innerWidth - 74, 16, 'Go Home', { fontSize: '12px', fill: '#2097c4' });
-    this.GoHomeText.fixedToCamera = true;
-    
+    this.btHome = this.game.add.button(window.innerWidth - 68, 4, 'entities', this.btOnClick, this, 255, 254, 55);
+    this.btHome.onInputOver.add(this.btOver, this);
+    this.btHome.fixedToCamera = true;
+
     // Sounds
     this.sndMouseOver = this.game.add.audio('mouseover');
     this.sndWarp = this.game.add.audio('warp');
