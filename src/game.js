@@ -17,24 +17,34 @@ RocketTux.Game.prototype = {
     this.levelLength = 32 * 40 * this.mapSections; // Tile width * Tiles per section * sections
     this.game.world.setBounds(0, 0, this.levelLength, 720);
     
-    // Add Backgrounds
-    var skyRNG = this.game.rnd.between(0, 6);
-    if (skyRNG < 4){
-        this.skiesNormal = this.game.add.sprite(0, 0, 'skies');
-        this.skiesNormal.animations.add('stand', [skyRNG], 1, true);
-        this.skiesNormal.scale.setTo(1.25, 0.71); //wide, tall
-        this.skiesNormal.width = this.game.width;
-        this.skiesNormal.play('stand');
-        this.skiesNormal.bringToTop();
-        this.skiesNormal.fixedToCamera = true;
+    // Pick theme and time of day
+    this.themeOptions = RocketTux.unlocks.themes.split(',');
+    this.theme = this.rollGame(this.themeOptions, RocketTux.favortieTheme); // returns string
+    
+    this.theme = 'candyland' // Because it's the only one with level sections at the moment!
+    
+    this.timeOptions = RocketTux.unlocks.timesOfDay.split(',');
+    this.timeOfDay = this.rollGame(this.timeOptions, RocketTux.favortieTime); // returns string
+    
+    // Add background for special themes or based on the time of day
+    if (this.theme == 'candyland'){
+        this.addBackground('skies-special', 2);
+    } else if (this.theme.indexOf('beach') > -1) {
+        this.addBackground('skies-special', 0);
     } else {
-        this.skiesSpecial = this.game.add.sprite(0, 0, 'skies-special');
-        this.skiesSpecial.animations.add('stand', [skyRNG-3], 1, true);
-        this.skiesSpecial.scale.setTo(1.25, 0.71); //wide, tall
-        this.skiesSpecial.width = this.game.width;
-        this.skiesSpecial.play('stand');
-        this.skiesSpecial.bringToTop();
-        this.skiesSpecial.fixedToCamera = true;
+        if (this.timeOfDay == 'sunrise') {
+            this.addBackground('skies', 0);
+        } else if (this.timeOfDay == 'day') {
+            this.addBackground('skies', 1);
+        } else if (this.timeOfDay == 'sunset') {
+            this.addBackground('skies', 2);
+        } else if (this.timeOfDay == 'night') {
+            this.addBackground('skies', 3);
+        } else if (this.timeOfDay == 'supertuxDay') {
+            this.addBackground('skies-special', 1);
+        } else if (this.timeOfDay == 'supertuxNight') {
+            this.addBackground('skies-special', 3);
+        }
     }
     
     // Add group for coins
@@ -73,19 +83,6 @@ RocketTux.Game.prototype = {
     
     // Put flames behind player
     this.player.bringToTop();
-    
-    // Cheap full screen tint for sunset and night. Not sure if I like this as it dulls the awesome backgrounds I made!.
-    if (skyRNG == 2){
-        tintmap = this.game.add.tilemap('dynamicMap', 32, 32);
-        this.tintLayer = tintmap.createLayer(0);
-        this.tintLayer.tint = 0x3e0058;
-        this.tintLayer.alpha = 0.1;
-    } else if (skyRNG == 3){
-        tintmap = this.game.add.tilemap('dynamicMap', 32, 32);
-        this.tintLayer = tintmap.createLayer(0);
-        this.tintLayer.tint = 0x004cb3;
-        this.tintLayer.alpha = 0.1;
-    }
     
     // Rocketpack sounds
     this.sndRocketStart = this.game.add.audio('rocketpack-start');
@@ -230,7 +227,7 @@ RocketTux.Game.prototype = {
     if (this.game.time.time < this.uiTimer)
         return;
         
-    this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
+    //this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
     this.displayCoins.text = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
     this.displayBoosts.text = 'Boosts: ' + this.boosts;
     
@@ -347,29 +344,53 @@ RocketTux.Game.prototype = {
   roll: function() {
     return this.game.rnd.between(0, 100);
   },
-  pickRandomProperty: function(obj) {
+  rollGame: function(contestants, playerFavorite){
+    // Returns who had the best roll out of 100 for any number of contestants, with one possibily weighted higher than the rest.
+    // contestants: An array of string value names
+    // playerFavorite: One of the string values contained in contestants or 'none'
+
+    var rolls = [];
+ 
+    for (i = 0; i < contestants.length; i++){
+    rolls[i] = this.roll();
+
+    if (contestants[i] == playerFavorite)
+      rolls[i] += 20;
+    }
+
+    var winner = 0;
+    var tmpBest = rolls[0];
+
+    for (j = 0; j < rolls.length; j++){
+        if (rolls[j] > tmpBest){
+          winner = j;
+          tmpBest = rolls[j];
+        }
+    }
+
+    return contestants[winner];
+  },
+  pickRandomProperty: function(obj){
         var result;
         var count = 0;
         for (var prop in obj)
             if (Math.random() < 1/++count)
                result = prop;
         return result;
-    },
+  },
+  addBackground: function(sprite, frame){
+    this.activeBG = this.game.add.sprite(0, 0, sprite);
+    this.activeBG.animations.add('stand', [frame], 1, true);
+    this.activeBG.scale.setTo(1.25, 0.71); //wide, tall
+    this.activeBG.width = this.game.width;
+    this.activeBG.play('stand');
+    this.activeBG.bringToTop();
+    this.activeBG.fixedToCamera = true;  
+  },
   createTileMap: function(){
         var data = '';
         var rows = ["","","","","","","","","","","","","","","","","","","","","","",""];
-        
-        // Pick a theme
-        var theme = RocketTux.candyland;
-        var rng = this.roll();
-        if (rng > 95)
-            var theme = RocketTux.candyland;
-        if (rng > 75)
-            var theme = RocketTux.candyland;
-        if (rng > 50)
-            var theme = RocketTux.candyland;
-        if (rng > 25)
-            var theme = RocketTux.candyland;
+        var theme = RocketTux[this.theme];
         
         // Generate the width of the map
         for (var i = 0; i < this.mapSections; i++)
@@ -461,12 +482,6 @@ RocketTux.Game.prototype = {
     this.game.state.start('MainMenu', true, false); // Destroy all - yes. Clear cache - no.
   },
   btOver: function(){
-    this.btGoHome.play('over');
-    this.GoHomeText.fill = '#FFFFFF';
     this.sndMouseOver.play();
-  },
-  btOut: function(){
-    this.btGoHome.play('stand');
-    this.GoHomeText.fill = '#2097c4'; 
   },
 };

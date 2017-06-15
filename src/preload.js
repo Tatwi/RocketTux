@@ -45,6 +45,13 @@ RocketTux.Preload.prototype = {
     RocketTux.boostSpeed = 325; // Preference up to 340. Flame guy +20 at time of collision.
     RocketTux.bonusBoosts = 0; // Preference up to 3
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
+    RocketTux.favortieTheme = 'none';
+    RocketTux.favortieTime = 'none';
+    
+    RocketTux.unlocks = {
+        themes:'snow1,snow2,forest1', // Unlocks: snow3, forest2, candyland, beach, beachfront
+        timesOfDay: 'sunrise,day,sunset,night', // Unlocks: supertuxDay, supertuxNight 
+    };
   },
   worldObjects: function(){
     // Each of these are 10 tile wide sections of maps. 
