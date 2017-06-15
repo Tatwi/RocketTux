@@ -23,6 +23,7 @@ RocketTux.Game.prototype = {
         this.skiesNormal = this.game.add.sprite(0, 0, 'skies');
         this.skiesNormal.animations.add('stand', [skyRNG], 1, true);
         this.skiesNormal.scale.setTo(1.25, 0.71); //wide, tall
+        this.skiesNormal.width = this.game.width;
         this.skiesNormal.play('stand');
         this.skiesNormal.bringToTop();
         this.skiesNormal.fixedToCamera = true;
@@ -30,6 +31,7 @@ RocketTux.Game.prototype = {
         this.skiesSpecial = this.game.add.sprite(0, 0, 'skies-special');
         this.skiesSpecial.animations.add('stand', [skyRNG-3], 1, true);
         this.skiesSpecial.scale.setTo(1.25, 0.71); //wide, tall
+        this.skiesSpecial.width = this.game.width;
         this.skiesSpecial.play('stand');
         this.skiesSpecial.bringToTop();
         this.skiesSpecial.fixedToCamera = true;
@@ -455,7 +457,11 @@ RocketTux.Game.prototype = {
     this.coinSound.play();
   },
   btOnClick: function(){
-    saveStorage('myCoins', rtStorage.myCoins + this.coinsCollected);
+    // Save data
+    var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
+    var newWalletValue = savedCoins + this.coinsCollected
+    localStorage.setItem('RocketTux-myWallet', newWalletValue);
+      
     this.sndWarp.play();
     this.theLevel.destroy();
     music.destroy();

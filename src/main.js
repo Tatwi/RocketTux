@@ -1,8 +1,8 @@
 var RocketTux = RocketTux || {};
 
 RocketTux.config = {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 1280,
+    height: 720,
     renderer: Phaser.AUTO,
     antialias: false,
     multiTexture: true,

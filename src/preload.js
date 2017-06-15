@@ -34,9 +34,6 @@ RocketTux.Preload.prototype = {
     // Initialize variables used to generate levels
     this.worldObjects(); // Tiled objects from world texture
     this.otherVariables(); // Misc objects, variables, settings
-    
-    // Initialize player saved data and preferences
-    this.loadSavedData();
   },
   create: function() {
   	this.state.start('MainMenu');
@@ -48,9 +45,6 @@ RocketTux.Preload.prototype = {
     RocketTux.boostSpeed = 325; // Preference up to 340. Flame guy +20 at time of collision.
     RocketTux.bonusBoosts = 0; // Preference up to 3
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
-  },
-  loadSavedData: function(){
-    // N/A atm
   },
   worldObjects: function(){
     // Each of these are 10 tile wide sections of maps. 
