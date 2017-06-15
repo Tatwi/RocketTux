@@ -100,7 +100,7 @@ RocketTux.Game.prototype = {
     this.abilityCooldown = false;
     
     //UI
-    this.uiTimer = 0;
+    this.uiTimer = this.game.time.time + 1000;
     this.displayCoins = this.game.add.text(16, 64, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
     this.displayCoins.fixedToCamera = true;
     this.displayCoins.text = 'Coins: ';
@@ -129,6 +129,7 @@ RocketTux.Game.prototype = {
     this.spawnCoins();
     this.game.world.bringToTop(this.coins);
   },
+//==================GAME LOOP START========================
   update: function() {
     this.game.physics.arcade.collide(this.player, this.theLevel);
     this.game.physics.arcade.collide(this.coins, this.theLevel);
@@ -186,8 +187,6 @@ RocketTux.Game.prototype = {
             if (this.player.body.velocity.y > 0)
                 this.player.body.velocity.y = 0; // Hover when not moving up or down in the air
         }
-            
-        // Note: collectCoin() will boost the player up when this.cursors.up.isDown = true
     } else {
         this.player.body.acceleration.y = 0; // Fall
         this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 20, 40, 24, 20);
@@ -199,14 +198,8 @@ RocketTux.Game.prototype = {
     // Global cooldown throttled actions (1 sec)
     this.throttledInput();
     
-    // UI Updates (Throttled using FPS)
-    if (this.uiTimer > 20)
-        this.uiUpdate();
-        
-    this.uiTimer++;
-  },
-  render: function() {
-    //this.game.debug.bodyInfo(this.player, 10, 10);
+    // UI Updates (Throttled to 1 update per second)
+    this.uiUpdate();
   },
   globalCooldownStart: function(seconds){
       this.globalCooldown = true;
@@ -242,12 +235,15 @@ RocketTux.Game.prototype = {
         this.globalCooldownStart(1);
     }
   },
-  uiUpdate: function(){ 
+  uiUpdate: function(){
+    if (this.game.time.time < this.uiTimer)
+        return;
+        
     this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
     this.displayCoins.text = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
     this.displayBoosts.text = 'Boosts: ' + this.boosts;
     
-    this.uiTimer = 0;
+    this.uiTimer = this.game.time.time + 1000;
   },
   abilityCooldownStart: function(seconds){
       this.abilityCooldown = true;
@@ -286,6 +282,7 @@ RocketTux.Game.prototype = {
         this.player.body.velocity.y = -100;
     }
   },
+//___________________GAME LOOP END___________________________
   rocketPackGo: function(){
     this.doExplosion(this.player.body.x - 10, this.player.body.y + 10);
     this.rocketPackSoundOn(true, true);
