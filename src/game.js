@@ -19,10 +19,7 @@ RocketTux.Game.prototype = {
     
     // Pick theme and time of day
     this.themeOptions = RocketTux.unlocks.themes.split(',');
-    this.theme = this.rollGame(this.themeOptions, RocketTux.favortieTheme); // returns string
-    
-    this.theme = 'candyland' // Because it's the only one with level sections at the moment!
-    
+    this.theme = this.rollGame(this.themeOptions, RocketTux.favortieTheme); // returns string    
     this.timeOptions = RocketTux.unlocks.timesOfDay.split(',');
     this.timeOfDay = this.rollGame(this.timeOptions, RocketTux.favortieTime); // returns string
     

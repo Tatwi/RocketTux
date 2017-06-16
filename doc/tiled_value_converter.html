@@ -71,6 +71,10 @@ function justCSV(form){
         lineCount++;
     }
  }
+ 
+function clearField() {
+    document.getElementById("frm1").reset();
+}
 
 </script>
 </head>
@@ -78,10 +82,11 @@ function justCSV(form){
 <form id="frm1">
 	<h1>Tile Number Grid Generator</h1>
 	<br />
-	Input Values: <input type="text" name="inputData" value="0" />
+	Input Values: <input type="text" name="inputData" value=""/> 
+    <input type="button" onclick="clearField(this.form)" value="Clear Values">
 	
 	<p><input type="button" value="Just CSV" onclick="justCSV(this.form)" />
-    <p><input type="button" value="For RocketTux" onclick="rocketTux(this.form)" />
+    <input type="button" value="For RocketTux" onclick="rocketTux(this.form)" />
 	<p>
 	<pre>
     Shifts non-zero values down by 1, because Tiled starts its tile numbers at
