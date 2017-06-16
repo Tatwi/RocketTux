@@ -50,7 +50,9 @@ RocketTux.Preload.prototype = {
     
     RocketTux.unlocks = {
         themes:'snow1,snow2,forest1,candyland', // Unlocks: snow3, forest2, candyland, beach, beachfront
-        timesOfDay: 'sunrise,day,sunset,night', // Unlocks: supertuxDay, supertuxNight 
+        timesOfDay: 'sunrise,day,sunset,night', // Unlocks: supertuxDay, supertuxNight
+        levelSectionsMin: 5, // Unlocks: Upto +5
+        levelSectionsMax: 12, // Unlocks: Upto +3
     };
   },
   worldObjects: function(){

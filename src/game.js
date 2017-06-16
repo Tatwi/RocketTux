@@ -13,7 +13,7 @@ RocketTux.Game.prototype = {
     music.play();
 
     // Set world bounds
-    this.mapSections = this.game.rnd.between(6, 14); // 7680px min, 25,600 max (with +6 bonus)
+    this.mapSections = this.game.rnd.between(RocketTux.unlocks.levelSectionsMin, RocketTux.unlocks.levelSectionsMax); // 6400px min, 19200px max
     this.levelLength = 32 * 40 * this.mapSections; // Tile width * Tiles per section * sections
     this.game.world.setBounds(0, 0, this.levelLength, 720);
     
