@@ -1,19 +1,19 @@
 # RocketTux
 A pengiun with a rocket pack? It sure is as awesome as you're imagining!  
 
-RocketTux is a side scroller adventure with player-influenced random level generation. Collect and spend coins, defeat bad guys, and have fun doing it! The ultimate goal is to buy all the level components so that you may generate more iteresting levels based on your preferences (or your crazy whims).
+RocketTux is a side scroller adventure with player-influenced random level generation, quests, reputations, basic crafting, and other fun stuff! The game is primarily about collecting coins and completing quests by collecting and/or crafting items, while puzzling your way through resources management and level navigation. While there isn't any combat in the game, the ever mischievous Nolok has a tendency to let his walking bombs and other "hilarious machines" run wild... Along with Nolok's toy-box gone wrong, the Tux may also encounter extreme weather, angry stones, and various projectiles of questionable origin.  
 
 ### About Development
 - **Current Version:** 0.2 (June 2017)
 - **Next Version Expected:** July 2017
 - **Version 1.0 Expected:** February 4th, 2018 (My 40th birthday!)
 - Programmed from scratch using [Phaser CE](http://phaser.io/download/stable), as a way to learn the Phaser CE framework and because making games is fun!
-- Based on visual art assets from [SuperTux](https://supertuxproject.org/).
+- Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
 - RocketTux is its own unique game, rather than a clone of Supertux.
 - Created with Linux Mint 17 on an AMD FX-8320 / R9 270 based desktop PC. 
 - Tested on an [HP Chromebook 14 G4](https://support.hp.com/us-en/product/hp-chromebook-14-g4/8326221/document/c04828937).
-- Optimized for Chromebooks, designed for 1280x720 resolution (will stretch up to 3840×2160 aka 4K, but likely will terrible past 1080p).
-- **No advertisements, subscriptions, micro-transaction, or purchase fees.** Just free, open source fun! 
+- Optimized for Chromebooks, designed for 1280x720 resolution (will stretch up to 3840×2160 aka 4K, but likely will look terrible past 1080p).
+- **No advertisements, subscriptions, micro-transaction, or purchase fees.** Just free, open source fun!
 
 #### Milestones
 - Vesion 0.0: Prototype converted into a real project.
@@ -35,12 +35,11 @@ RocketTux is designed for kids and light-hearted adults alike. It's not meant to
 ### Gameplay
 When version 1.0 is released, the following game play will be available.
 - Boost and fly around collecting coins to spend on preferences, upgrades and new locales.
-- "Coin-Bounce" or use a boost to move up higher in the air. Hold up/down to maintain height. Puzzle your way through the obstacles to collect all the coins.
-- Meet new people, do quests for them, and gain reputation with them to unlock unique rewards.
-- Randomly generated levels with 26 different tiles per theme.
-- Use a set of sliders to influence the generation of levels. Unlock each slider with coins!
-- Collect stuff to sell or use in quests by vanquishing enemies!
-- No death mechanic. If you bump into an enemy, you lose some coins. 
+- "Coin-Bounce" or use a boost to move up higher in the air. Hold up/down to maintain height. Puzzle your way through the obstacles to collect all the coins and quest items.
+- Meet new people, do quests for them, and gain reputation with them to unlock unique rewards. They'll even become your travel companion, each offering their own utility.
+- Randomly generated levels with at least 26 different tiles per theme.
+- Influence the time and place of your adventures, along with other properties of the world.
+- No death mechanic. If you bump into an enemy, you lose some coins and your rocket pack loses some integrity.
 - No time limits. Stop and smell the Fire Flowers!
 - No forced movement through levels. This ain't no "endless runner" game!
 - No need to reach the end of a level to "beat it". In fact, you'll probably go back and forth a few times! The level ends when you feel like leaving it. You get a bonus for collecting all the coins though.
@@ -115,6 +114,9 @@ Now that you have the game running, you can add a link for it on your desktop an
 - If you have run out of boosts and you're stuck between obstacles, unable to small-jump out, then that's it for you this level!
 - Don't sweat it if you weren't able to collect all the coins in a map. There are an infinite amount of chances ahead of you to collect more!
 
+### System Requirement Suggestions
+- RocketTux is designed to work great on my HP Chromebook 14 G4, which has a low-power dual core Intel Celeron CPU/GPU and 2GB of DDR3 RAM. That doesn't seem like much, but the modern CPU/GPU combo runs circles around the dual core AMD CPU/GPU setup in my 2007 era Dell Inspiron 1501 laptop. The game is pretty much unplayable in Linux Mint 17 on the Inspiron 1501 in CANVAS and in WEBGL mode, even with 3GG of RAM, due to the very poor graphics chip on the motherboard. My old Core2 Q8200 Intel quad core desktop that my kids use, which has an 512MB AMD 5670 video card and 8GB of 800MHz DDR2 RAM, performs admirably, but not always smoothly. And finally, RocketTux runs fantastically on my AMD FX-8320 / AMD R9 270 based desktop with 8GB of 2133MHz DDR3 RAM. None of these systems are "high-end", though the FX-8320 system performs much better than many current inexpensive laptops and desktops. So with that in mind, the game will likely run well on any recent dual core Intel or AMD CPU/GPU combo (or as AMD calls them, APUs), with a discrete video card being over-kill, in Linux or Windows. I don't have any experience with Macs, but anything from 2012 on will probably be fine.
+
 ### License
 The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information. You may *not* copy or "fork" this repository and sell RocketTux as your own creation, no matter how you've repackaged or re-branded it. 
 
@@ -131,13 +133,14 @@ This is an open source project that stands on the backs of many others, which is
 
 #### Graphics
 - [SuperTux2](https://supertuxproject.org/) Team for the art style and many assets.
+- [Tiny Spec](https://www.glitchthegame.com/public-domain-game-art/) for the public domain release of the assets they created for their game, Glitch. All the collectable items in RocketTux are from [ThirdPartyNinja's](https://github.com/ThirdPartyNinjas/GlitchAssets) repository of Glitch items converted into PNG format.
 
 #### Sound and Music
-- Sounds: [SuperTux](https://supertuxproject.org/), [Richard Boulanger](http://www.csounds.com/boulanger/), [Mike Koenig](https://soundcloud.com/koenig).
+- Sounds: [SuperTux](https://supertuxproject.org/) and contributors for some sound effects, [Richard Boulanger](http://www.csounds.com/boulanger/) for some intruments in some songs, [Mike Koenig](https://soundcloud.com/koenig) some portions of sound effects.
 - Music: [R. Bassett Jr.](http://www.tpot.ca), aka Me!
 
 #### QA Testers
-- Baylea Bassett, Abby Bassett. 
+- Neillia Bassett, Baylea Bassett, Abby Bassett. 
 
 #### Artistic Advisers
 - Neillia Bassett, Baylea Bassett, Abby Bassett.
