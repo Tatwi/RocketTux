@@ -5,6 +5,7 @@ RocketTux.Game = function(){};
 RocketTux.Game.prototype = {
   create: function() {
     this.game.renderer.setTexturePriority(['world', 'entities']);
+    this.gameOver = false;
     
     var pickSong = Math.floor(Math.random() * RocketTux.songs.length)
     music = this.game.add.audio(RocketTux.songs[pickSong]);
@@ -131,6 +132,9 @@ RocketTux.Game.prototype = {
   },
 //==================GAME LOOP START========================
   update: function() {
+    if (this.gameOver == true)
+        return;
+      
     this.game.physics.arcade.collide(this.player, this.theLevel);
     this.game.physics.arcade.collide(this.coins, this.theLevel);
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
@@ -478,20 +482,60 @@ RocketTux.Game.prototype = {
     this.coinSound.play();
   },
   quit: function(){
-    // Save data
-    var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
-    var newWalletValue = savedCoins + this.coinsCollected
-    localStorage.setItem('RocketTux-myWallet', newWalletValue);
-      
-    this.sndWarp.play();
+    this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects
+    this.player.destroy();
+    this.flames.destroy();
     this.theLevel.destroy();
-    music.destroy();
-    slickUI.container.displayGroup.removeAll(true);
-    this.coins.destroy();
     this.sndRocketStart.destroy();
     this.sndRocketRunning.destroy();
     this.sndRocketWindup.destroy();
     this.sndRocketBoost.destroy();
+    
+    this.sndWarp.play();
+    music.destroy();
+    slickUI.container.displayGroup.removeAll(true);
+    this.coins.destroy();
+    
+    // Calculate bonues
+    var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
+    var bonusCoins = Math.floor(this.coinsCollected / 10);
+    
+    if (this.coinsCollected == this.coinsInLevel){
+        bonusCoins += 20;
+        
+        if (RocketTux.gameMode == 'easy'){
+            bonusCoins -= 10;
+        } else if (RocketTux.gameMode == 'hard'){
+            bonusCoins += 25;
+        }
+    }
+    
+    var totalCoins = this.coinsCollected + bonusCoins;
+
+    // Save data
+    var newWalletValue = savedCoins + totalCoins;
+    localStorage.setItem('RocketTux-myWallet', newWalletValue);
+    
+    // UI Show player
+    this.world.add(slickUI.container.displayGroup);
+    this.grats;
+    slickUI.add(this.grats = new SlickUI.Element.Panel(this.game.camera.width / 2 - 180, this.game.camera.height / 2 - 150, 360, 300));
+    
+    this.txt = 'GREAT JOB!\n\nCoins Collected: ' + this.coinsCollected + '\nBonus Coins: ' + bonusCoins + '\n\nTotal Coins Earned:\n\n' + totalCoins;
+    this.gratMessage;
+    this.grats.add(this.gratMessage = new SlickUI.Element.Text(0, 0, this.txt));
+    this.gratMessage.centerHorizontally();
+
+    this.ender;
+    this.grats.add(this.ender = new SlickUI.Element.Button(0, 220, 360, 72));
+    this.ender.events.onInputUp.add(this.endLevel, this);
+    this.ender.add(new SlickUI.Element.Text(0, 0, 'Awesome!')).center();
+    
+    this.add.tween(this.grats).from({alpha: 0}, 500, Phaser.Easing.Quadratic.In).start();
+    this.add.tween(this.grats).from({y: this.game.camera.height + 150}, 500, Phaser.Easing.Back.InOut).start();
+  },
+  endLevel: function(){
+    slickUI.container.displayGroup.removeAll(true);
     this.game.state.start('MainMenu', true, false); // Destroy all - yes. Clear cache - no.
   },
 };
