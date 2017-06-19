@@ -28,11 +28,15 @@ RocketTux.MainMenu.prototype = {
     var btEasy;
     panel.add(btEasy = new SlickUI.Element.Button(0, 82, 140, 80));
     btEasy.events.onInputUp.add(this.startGameEasy, this);
+    btEasy.events.onInputOver.add(this.btEasyOver, this);
+    btEasy.events.onInputOut.add(this.btEasyOut, this);
     btEasy.add(new SlickUI.Element.Text(0, 0, 'Play Easy')).center();
     
     var btHard;
     panel.add(btHard = new SlickUI.Element.Button(0, 164, 140, 80));
     btHard.events.onInputUp.add(this.startGameHard, this);
+    btHard.events.onInputOver.add(this.btHardOver, this);
+    btHard.events.onInputOut.add(this.btHardOut, this);
     btHard.add(new SlickUI.Element.Text(0, 0, 'Play Hard')).center();
 
     this.add.tween(panel).from({alpha: 0}, 500, Phaser.Easing.Quadratic.In).start();
@@ -77,5 +81,23 @@ RocketTux.MainMenu.prototype = {
     RocketTux.gameMode = 'hard';
     slickUI.container.displayGroup.removeAll(true);
     this.game.state.start('Game');
+  },
+  btEasyOver: function(){
+    this.btEasyTip;
+    slickUI.add(this.btEasyTip = new SlickUI.Element.Panel(164, 96, 300, 110));
+    var txt = 'Play with 100 Boosts, but get fewer rewards for collecting all the coins in a level.';
+    this.btEasyTip.add(new SlickUI.Element.Text(4, 0, txt));
+  },
+  btEasyOut: function(){
+    this.btEasyTip.destroy();
+  },
+  btHardOver: function(){
+    this.btHardTip;
+    slickUI.add(this.btHardTip = new SlickUI.Element.Panel(164, 182, 300, 110));
+    var txt = 'Play with only 1 Boost and get more rewards for collecting all the coins in a level.';
+    this.btHardTip.add(new SlickUI.Element.Text(4, 0, txt));
+  },
+  btHardOut: function(){
+    this.btHardTip.destroy();
   },
 };
