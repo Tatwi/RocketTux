@@ -118,6 +118,8 @@ RocketTux.Game.prototype = {
     this.btQuit;
     this.panel.add(btQuit = new SlickUI.Element.Button(0, 0, 60, 32));
     btQuit.events.onInputUp.add(this.quit, this);
+    btQuit.events.onInputOver.add(this.toolTipOver, this);
+    btQuit.events.onInputOut.add(this.toolTipOut, this);
     btQuit.add(new SlickUI.Element.Text(0, 0, 'Quit')).center();
     
     // UI Coins
@@ -537,5 +539,14 @@ RocketTux.Game.prototype = {
   endLevel: function(){
     slickUI.container.displayGroup.removeAll(true);
     this.game.state.start('MainMenu', true, false); // Destroy all - yes. Clear cache - no.
+  },
+  toolTipOver: function(){
+    this.quitToolTip;
+    slickUI.add(this.quitToolTip = new SlickUI.Element.Panel(16, 64, 300, 110));
+    var txt = 'Click this button to the end the level after you have collected all the coins and items that you could reach.';
+    this.quitToolTip.add(new SlickUI.Element.Text(4, 0, txt));
+  },
+  toolTipOut: function(){
+    this.quitToolTip.destroy();
   },
 };
