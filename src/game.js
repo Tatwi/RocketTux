@@ -53,6 +53,13 @@ RocketTux.Game.prototype = {
     // Add boosts
     this.boosts = Math.max(2, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 2 + bonus
     
+    // Hardmode
+    if (RocketTux.gameMode == 'easy'){
+        this.boosts = 100;
+    } else if (RocketTux.gameMode == 'hard'){
+        this.boosts = 1;
+    }
+    
     // DEBUG
     this.myDebugText = this.game.add.text(16, 16, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
     this.myDebugText.fixedToCamera = true;
@@ -92,19 +99,6 @@ RocketTux.Game.prototype = {
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.globalCooldown = false;
     this.abilityCooldown = false;
-    
-    //UI
-    this.uiTimer = this.game.time.time + 1000;
-    this.displayCoins = this.game.add.text(16, 64, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
-    this.displayCoins.fixedToCamera = true;
-    this.displayCoins.text = 'Coins: ';
-    this.displayBoosts = this.game.add.text(16, 84, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
-    this.displayBoosts.fixedToCamera = true;
-    this.displayBoosts.text = 'Boosts: ' + this.boosts;
-    // Home button
-    this.btHome = this.game.add.button(window.innerWidth - 68, 4, 'entities', this.btOnClick, this, 255, 254, 55);
-    this.btHome.onInputOver.add(this.btOver, this);
-    this.btHome.fixedToCamera = true;
 
     // Sounds
     this.sndMouseOver = this.game.add.audio('mouseover');
@@ -113,6 +107,27 @@ RocketTux.Game.prototype = {
     // Populate map
     this.spawnCoins();
     this.game.world.bringToTop(this.coins);
+    
+    // UI Panel
+    this.uiTimer = this.game.time.time + 1000;
+    this.world.add(slickUI.container.displayGroup);
+    this.panel;
+    slickUI.add(this.panel = new SlickUI.Element.Panel(4, 8, 360, 38));
+
+    this.btQuit;
+    this.panel.add(btQuit = new SlickUI.Element.Button(0, 0, 60, 32));
+    btQuit.events.onInputUp.add(this.btOnClick, this);
+    btQuit.add(new SlickUI.Element.Text(0, 0, 'Quit')).center();
+    
+    // UI Coins
+    this.displayCoins = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
+    this.lvlCoins; 
+    this.panel.add(this.lvlCoins = new SlickUI.Element.Text(70, 0, this.displayCoins));
+    
+    // UI Boosts
+    this.displayBoosts = 'Boosts: ' + this.boosts;
+    this.lvlBoosts
+    this.panel.add(this.lvlBoosts = new SlickUI.Element.Text(210, 0, this.displayBoosts));
   },
 //==================GAME LOOP START========================
   update: function() {
@@ -225,8 +240,8 @@ RocketTux.Game.prototype = {
         return;
         
     //this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
-    this.displayCoins.text = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
-    this.displayBoosts.text = 'Boosts: ' + this.boosts;
+    this.lvlCoins.value = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
+    this.lvlBoosts.value = 'Boosts: ' + this.boosts;
     
     this.uiTimer = this.game.time.time + 1000;
   },
@@ -471,6 +486,7 @@ RocketTux.Game.prototype = {
     this.sndWarp.play();
     this.theLevel.destroy();
     music.destroy();
+    slickUI.container.displayGroup.removeAll(true);
     this.coins.destroy();
     this.sndRocketStart.destroy();
     this.sndRocketRunning.destroy();

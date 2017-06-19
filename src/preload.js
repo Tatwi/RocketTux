@@ -34,11 +34,15 @@ RocketTux.Preload.prototype = {
     // Initialize variables used to generate levels
     this.worldObjects(); // Tiled objects from world texture
     this.otherVariables(); // Misc objects, variables, settings
+    
+    // Slick-UI
+    slickUI = this.game.plugins.add(Phaser.Plugin.SlickUI);
+    slickUI.load('data/ui/kenney.json');
   },
   create: function() {
   	this.state.start('MainMenu');
   },
-    otherVariables: function(){
+  otherVariables: function(){
     RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
     RocketTux.groundSpeed = 180; // Preference up to 220
     RocketTux.airSpeed = 300; // Preference up to 340. Star +10.
@@ -47,6 +51,7 @@ RocketTux.Preload.prototype = {
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
     RocketTux.favortieTheme = 'none';
     RocketTux.favortieTime = 'none';
+    RocketTux.gameMode = 'normal';
     
     RocketTux.unlocks = {
         themes:'snow1,snow2,forest1,candyland', // Unlocks: snow3, forest2, candyland, beach, beachfront

@@ -124,8 +124,9 @@ The RocketTux source code is released under the General Public License Version 3
 This is an open source project that stands on the backs of many others, which is something I truly appreciate! The following is a list of people and groups who either directly or indirectly contributed to RocketTux. Without their effort, this project would not exist.
 
 #### Software
-- Game Engine: [Phaser CE 2.8.0](http://phaser.io/download/stable), [Chromium Browser](https://www.chromium.org/), [Google Chrome Browser](https://www.google.com/chrome/index.html).
+- Game Engine: [Phaser CE 2.8.0](http://phaser.io/download/stable), [Google Chrome Browser](https://www.google.com/chrome/index.html).
 - Level Building: [Tiled](http://www.mapeditor.org/) by Thorbjørn Lindeijer.
+- User Interface: [Slick-UI](https://github.com/Flaxis/slick-ui.git) by Richard Snijders, with the [Kenney Theme](http://kenney.nl/assets/ui-pack) by the Kenney Vleugels.
 - Operating System: [Debian](http://www.debian.org/), [Linux Mint](https://linuxmint.com/), [XFCE](https://xfce.org/), [Google ChromeOS](https://www.chromium.org/chromium-os).
 - Graphics: [GIMP](https://www.gimp.org/).
 - Sound: [Audacity](http://www.audacityteam.org/), [Sunvox](http://www.warmplace.ru/soft/sunvox/) by Alexander Zolotov.
