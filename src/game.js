@@ -116,7 +116,7 @@ RocketTux.Game.prototype = {
 
     this.btQuit;
     this.panel.add(btQuit = new SlickUI.Element.Button(0, 0, 60, 32));
-    btQuit.events.onInputUp.add(this.btOnClick, this);
+    btQuit.events.onInputUp.add(this.quit, this);
     btQuit.add(new SlickUI.Element.Text(0, 0, 'Quit')).center();
     
     // UI Coins
@@ -477,7 +477,7 @@ RocketTux.Game.prototype = {
     this.coinsCollected += 1;
     this.coinSound.play();
   },
-  btOnClick: function(){
+  quit: function(){
     // Save data
     var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
     var newWalletValue = savedCoins + this.coinsCollected
@@ -493,8 +493,5 @@ RocketTux.Game.prototype = {
     this.sndRocketWindup.destroy();
     this.sndRocketBoost.destroy();
     this.game.state.start('MainMenu', true, false); // Destroy all - yes. Clear cache - no.
-  },
-  btOver: function(){
-    this.sndMouseOver.play();
   },
 };
