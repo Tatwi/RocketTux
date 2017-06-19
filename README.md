@@ -4,7 +4,7 @@ A pengiun with a rocket pack? It sure is as awesome as you're imagining!
 RocketTux is a side scroller adventure with player-influenced random level generation, quests, reputations, basic crafting, and other fun stuff! The game is primarily about collecting coins and completing quests by collecting and/or crafting items, while puzzling your way through resources management and level navigation. While there isn't any combat in the game, the ever mischievous Nolok has a tendency to let his walking bombs and other "hilarious machines" run wild... Along with Nolok's toy-box gone wrong, the Tux may also encounter extreme weather, angry stones, and various projectiles of questionable origin.  
 
 ### About Development
-- **Current Version:** 0.2 (June 2017)
+- **Current Version:** 0.2.5 (June 2017)
 - **Next Version Expected:** July 2017
 - **Version 1.0 Expected:** February 4th, 2018 (My 40th birthday!)
 - Programmed from scratch using [Phaser CE](http://phaser.io/download/stable), as a way to learn the Phaser CE framework and because making games is fun!
@@ -18,7 +18,8 @@ RocketTux is a side scroller adventure with player-influenced random level gener
 #### Milestones
 - Vesion 0.0: Prototype converted into a real project.
 - Vesion 0.1: Basic world generation and player movement, and day/night art.
-- Vesion 0.2: Complete player, level generation, and entity spawning mechanics. 
+- Vesion 0.2: Complete player, level generation, and entity spawning mechanics.
+- Vesion 0.2.5: Playable basic game with usable UI.
 - Vesion 0.3: Complete the sprites, tiles, the enemy game mechanics, and the game sounds.
 - Vesion 0.4: Create all the level themes and level sections.
 - Vesion 0.5: In level UI completion. Loot and inventory mechanics.
@@ -46,7 +47,7 @@ When version 1.0 is released, the following game play will be available.
 - No "secret areas" or other potentially annoying mechanics that you'll need to look up on the Internet just to understand!
 
 ### Installation
-RocketTux is built as an "HTML5 web app" that is optimized to run well on basic Chromebooks or on desktops using the Chrome browser (it's slow in Firefox, due to the rendering of text. I don't use or develop for other web browser.). This makes RocketTux "cross platform compatible" with any system that can run a the Chrome web browser (either Google's version or the open source "Chromium" version), which means it will work on Chromebooks and Linux/Window/Mac PCs! Heck, it even runs on my Samsung Galaxy S6 Android phone, but at this time there aren't any touch screen controls for the game (Perhaps I will make them eventually). Chrome makes for a great "run time environment" for WEBGL applications.  
+RocketTux is built as an "HTML5 web app" that is optimized to run well on basic Chromebooks or on desktops using the Google Chrome browser (it's slow in Firefox and I don't recommend using anything other than Google Chrome for the game). This makes RocketTux "cross platform compatible" with any system that can run a the Chrome web browser (either Google's version or the open source "Chromium" version), which means it will work on Chromebooks and Linux/Window/Mac PCs! Heck, it even runs on my Samsung Galaxy S6 Android phone, but at this time there aren't any touch screen controls for the game (Perhaps I will make them eventually). Chrome makes for a great "run time environment" for WEBGL applications.  
 
 Until such a time as I create a website to host the game, you will need to download it run it at home. However, there is a catch!  
 
