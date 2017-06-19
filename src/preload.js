@@ -7,6 +7,7 @@ RocketTux.Preload.prototype = {
   preload: function() {
   	// Show loading screen 
   	this.splash = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
+    this.splash.scale.setTo(2, 0.5); //wide, tall
     this.splash.anchor.setTo(0.5);
  
     this.preloadBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, 'preloadbar');

@@ -2,10 +2,15 @@ RocketTux.MainMenu = function(){};
  
 RocketTux.MainMenu.prototype = {
   create: function() {
-  	//show the space tile, repeated
-    this.background = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
-    this.background.anchor.setTo(0.5);
-    
+  	// Add background
+    this.activeBG = this.game.add.sprite(0, 0, 'skies');
+    this.activeBG.animations.add('stand', [3], 1, true);
+    this.activeBG.scale.setTo(1.25, 0.71); //wide, tall
+    this.activeBG.width = this.game.width;
+    this.activeBG.play('stand');
+    this.activeBG.bringToTop();
+    this.activeBG.fixedToCamera = true;
+
     music = this.game.add.audio('menu');
     music.loop = true;
     music.play();
