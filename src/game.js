@@ -110,10 +110,9 @@ RocketTux.Game.prototype = {
     this.sndMouseOver = this.game.add.audio('mouseover');
     this.sndWarp = this.game.add.audio('warp');
     
-    // Populate map
-    this.spawnBlocks();
+    // Populate map with coins, blocks, and enemies
+    this.spawnEntities();
     this.game.world.bringToTop(this.blocks);
-    this.spawnCoins();
     this.game.world.bringToTop(this.coins);
     
     // Put player up front
@@ -456,7 +455,7 @@ RocketTux.Game.prototype = {
         // debug
         //this.theLevel.alpha = 0.5;
     },
-    spawnCoins: function (){
+    spawnEntities: function (){
         var columns = this.mapSections * 40; // 32px tiles
 
         for (var i = 5; i < columns; i++){
@@ -468,16 +467,45 @@ RocketTux.Game.prototype = {
                     continue;
                     
                 var TargetTileIndex = targetTile.index;
-                var coin;
                 var posX = i * 32;
                 var posY = tilePosY * 32;
                 
                 if (TargetTileIndex < 2881){
-                    coin = this.coins.create(posX, posY, 'entities');
-                    coin.animations.add('spin', [36,37,38,39,40], 10, true);
-                    coin.animations.play('spin');
-                    this.setPhysicsProperties(coin, 0, 0, 32, 32, 0, 0);
-                    this.coinsInLevel++;
+                    var spawnWhat = this.roll();
+                    var coin;
+                    var block;
+                    
+                    if (spawnWhat > 94){
+                        // Blue block grants misc item
+                        block = this.blocks.create(posX, posY, 'atlas');
+                        block.frameName = 'blk-misc';
+                        this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                    } else if (spawnWhat > 90){
+                        // Orange block grants rare item and spawns an enemy or detrimental event
+                        block = this.blocks.create(posX, posY, 'atlas');
+                        block.frameName = 'blk-danger';
+                        this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                    } else if (spawnWhat > 88){
+                        // Purple block give a power up
+                        block = this.blocks.create(posX, posY, 'atlas');
+                        block.frameName = 'blk-powerup';
+                        this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                    } else if (spawnWhat > 86){
+                        // Green block offers a quest
+                        block = this.blocks.create(posX, posY, 'atlas');
+                        block.frameName = 'blk-quest';
+                        this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                    }  else {
+                        coin = this.coins.create(posX, posY, 'entities');
+                        coin.animations.add('spin', [36,37,38,39,40], 10, true);
+                        coin.animations.play('spin');
+                        this.setPhysicsProperties(coin, 0, 0, 32, 32, 0, 0);
+                        this.coinsInLevel++;
+                    }
+                    
+                    if (this.roll() > 90){
+                        // Spawn an enemy here too
+                    }
                 }
             }
         }
@@ -493,43 +521,6 @@ RocketTux.Game.prototype = {
     //  Add and update the score
     this.coinsCollected += 1;
     this.coinSound.play();
-  },
-  spawnBlocks: function(){
-    var blockTypes = ["blk-misc", "blk-danger", "blk-powerup", "blk-quest"];
-    var blocksToSpawn = this.game.rnd.between(RocketTux.unlocks.levelSectionsMin, RocketTux.unlocks.levelSectionsMax) + RocketTux.unlocks.levelSectionsMin;
-    var blocksSpawned = 0;
-    var limitedSpawns = 0;
-    var columns = this.mapSections * 40 - 2; // Don't spawn one in the last two columns of the level
-    
-    console.log("Spawning %s blocks!", blocksToSpawn);
-  
-    while (blocksSpawned < blocksToSpawn){
-        var picked = this.pickRandomProperty(blockTypes);
-
-        if (blockTypes[picked] == "blk-powerup" || blockTypes[picked] == "blk-quest")
-            limitedSpawns ++;
-        
-        if (limitedSpawns > 2)
-            picked = this.game.rnd.between(0, 1); // blk-misc, blk-danger
-        
-        var tilePosX = this.game.rnd.between(5, columns);
-        var tilePosY = this.game.rnd.between(10, 20); // Forcing lower locations makes it a bit more challenging
-        var targetTile = this.map.getTile(tilePosX, tilePosY, this.theLevel, true);
-        
-        if (targetTile){
-            var TargetTileIndex = targetTile.index;
-            var block;
-            var posX = tilePosX * 32;
-            var posY = tilePosY * 32;
-            
-            if (TargetTileIndex < 2881){
-                block = this.blocks.create(posX, posY, 'atlas');
-                block.frameName = blockTypes[picked];
-                this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
-                blocksSpawned++;
-            }
-        }
-    }
   },
   openBlock: function(player, block){
     if (block.frameName == 'blk-misc'){ // Blue grants misc item
