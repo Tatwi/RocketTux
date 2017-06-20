@@ -549,6 +549,27 @@ RocketTux.Game.prototype = {
         this.blkDangerSnd.play();
     } else if (block.frameName == 'blk-powerup'){ // Purple give a power up
         this.blkPowerupSnd.play();
+        
+        var pwrupNames = ['star', 'fire', 'water', 'air', 'earth'];
+        var winner = this.rollGame(pwrupNames, RocketTux.favortiePowerUp); // returns string 
+        
+        // Apply buff effect
+        if (winner == 'star'){
+            
+        } else if (winner == 'fire'){
+            
+        } else if (winner == 'water'){
+            
+        } else if (winner == 'air'){
+            
+        } else if (winner == 'earth'){
+            
+        }
+        
+        // Display icon attached to the bottom of the UI bar        
+        this.powerUpIcon;
+        this.panel.add(new SlickUI.Element.DisplayObject(4, 36, this.powerUpIcon = this.game.make.sprite(0, 0, 'atlas')));
+        this.powerUpIcon.frameName = 'pwrup-icon-' + winner;
     } else if (block.frameName == 'blk-quest'){ // Green offers a quest
         this.blkQuestSnd.play();
     } 

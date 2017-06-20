@@ -60,6 +60,7 @@ RocketTux.Preload.prototype = {
     RocketTux.favortieTheme = 'none';
     RocketTux.favortieTime = 'none';
     RocketTux.gameMode = 'normal';
+    RocketTux.favortiePowerUp = 'none'; // Star, Fire, Water, Air, Earth 
     
     RocketTux.unlocks = {
         themes:'snow1,snow2,forest1,candyland', // Unlocks: snow3, forest2, candyland, beach, beachfront
