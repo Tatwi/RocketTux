@@ -1,0 +1,101 @@
+{"frames": [
+    {
+        "filename": "pwrup-icon-star",
+        "frame": {"x":160,"y":0,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "pwrup-icon-fire",
+        "frame": {"x":192,"y":0,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "pwrup-icon-water",
+        "frame": {"x":224,"y":0,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "pwrup-icon-air",
+        "frame": {"x":256,"y":0,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "pwrup-icon-earth",
+        "frame": {"x":288,"y":0,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "pwrup-obj-star",
+        "frame": {"x":160,"y":0,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "pwrup-obj-fire",
+        "frame": {"x":192,"y":32,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "pwrup-obj-water",
+        "frame": {"x":224,"y":32,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "pwrup-obj-air",
+        "frame": {"x":256,"y":32,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "pwrup-obj-earth",
+        "frame": {"x":288,"y":32,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "blk-empty",
+        "frame": {"x":0,"y":32,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "blk-quest",
+        "frame": {"x":32,"y":32,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "blk-danger",
+        "frame": {"x":64,"y":32,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "blk-powerup",
+        "frame": {"x":96,"y":32,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    },
+    {
+        "filename": "blk-misc",
+        "frame": {"x":128,"y":32,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
+    }
+  ],
+  "meta": {
+    "app": "http://www.tpot.ca",
+    "version": "1.0",
+    "image": "world.png",
+    "format": "RGBA8888",
+    "size": {"w":2048,"h":2048},
+    "scale": "1"
+  }
+}

@@ -16,7 +16,8 @@ RocketTux.Preload.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
  
   	// Load game assets
-    this.load.image('world', 'data/world.png');
+    this.load.image('world', 'data/world.png'); // For tilemap
+    this.game.load.atlas('atlas', 'data/world.png', 'data/world.json');  // For all other elements
     this.load.spritesheet('entities', 'data/entities.png', 64, 64);
     this.load.spritesheet('skies', 'data/skies.png', 1024, 1024);
     this.load.spritesheet('skies-special', 'data/skies-special.png', 1024, 1024);

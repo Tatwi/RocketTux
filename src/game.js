@@ -51,6 +51,9 @@ RocketTux.Game.prototype = {
     this.coinsInLevel = 0;
     this.coinSound = this.game.add.audio('collect');
     
+    // Add group for item/powerup/info blocks 
+    this.blocks = this.game.add.group();
+    
     // Add boosts
     this.boosts = Math.max(2, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 2 + bonus
     
@@ -106,6 +109,8 @@ RocketTux.Game.prototype = {
     this.sndWarp = this.game.add.audio('warp');
     
     // Populate map
+    this.spawnBlocks();
+    this.game.world.bringToTop(this.blocks);
     this.spawnCoins();
     this.game.world.bringToTop(this.coins);
     
@@ -482,6 +487,43 @@ RocketTux.Game.prototype = {
     //  Add and update the score
     this.coinsCollected += 1;
     this.coinSound.play();
+  },
+  spawnBlocks: function(){
+    var blockTypes = ["blk-misc", "blk-danger", "blk-powerup", "blk-quest"];
+    var blocksToSpawn = this.game.rnd.between(RocketTux.unlocks.levelSectionsMin, RocketTux.unlocks.levelSectionsMax) + RocketTux.unlocks.levelSectionsMin;
+    var blocksSpawned = 0;
+    var limitedSpawns = 0;
+    var columns = this.mapSections * 40 - 2; // Don't spawn one in the last two columns of the level
+    
+    console.log("Spawning %s blocks!", blocksToSpawn);
+  
+    while (blocksSpawned < blocksToSpawn){
+        var picked = this.pickRandomProperty(blockTypes);
+
+        if (blockTypes[picked] == "blk-powerup" || blockTypes[picked] == "blk-quest")
+            limitedSpawns ++;
+        
+        if (limitedSpawns > 2)
+            picked = this.game.rnd.between(0, 1); // blk-misc, blk-danger
+        
+        var tilePosX = this.game.rnd.between(5, columns);
+        var tilePosY = this.game.rnd.between(10, 20); // Forcing lower locations makes it a bit more challenging
+        var targetTile = this.map.getTile(tilePosX, tilePosY, this.theLevel, true);
+        
+        if (targetTile){
+            var TargetTileIndex = targetTile.index;
+            var block;
+            var posX = tilePosX * 32;
+            var posY = tilePosY * 32;
+            
+            if (TargetTileIndex < 2881){
+                block = this.blocks.create(posX, posY, 'atlas');
+                block.frameName = blockTypes[picked];
+                this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                blocksSpawned++;
+            }
+        }
+    }
   },
   quit: function(){
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects

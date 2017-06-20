@@ -53,7 +53,6 @@ RocketTux.MainMenu.prototype = {
     text = 'My Coins:\n' + localStorage.getItem('RocketTux-myWallet');
    // var displayCoins = this.game.add.text(8, 8, text, style);
    panel.add(new SlickUI.Element.Text(0, 0, text)).center();
-    
   },
   update: function() {
 /*      
