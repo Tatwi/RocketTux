@@ -32,6 +32,12 @@ RocketTux.Preload.prototype = {
     this.load.audio('rocketpack-boost', 'data/sounds/rocketpack-boost.ogg');
     this.load.audio('rocketpack-running', 'data/sounds/rocketpack-running.ogg');
     this.load.audio('rocketpack-boost-fail', 'data/sounds/rocketpack-boost-fail.ogg');
+    this.load.audio('collide', 'data/sounds/collide.ogg');
+    this.load.audio('blk-danger', 'data/sounds/blk-danger.ogg');
+    this.load.audio('blk-misc', 'data/sounds/blk-misc.ogg');
+    this.load.audio('blk-powerup', 'data/sounds/blk-powerup.ogg');
+    this.load.audio('blk-quest', 'data/sounds/blk-quest.ogg');
+    this.load.audio('coin-drop', 'data/sounds/coin-drop.ogg');
     
     // Initialize variables used to generate levels
     this.worldObjects(); // Tiled objects from world texture

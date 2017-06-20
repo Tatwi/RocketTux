@@ -53,6 +53,11 @@ RocketTux.Game.prototype = {
     
     // Add group for item/powerup/info blocks 
     this.blocks = this.game.add.group();
+    this.blkDangerSnd = this.game.add.audio('blk-danger');
+    this.blkMiscSnd = this.game.add.audio('blk-misc');
+    this.blkPowerupSnd = this.game.add.audio('blk-powerup');
+    this.blkQuestSnd = this.game.add.audio('blk-quest');
+    
     
     // Add boosts
     this.boosts = Math.max(2, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 2 + bonus
@@ -89,9 +94,6 @@ RocketTux.Game.prototype = {
     this.flames.animations.add('flames-left', [26,27,28,29], 12, true);
     this.flames.animations.add('idle', [19,20,21,30,31], 8, true);
     
-    // Put flames behind player
-    this.player.bringToTop();
-    
     // Rocketpack sounds
     this.sndRocketStart = this.game.add.audio('rocketpack-start');
     this.sndRocketRunning = this.game.add.audio('rocketpack-running');
@@ -113,6 +115,9 @@ RocketTux.Game.prototype = {
     this.game.world.bringToTop(this.blocks);
     this.spawnCoins();
     this.game.world.bringToTop(this.coins);
+    
+    // Put player up front
+    this.player.bringToTop();
     
     // UI Panel
     this.uiTimer = this.game.time.time + 1000;
@@ -145,6 +150,7 @@ RocketTux.Game.prototype = {
     this.game.physics.arcade.collide(this.player, this.theLevel);
     this.game.physics.arcade.collide(this.coins, this.theLevel);
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
+    this.game.physics.arcade.overlap(this.player, this.blocks, this.openBlock, null, this);
     
     //  Reset player
     this.player.body.velocity.x = 0;
@@ -524,6 +530,19 @@ RocketTux.Game.prototype = {
             }
         }
     }
+  },
+  openBlock: function(player, block){
+    if (block.frameName == 'blk-misc'){ // Blue grants misc item
+        this.blkMiscSnd.play();
+    } else if (block.frameName == 'blk-danger'){ // Orange grants rare item and spawns an enemy or detrimental event
+        this.blkDangerSnd.play();
+    } else if (block.frameName == 'blk-powerup'){ // Purple give a power up
+        this.blkPowerupSnd.play();
+    } else if (block.frameName == 'blk-quest'){ // Green offers a quest
+        this.blkQuestSnd.play();
+    } 
+        
+    block.frameName = 'blk-empty';
   },
   quit: function(){
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects
