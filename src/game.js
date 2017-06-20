@@ -457,9 +457,11 @@ RocketTux.Game.prototype = {
     },
     spawnEntities: function (){
         var columns = this.mapSections * 40; // 32px tiles
+        var powerup = false;
+        var quest = false;
 
         for (var i = 5; i < columns; i++){
-            if (this.roll() > 80){
+            if (this.roll() > 78){
                 var tilePosY = this.game.rnd.between(0, 20);
                 var targetTile = this.map.getTile(i, tilePosY, this.theLevel, true);
                
@@ -473,6 +475,7 @@ RocketTux.Game.prototype = {
                 if (TargetTileIndex < 2881){
                     var spawnWhat = this.roll();
                     var coin;
+                    var doCoin = false;
                     var block;
                     
                     if (spawnWhat > 94){
@@ -486,16 +489,30 @@ RocketTux.Game.prototype = {
                         block.frameName = 'blk-danger';
                         this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
                     } else if (spawnWhat > 88){
-                        // Purple block give a power up
-                        block = this.blocks.create(posX, posY, 'atlas');
-                        block.frameName = 'blk-powerup';
-                        this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                        if (powerup == true){
+                            doCoin = true;
+                        } else {
+                            // Purple block give a power up
+                            block = this.blocks.create(posX, posY, 'atlas');
+                            block.frameName = 'blk-powerup';
+                            this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                            powerup = true;
+                        }
                     } else if (spawnWhat > 86){
-                        // Green block offers a quest
-                        block = this.blocks.create(posX, posY, 'atlas');
-                        block.frameName = 'blk-quest';
-                        this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                        if (quest == true){
+                            doCoin = true;
+                        } else {
+                            // Green block offers a quest
+                            block = this.blocks.create(posX, posY, 'atlas');
+                            block.frameName = 'blk-quest';
+                            this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                            quest = true;
+                        }
                     }  else {
+                        doCoin = true;
+                    }
+                    
+                    if (doCoin){
                         coin = this.coins.create(posX, posY, 'entities');
                         coin.animations.add('spin', [36,37,38,39,40], 10, true);
                         coin.animations.play('spin');
@@ -523,6 +540,9 @@ RocketTux.Game.prototype = {
     this.coinSound.play();
   },
   openBlock: function(player, block){
+    if (block.frameName == 'blk-empty')
+        return;
+      
     if (block.frameName == 'blk-misc'){ // Blue grants misc item
         this.blkMiscSnd.play();
     } else if (block.frameName == 'blk-danger'){ // Orange grants rare item and spawns an enemy or detrimental event
