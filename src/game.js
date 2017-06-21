@@ -122,7 +122,7 @@ RocketTux.Game.prototype = {
     this.uiTimer = this.game.time.time + 1000;
     this.world.add(slickUI.container.displayGroup);
     this.panel;
-    slickUI.add(this.panel = new SlickUI.Element.Panel(4, 8, 360, 38));
+    slickUI.add(this.panel = new SlickUI.Element.Panel(4, 8, 375, 38));
 
     this.btQuit;
     this.panel.add(btQuit = new SlickUI.Element.Button(0, 0, 60, 32));
@@ -130,6 +130,14 @@ RocketTux.Game.prototype = {
     btQuit.events.onInputOver.add(this.toolTipOver, this);
     btQuit.events.onInputOut.add(this.toolTipOut, this);
     btQuit.add(new SlickUI.Element.Text(0, 0, 'Quit')).center();
+    
+    this.powerUpIconButton; // Needed for tooltip/removal, because Slick-UI images don't have events 
+    this.panel.add(this.powerUpIconButton = new SlickUI.Element.Button(333, 0, 32, 32));
+    this.powerUpIconButton.events.onInputOver.add(this.powerupToolTipOver, this);
+    this.powerUpIconButton.events.onInputOut.add(this.powerupToolTipOut, this);
+    this.powerUpIconButton.events.onInputUp.add(this.removePowerUp, this);
+    this.powerUpIconButton.visible = false;
+    this.applyPowerUp(false); // Apply powerup if there is one saved
     
     // UI Coins
     this.displayCoins = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
@@ -140,6 +148,7 @@ RocketTux.Game.prototype = {
     this.displayBoosts = 'Boosts: ' + this.boosts;
     this.lvlBoosts
     this.panel.add(this.lvlBoosts = new SlickUI.Element.Text(210, 0, this.displayBoosts));
+    
   },
 //==================GAME LOOP START========================
   update: function() {
@@ -152,7 +161,9 @@ RocketTux.Game.prototype = {
     this.game.physics.arcade.overlap(this.player, this.blocks, this.openBlock, null, this);
     
     //  Reset player
-    this.player.body.velocity.x = 0;
+    if (!this.cursors.left.isDown || !this.cursors.right.isDown)
+        this.player.body.velocity.x = 0;
+        
     if (!this.player.body.blocked.down){ // Always on when in the air
         if (this.rocketOn == 'left'){
             this.rocketPackIs('left');
@@ -538,6 +549,17 @@ RocketTux.Game.prototype = {
     //  Add and update the score
     this.coinsCollected += 1;
     this.coinSound.play();
+    
+    if (RocketTux.powerUpActive == 'fire'){
+        if (this.boosts > 4)
+            return;
+        
+        if (this.roll() < 90)
+            return;
+            
+        this.boosts++;
+        this.blkPowerupSnd.play();
+    }
   },
   openBlock: function(player, block){
     if (block.frameName == 'blk-empty')
@@ -549,32 +571,106 @@ RocketTux.Game.prototype = {
         this.blkDangerSnd.play();
     } else if (block.frameName == 'blk-powerup'){ // Purple give a power up
         this.blkPowerupSnd.play();
-        
-        var pwrupNames = ['star', 'fire', 'water', 'air', 'earth'];
-        var winner = this.rollGame(pwrupNames, RocketTux.favortiePowerUp); // returns string 
-        
-        // Apply buff effect
-        if (winner == 'star'){
-            
-        } else if (winner == 'fire'){
-            
-        } else if (winner == 'water'){
-            
-        } else if (winner == 'air'){
-            
-        } else if (winner == 'earth'){
-            
-        }
-        
-        // Display icon attached to the bottom of the UI bar        
-        this.powerUpIcon;
-        this.panel.add(new SlickUI.Element.DisplayObject(4, 36, this.powerUpIcon = this.game.make.sprite(0, 0, 'atlas')));
-        this.powerUpIcon.frameName = 'pwrup-icon-' + winner;
+        this.applyPowerUp(true);
     } else if (block.frameName == 'blk-quest'){ // Green offers a quest
         this.blkQuestSnd.play();
     } 
         
     block.frameName = 'blk-empty';
+  },
+  removePowerUp: function(){
+    if (RocketTux.powerUpActive == 'none')
+        return;
+                
+    // Reset stats
+    if (this.powerUpIcon.frameName == 'pwrup-icon-star'){
+        RocketTux.airSpeed -= 10;
+        RocketTux.groundSpeed -= 10;
+    } else if (this.powerUpIcon.frameName == 'pwrup-icon-fire'){
+        RocketTux.airSpeed -= 20;
+    } else if (this.powerUpIcon.frameName == 'pwrup-icon-water'){
+        RocketTux.luck -= 12;
+    } else if (this.powerUpIcon.frameName == 'pwrup-icon-air'){
+        RocketTux.tuxGravity += 15;
+    } else if (this.powerUpIcon.frameName == 'pwrup-icon-earth'){
+        RocketTux.tuxGravity -= 35;
+        RocketTux.luck -= 3;
+    }
+    
+    this.powerUpIcon.destroy();
+    this.powerUpIconButton.visible = false;
+    this.powerupToolTipOut();
+    RocketTux.powerUpActive = 'none';
+    localStorage.setItem('RocketTux-powerUpActive', 'none');
+  },
+  applyPowerUp: function(newPwrup){
+    if (newPwrup){
+        // Roll for new powerup
+        var pwrupNames = ['star', 'fire', 'water', 'air', 'earth'];
+        var winner = this.rollGame(pwrupNames, RocketTux.favortiePowerUp); // returns string
+        
+        this.removePowerUp(); // Replace previous with new
+
+        RocketTux.powerUpActive = winner;
+        localStorage.setItem('RocketTux-powerUpActive', winner);
+    }
+    
+    var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
+    
+    // Show the icon
+    if (tmpPwrup != 'none') {
+        this.powerUpIconButton.visible = true;
+        this.powerUpIcon;
+        this.panel.add(new SlickUI.Element.DisplayObject(333, -2, this.powerUpIcon = this.game.make.sprite(0, 0, 'atlas')));
+        this.powerUpIcon.frameName = 'pwrup-icon-' + RocketTux.powerUpActive;
+    }
+    
+    // Apply buff effect (when new and when loading level, rather than storing it)
+    if (tmpPwrup != 'none' || newPwrup == true) {
+        if (tmpPwrup == 'star'){
+            RocketTux.airSpeed += 10;
+            RocketTux.groundSpeed += 10;
+        } else if (tmpPwrup == 'fire'){
+            RocketTux.airSpeed += 20;
+        } else if (tmpPwrup == 'water'){
+            RocketTux.luck += 12;
+        } else if (tmpPwrup == 'air'){
+            RocketTux.tuxGravity -= 15;
+        } else if (tmpPwrup == 'earth'){
+            RocketTux.tuxGravity += 35;
+            RocketTux.luck += 3;
+        }
+    }
+    
+  },
+  powerupToolTipOver: function(){
+    this.powerupToolTip;
+    slickUI.add(this.powerupToolTip = new SlickUI.Element.Panel(16, 64, 360, 130));
+
+    var txt; 
+    
+    if (RocketTux.powerUpActive == 'star'){
+        txt = 'Star: Makes you fly and run faster.';
+    } else if (RocketTux.powerUpActive == 'fire'){
+        txt = 'Fire: Makes you fly very fast and gives you a chance to gain a boost when collecting coins (up to 5 boosts).';
+    } else if (RocketTux.powerUpActive == 'water'){
+        txt = 'Water: Ice Armor makes you invincible and very lucky at no cost, but the armor is consumed after one use.';
+    } else if (RocketTux.powerUpActive == 'air'){
+        txt = 'Air: Makes you lighter so can jump higher, boost better, and fall more slowly.';
+    } else if (RocketTux.powerUpActive == 'earth'){
+        txt = 'Earth: Stone Form makes you invincible and a bit more lucky, at the cost of making you much heavier.';
+    }
+    
+    txt += " Click this icon to remove the powerup."
+    
+    this.powerupToolTip.add(new SlickUI.Element.Text(4, 0, txt));
+    this.powerupToolTipIsOn = true;
+  },
+  powerupToolTipOut: function(){
+    if (this.powerupToolTipIsOn)
+        this.powerupToolTip.destroy();
+        
+    this.powerupToolTipIsOn = false;
   },
   quit: function(){
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects
@@ -590,6 +686,7 @@ RocketTux.Game.prototype = {
     music.destroy();
     slickUI.container.displayGroup.removeAll(true);
     this.coins.destroy();
+    this.blocks.destroy();
     
     // Calculate bonues
     var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));

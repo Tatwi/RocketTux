@@ -52,15 +52,16 @@ RocketTux.Preload.prototype = {
   },
   otherVariables: function(){
     RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
-    RocketTux.groundSpeed = 180; // Preference up to 220
-    RocketTux.airSpeed = 300; // Preference up to 340. Star +10.
-    RocketTux.boostSpeed = 325; // Preference up to 340. Flame guy +20 at time of collision.
+    RocketTux.groundSpeed = 180; // Preference up to 220. Star +10.
+    RocketTux.airSpeed = 300; // Preference up to 340. Star +10, Fire Flower + 20.
+    RocketTux.boostSpeed = 325; // Preference up to 340. Fire Flower + 10.
     RocketTux.bonusBoosts = 0; // Preference up to 3
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
     RocketTux.favortieTheme = 'none';
     RocketTux.favortieTime = 'none';
     RocketTux.gameMode = 'normal';
-    RocketTux.favortiePowerUp = 'none'; // Star, Fire, Water, Air, Earth 
+    RocketTux.favortiePowerUp = 'none'; // Star, Fire, Water, Air, Earth
+    RocketTux.luck = 0, // Increases chance to get rare loot
     
     RocketTux.unlocks = {
         themes:'snow1,snow2,forest1,candyland', // Unlocks: snow3, forest2, candyland, beach, beachfront
@@ -68,6 +69,16 @@ RocketTux.Preload.prototype = {
         levelSectionsMin: 5, // Unlocks: Upto +5
         levelSectionsMax: 12, // Unlocks: Upto +3
     };
+    
+    // Powerup state
+    RocketTux.powerUpActive = 'none';
+    var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
+    if (tmpPwrup == null || tmpPwrup == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-powerUpActive', 'none');
+    } else {
+        RocketTux.powerUpActive = tmpPwrup;
+    }
   },
   worldObjects: function(){
     // Each of these are 10 tile wide sections of maps. 
