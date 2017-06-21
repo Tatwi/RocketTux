@@ -31,7 +31,7 @@
     },
     {
         "filename": "pwrup-obj-star",
-        "frame": {"x":160,"y":0,"w":32,"h":32},
+        "frame": {"x":160,"y":32,"w":32,"h":32},
         "rotated": false,
         "trimmed": false
     },

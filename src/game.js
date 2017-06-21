@@ -367,9 +367,27 @@ RocketTux.Game.prototype = {
   },
   douseFlames: function(){
     this.boostBlast.destroy();
+  },
+  doParticleExplosion: function(dur, num, fn, onPlayer, x, y, size){
+    // Add special effect
+    var frame = this.game.cache.getFrameData("atlas").getFrameByName(fn);
     
-    //if (boostOnCooldown)
-      //  boostOnCooldown = false;
+    if (onPlayer){
+        x = this.player.body.x;
+        y = this.player.body.y;
+    }
+    
+    this.emitter = this.game.add.emitter(x, y, 100);
+    this.emitter.makeParticles('atlas', frame.index, num, false, false);
+    this.emitter.gravity = 200;
+    this.emitter.setXSpeed(-200, 200);
+    this.emitter.setYSpeed(-200, 200);
+    this.emitter.setScale(0.1, size, 0.1, size, 4000, Phaser.Easing.Quintic.Out);
+    this.emitter.start(true, dur, null, num);
+    this.game.time.events.add(dur, this.destroyEmitter, this);
+  },
+  destroyEmitter: function(){
+    this.emitter.destroy();
   },
   setPhysicsProperties: function(entity, gravity, bounce, boundingBoxSizeX, boundingBoxSizeY, boundingBoxPosX, boundingBoxPosY){
     this.game.physics.arcade.enable(entity);
@@ -613,6 +631,9 @@ RocketTux.Game.prototype = {
 
         RocketTux.powerUpActive = winner;
         localStorage.setItem('RocketTux-powerUpActive', winner);
+        
+        // Add special effect
+        this.doParticleExplosion(5000, 8, 'pwrup-obj-' + RocketTux.powerUpActive, true, 0, 0, 2)
     }
     
     var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
