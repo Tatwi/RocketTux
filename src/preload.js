@@ -80,6 +80,9 @@ RocketTux.Preload.prototype = {
         RocketTux.powerUpActive = tmpPwrup;
     }
     
+    // Loot group values are array positions that represent the icon numbers 0 to 196. 
+    // Numbers are used in the atlas.json like so, invIcon-0, invIcon-1, etc. to point to the images of the icons.
+    // Numbers are also used in the tables below to match the names and descriptions of the items.
     RocketTux.lootgroups = {
         sunrise:{
             snow1:[13,104,140,0,1,2,3,5,6,14,17,30,40,45,55,68,91,107,108,148,149,155,159,170,178,179,195,9,10,20,21,22,23,27,33,35,41,44,48,62,63,66,74,75,77,83,84,85,86,87,88,101,103,106,110,111,112,114,115,116,117,118,119,120,121,122,126,127,128,130,131,132,133,134,135,136,137,139,146,150,151,152,153,154,156,161,163,165,167,176,181,182,185,187,188,189,190],
@@ -114,7 +117,6 @@ RocketTux.Preload.prototype = {
         }, 
         rares:[13,104,140,96,142,90,177,61,65,4,56,47,169,174,80,162,52,143,16,64,28,194,12,54,79,171,7,11,129,164,73,94,113,59,99,76,192,51,78,24,39]
     };
-    
   },
   worldObjects: function(){
     // Each of these are 10 tile wide sections of maps. 

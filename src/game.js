@@ -27,8 +27,10 @@ RocketTux.Game.prototype = {
     // Add background for special themes or based on the time of day
     if (this.theme == 'candyland'){
         this.addBackground('skies-special', 2);
+        this.timeOfDay = 'day';
     } else if (this.theme.indexOf('beach') > -1) {
         this.addBackground('skies-special', 0);
+        this.timeOfDay = 'day';
     } else {
         if (this.timeOfDay == 'sunrise') {
             this.addBackground('skies', 0);
