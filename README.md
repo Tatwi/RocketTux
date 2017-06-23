@@ -129,7 +129,7 @@ This is an open source project that stands on the backs of many others, which is
 - Level Building: [Tiled](http://www.mapeditor.org/) by Thorbjørn Lindeijer.
 - User Interface: [Slick-UI](https://github.com/Flaxis/slick-ui.git) by Richard Snijders, with the [Kenney Theme](http://kenney.nl/assets/ui-pack) by the Kenney Vleugels.
 - Operating System: [Debian](http://www.debian.org/), [Linux Mint](https://linuxmint.com/), [XFCE](https://xfce.org/), [Google ChromeOS](https://www.chromium.org/chromium-os).
-- Graphics: [GIMP](https://www.gimp.org/).
+- Graphics: [GIMP](https://www.gimp.org/) with some brushes by [Bill Scott](http://www.texturemate.com/content/about).
 - Sound: [Audacity](http://www.audacityteam.org/), [Sunvox](http://www.warmplace.ru/soft/sunvox/) by Alexander Zolotov.
 - Misc: [Git](https://git-scm.com/), [GitHub](https://github.com/), [Geany](http://www.geany.org/), [Thunar](https://en.wikipedia.org/wiki/Thunar), [Firefox Browser](https://www.mozilla.org/en-US/).
 
