@@ -59,6 +59,7 @@ RocketTux.Game.prototype = {
     this.blkMiscSnd = this.game.add.audio('blk-misc');
     this.blkPowerupSnd = this.game.add.audio('blk-powerup');
     this.blkQuestSnd = this.game.add.audio('blk-quest');
+    this.itemsCollected = [];
     
     
     // Add boosts
@@ -140,6 +141,15 @@ RocketTux.Game.prototype = {
     this.powerUpIconButton.events.onInputUp.add(this.removePowerUp, this);
     this.powerUpIconButton.visible = false;
     this.applyPowerUp(false); // Apply powerup if there is one saved
+    
+    // "Adventure Bag" Panel
+    this.lootPanel;
+    slickUI.add(this.lootPanel = new SlickUI.Element.Panel(8, 48, 232, 210));
+    var bagName;
+    this.lootPanel.add(bagName = new SlickUI.Element.Text(0, 0, 'Adventure Bag'));
+    bagName.centerHorizontally();
+    this.lootPanel.visible = false;
+    this.lootIconRowCount = 0; // Resets x position on display of items that have been collected
     
     // UI Coins
     this.displayCoins = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
@@ -261,6 +271,9 @@ RocketTux.Game.prototype = {
             music.volume = 0.5;
         }
         
+        this.globalCooldownStart(1);
+    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.B, 1)){ 
+        this.toggleBag();
         this.globalCooldownStart(1);
     }
   },
@@ -698,23 +711,40 @@ RocketTux.Game.prototype = {
     this.powerupToolTipIsOn = false;
   },
   grantLootItem: function(blockName){
-    var itemNumber = 0;
+    var itemNumber = RocketTux.lootgroups[this.timeOfDay][this.theme][Math.floor(Math.random() * RocketTux.lootgroups[this.timeOfDay][this.theme].length)];
     
-    if (blockName == 'blk-danger' && this.roll() > 98 - RocketTux.luck){
-        // Pick a rare item
-       itemNumber = RocketTux.lootgroups.rares[Math.floor(Math.random() * RocketTux.lootgroups.rares.length)]
-        
-        //console.log("Rare Loot: " + loot);
-    } else {
-        // Pick a normal item for this level and time of day
-        itemNumber = RocketTux.lootgroups[this.timeOfDay][this.theme][Math.floor(Math.random() * RocketTux.lootgroups[this.timeOfDay][this.theme].length)]
-        
-        //console.log("Normal Loot: " + loot);
+    if (blockName == 'blk-danger'){
+        if (this.roll() > 98 - RocketTux.luck)
+            itemNumber = RocketTux.lootgroups.rares[Math.floor(Math.random() * RocketTux.lootgroups.rares.length)]; // Rare item
     }
     
-    var bob = this.game.add.sprite(12, 64, 'atlas');
-    bob.frameName = 'icon-' + itemNumber;
-    bob.fixedToCamera = true;
+    // Track items collected this level
+    this.itemsCollected[this.itemsCollected.length] = itemNumber;
+
+    // Add item to the loot bag
+    var posY = 24 + 37 * Math.floor((this.itemsCollected.length - 1) / 6);
+    
+    if (this.lootIconRowCount > 5)
+        this.lootIconRowCount = 0;
+    
+    var posX = 2 + this.lootIconRowCount * 37;
+        
+    this.lootPanel.add(new SlickUI.Element.DisplayObject(posX, posY, this.latestLootIcon = this.game.make.sprite(0, 0, 'atlas')));
+    this.latestLootIcon.frameName = 'icon-' + itemNumber;
+    
+    this.lootIconRowCount++;
+  },
+  toggleBag: function(){
+    if (this.lootPanel.visible){
+        this.lootPanel.visible = false;
+    } else {
+        this.lootPanel.visible = true;
+    }
+  },
+  lootToolTipShrink: function(){
+    this.oldLoot.visible = false;
+    this.lootPanel.width = 36;
+    this.lootToolTipExpanded = false;
   },
   quit: function(){
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects

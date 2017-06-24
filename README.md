@@ -109,6 +109,7 @@ Now that you have the game running, you can add a link for it on your desktop an
 - Up Arrow: Gain altitude when collecting coins ("coin jump"). Hover when in the air.
 - Down Arrow: Hover when in the air. Do NOT altitude when collecting coins (handy for collecting a row of coins). Duck when on the ground.
 - Music Controls: M for mute, Comma for quieter, Period for louder.
+- B: Toggles the display of your Adventure Bag, which show the items you found in a level.
 
 ### Gameplay Tips
 - Each map is a puzzle, where the idea is to collect as many coins as possible. However, you only have so many boosts and "coin jumps" to get up to the high coins and to get over obstacles. So the biggest tip is to go back and forth and get all the highest coins first, then work your way down. 
