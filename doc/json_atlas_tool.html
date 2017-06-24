@@ -1,0 +1,84 @@
+<!-- 
+JSON Tilemap Atlas Tool
+- Makes entries for square tiles. 
+Created by R. Bassett Jr. (Tatwi) for use with the RocketTux. 
+Released under the General Public Licence, version 3
+June, 2017
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<script>
+
+
+function gogo(form){
+    var startPixelX = parseInt(form.elements['startPixelX'].value);
+    var startPixelY = parseInt(form.elements['startPixelY'].value);
+	var tileSize = parseInt(form.elements['tileSize'].value);
+    var tilesPerRow = parseInt(form.elements['tilesPerRow'].value);
+    var rows = parseInt(form.elements['rows'].value);
+    var prefix = form.elements['prefix'].value;
+    var startNumber = parseInt(form.elements['startNumber'].value);
+
+    var rowCounter = 0;
+    var rowBump = 0;
+    
+	for (var i=0; i < tilesPerRow * rows; i++){
+        var numb = startNumber + i;
+        
+        if (rowCounter == tilesPerRow){
+            rowCounter = 0;
+            rowBump += tileSize;
+        }
+        
+        var posX = startPixelX + (tileSize * rowCounter);
+        var posY = startPixelY + rowBump;
+        
+        document.write("{<br>");
+        document.write("\"filename\": \"" + prefix + "-" + numb + "\",<br>");
+        document.write("\"frame\": " + "{\"x\":" +  posX + ",\"y\":" + posY  + ",\"w\":" + tileSize + ",\"h\":" + tileSize + "},<br>");
+        document.write("\"rotated\": false,<br>");
+        document.write("\"trimmed\": false<br>");
+        document.write("},<br>");
+        
+        rowCounter++;
+    }
+ }
+ 
+
+</script>
+</head>
+<body>
+<form id="frm1">
+	<h1>JSON Tilemap Atlas Tool</h1>
+	<br />
+    Pixel number where on the atlas image where the tiles start is <input type="input" name="startPixelX" size="6" value="" /> on the x axis.
+    <br />
+    Pixel number where on the atlas image where the tiles start is <input type="input" name="startPixelY" size="6" value="" /> on the y axis.
+    <br />
+	Tiles are <input type="input" name="tileSize" size="4" value="" /> pixel sized squares.
+    <br />
+	Rows are <input type="input" name="tilesPerRow" size="6" value="" /> tiles wide.
+    <br />
+	Number of rows to make <input type="input" name="rows" size="6" value="" />.
+    <br />
+	Filename prefix is <input type="input" name="prefix" size="6" value="" />, which looks like filename="myIcons-0" in the end.
+    <br />
+	Number to start counting at is <input type="input" name="startNumber" size="6" value="" /> for the filename field, as seen above.
+    
+	
+	<p><input type="button" value="Calculate" onclick="gogo(this.form)" />
+	<p>
+	<pre>
+    This tool that I used to create the JSON entries I needed for the 192 icons in RocketTux. 
+    
+    It assumes that a portion of your atlas image is a square that contains a bunch of square tiles.
+    The tiles don't need to fill the whole image left to right, but they do all need to be the same
+    width and height (for the purpose of this tool).
+    </pre>
+	
+	</p>
+ </form>
+</body>
+</html>

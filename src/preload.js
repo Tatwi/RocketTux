@@ -81,7 +81,7 @@ RocketTux.Preload.prototype = {
     }
     
     // Loot group values are array positions that represent the icon numbers 0 to 196. 
-    // Numbers are used in the atlas.json like so, invIcon-0, invIcon-1, etc. to point to the images of the icons.
+    // Numbers are used in the atlas.json like so, icon-0, icon-1, etc. to point to the images of the icons.
     // Numbers are also used in the tables below to match the names and descriptions of the items.
     RocketTux.lootgroups = {
         sunrise:{

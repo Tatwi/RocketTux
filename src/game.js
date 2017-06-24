@@ -587,8 +587,10 @@ RocketTux.Game.prototype = {
       
     if (block.frameName == 'blk-misc'){ // Blue grants misc item
         this.blkMiscSnd.play();
+        this.grantLootItem(block.frameName);
     } else if (block.frameName == 'blk-danger'){ // Orange grants rare item and spawns an enemy or detrimental event
         this.blkDangerSnd.play();
+        this.grantLootItem(block.frameName);
     } else if (block.frameName == 'blk-powerup'){ // Purple give a power up
         this.blkPowerupSnd.play();
         this.applyPowerUp(true);
@@ -694,6 +696,25 @@ RocketTux.Game.prototype = {
         this.powerupToolTip.destroy();
         
     this.powerupToolTipIsOn = false;
+  },
+  grantLootItem: function(blockName){
+    var itemNumber = 0;
+    
+    if (blockName == 'blk-danger' && this.roll() > 98 - RocketTux.luck){
+        // Pick a rare item
+       itemNumber = RocketTux.lootgroups.rares[Math.floor(Math.random() * RocketTux.lootgroups.rares.length)]
+        
+        //console.log("Rare Loot: " + loot);
+    } else {
+        // Pick a normal item for this level and time of day
+        itemNumber = RocketTux.lootgroups[this.timeOfDay][this.theme][Math.floor(Math.random() * RocketTux.lootgroups[this.timeOfDay][this.theme].length)]
+        
+        //console.log("Normal Loot: " + loot);
+    }
+    
+    var bob = this.game.add.sprite(12, 64, 'atlas');
+    bob.frameName = 'icon-' + itemNumber;
+    bob.fixedToCamera = true;
   },
   quit: function(){
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects
