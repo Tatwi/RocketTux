@@ -27,8 +27,10 @@ RocketTux.Game.prototype = {
     // Add background for special themes or based on the time of day
     if (this.theme == 'candyland'){
         this.addBackground('skies-special', 2);
+        this.timeOfDay = 'day';
     } else if (this.theme.indexOf('beach') > -1) {
         this.addBackground('skies-special', 0);
+        this.timeOfDay = 'day';
     } else {
         if (this.timeOfDay == 'sunrise') {
             this.addBackground('skies', 0);
@@ -50,6 +52,15 @@ RocketTux.Game.prototype = {
     this.coinsCollected = 0;
     this.coinsInLevel = 0;
     this.coinSound = this.game.add.audio('collect');
+    
+    // Add group for item/powerup/info blocks 
+    this.blocks = this.game.add.group();
+    this.blkDangerSnd = this.game.add.audio('blk-danger');
+    this.blkMiscSnd = this.game.add.audio('blk-misc');
+    this.blkPowerupSnd = this.game.add.audio('blk-powerup');
+    this.blkQuestSnd = this.game.add.audio('blk-quest');
+    this.itemsCollected = [];
+    
     
     // Add boosts
     this.boosts = Math.max(2, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 2 + bonus
@@ -86,9 +97,6 @@ RocketTux.Game.prototype = {
     this.flames.animations.add('flames-left', [26,27,28,29], 12, true);
     this.flames.animations.add('idle', [19,20,21,30,31], 8, true);
     
-    // Put flames behind player
-    this.player.bringToTop();
-    
     // Rocketpack sounds
     this.sndRocketStart = this.game.add.audio('rocketpack-start');
     this.sndRocketRunning = this.game.add.audio('rocketpack-running');
@@ -105,15 +113,19 @@ RocketTux.Game.prototype = {
     this.sndMouseOver = this.game.add.audio('mouseover');
     this.sndWarp = this.game.add.audio('warp');
     
-    // Populate map
-    this.spawnCoins();
+    // Populate map with coins, blocks, and enemies
+    this.spawnEntities();
+    this.game.world.bringToTop(this.blocks);
     this.game.world.bringToTop(this.coins);
+    
+    // Put player up front
+    this.player.bringToTop();
     
     // UI Panel
     this.uiTimer = this.game.time.time + 1000;
     this.world.add(slickUI.container.displayGroup);
     this.panel;
-    slickUI.add(this.panel = new SlickUI.Element.Panel(4, 8, 360, 38));
+    slickUI.add(this.panel = new SlickUI.Element.Panel(4, 8, 375, 38));
 
     this.btQuit;
     this.panel.add(btQuit = new SlickUI.Element.Button(0, 0, 60, 32));
@@ -121,6 +133,36 @@ RocketTux.Game.prototype = {
     btQuit.events.onInputOver.add(this.toolTipOver, this);
     btQuit.events.onInputOut.add(this.toolTipOut, this);
     btQuit.add(new SlickUI.Element.Text(0, 0, 'Quit')).center();
+    
+    this.powerUpIconButton; // Needed for tooltip/removal, because Slick-UI images don't have events 
+    this.panel.add(this.powerUpIconButton = new SlickUI.Element.Button(333, 0, 32, 32));
+    this.powerUpIconButton.events.onInputOver.add(this.powerupToolTipOver, this);
+    this.powerUpIconButton.events.onInputOut.add(this.powerupToolTipOut, this);
+    this.powerUpIconButton.events.onInputUp.add(this.removePowerUp, this);
+    this.powerUpIconButton.visible = false;
+    this.applyPowerUp(false); // Apply powerup if there is one saved
+    
+    // Quest Window
+    this.questPrompt;
+    slickUI.add(this.questPrompt = new SlickUI.Element.Panel(8, 48, 360, 480));
+    this.questPrompt.visible = false;
+    this.acceptButton;
+    this.questPrompt.add(this.acceptButton = new SlickUI.Element.Button(178, 420, 170, 60));
+    this.acceptButton.events.onInputUp.add(this.acceptQuest, this);
+    this.acceptButton.add(new SlickUI.Element.Text(0, 0, 'Accept')).center();
+    this.declineButton;
+    this.questPrompt.add(this.declineButton = new SlickUI.Element.Button(0, 420, 170, 60));
+    this.declineButton.events.onInputUp.add(this.declineQuest, this);
+    this.declineButton.add(new SlickUI.Element.Text(0, 0, 'Decline')).center();
+    
+    // "Adventure Bag" Panel
+    this.lootPanel;
+    slickUI.add(this.lootPanel = new SlickUI.Element.Panel(8, 48, 232, 210));
+    var bagName;
+    this.lootPanel.add(bagName = new SlickUI.Element.Text(0, 0, 'Adventure Bag'));
+    bagName.centerHorizontally();
+    this.lootPanel.visible = false;
+    this.lootIconRowCount = 0; // Resets x position on display of items that have been collected
     
     // UI Coins
     this.displayCoins = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
@@ -131,6 +173,7 @@ RocketTux.Game.prototype = {
     this.displayBoosts = 'Boosts: ' + this.boosts;
     this.lvlBoosts
     this.panel.add(this.lvlBoosts = new SlickUI.Element.Text(210, 0, this.displayBoosts));
+    
   },
 //==================GAME LOOP START========================
   update: function() {
@@ -140,9 +183,12 @@ RocketTux.Game.prototype = {
     this.game.physics.arcade.collide(this.player, this.theLevel);
     this.game.physics.arcade.collide(this.coins, this.theLevel);
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
+    this.game.physics.arcade.overlap(this.player, this.blocks, this.openBlock, null, this);
     
     //  Reset player
-    this.player.body.velocity.x = 0;
+    if (!this.cursors.left.isDown || !this.cursors.right.isDown)
+        this.player.body.velocity.x = 0;
+        
     if (!this.player.body.blocked.down){ // Always on when in the air
         if (this.rocketOn == 'left'){
             this.rocketPackIs('left');
@@ -238,6 +284,9 @@ RocketTux.Game.prototype = {
             music.volume = 0.5;
         }
         
+        this.globalCooldownStart(1);
+    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.B, 1)){ 
+        this.toggleBag();
         this.globalCooldownStart(1);
     }
   },
@@ -346,9 +395,27 @@ RocketTux.Game.prototype = {
   },
   douseFlames: function(){
     this.boostBlast.destroy();
+  },
+  doParticleExplosion: function(dur, num, fn, onPlayer, x, y, size){
+    // Add special effect
+    var frame = this.game.cache.getFrameData("atlas").getFrameByName(fn);
     
-    //if (boostOnCooldown)
-      //  boostOnCooldown = false;
+    if (onPlayer){
+        x = this.player.body.x;
+        y = this.player.body.y;
+    }
+    
+    this.emitter = this.game.add.emitter(x, y, 100);
+    this.emitter.makeParticles('atlas', frame.index, num, false, false);
+    this.emitter.gravity = 200;
+    this.emitter.setXSpeed(-200, 200);
+    this.emitter.setYSpeed(-200, 200);
+    this.emitter.setScale(0.1, size, 0.1, size, 4000, Phaser.Easing.Quintic.Out);
+    this.emitter.start(true, dur, null, num);
+    this.game.time.events.add(dur, this.destroyEmitter, this);
+  },
+  destroyEmitter: function(){
+    this.emitter.destroy();
   },
   setPhysicsProperties: function(entity, gravity, bounce, boundingBoxSizeX, boundingBoxSizeY, boundingBoxPosX, boundingBoxPosY){
     this.game.physics.arcade.enable(entity);
@@ -445,11 +512,13 @@ RocketTux.Game.prototype = {
         // debug
         //this.theLevel.alpha = 0.5;
     },
-    spawnCoins: function (){
+    spawnEntities: function (){
         var columns = this.mapSections * 40; // 32px tiles
+        var powerup = false;
+        var quest = false;
 
         for (var i = 5; i < columns; i++){
-            if (this.roll() > 80){
+            if (this.roll() > 78){
                 var tilePosY = this.game.rnd.between(0, 20);
                 var targetTile = this.map.getTile(i, tilePosY, this.theLevel, true);
                
@@ -457,16 +526,60 @@ RocketTux.Game.prototype = {
                     continue;
                     
                 var TargetTileIndex = targetTile.index;
-                var coin;
                 var posX = i * 32;
                 var posY = tilePosY * 32;
                 
                 if (TargetTileIndex < 2881){
-                    coin = this.coins.create(posX, posY, 'entities');
-                    coin.animations.add('spin', [36,37,38,39,40], 10, true);
-                    coin.animations.play('spin');
-                    this.setPhysicsProperties(coin, 0, 0, 32, 32, 0, 0);
-                    this.coinsInLevel++;
+                    var spawnWhat = this.roll();
+                    var coin;
+                    var doCoin = false;
+                    var block;
+                    
+                    if (spawnWhat > 94){
+                        // Blue block grants misc item
+                        block = this.blocks.create(posX, posY, 'atlas');
+                        block.frameName = 'blk-misc';
+                        this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                    } else if (spawnWhat > 90){
+                        // Orange block grants rare item and spawns an enemy or detrimental event
+                        block = this.blocks.create(posX, posY, 'atlas');
+                        block.frameName = 'blk-danger';
+                        this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                    } else if (spawnWhat > 88){
+                        if (powerup == true){
+                            doCoin = true;
+                        } else {
+                            // Purple block give a power up
+                            block = this.blocks.create(posX, posY, 'atlas');
+                            block.frameName = 'blk-powerup';
+                            this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                            powerup = true;
+                        }
+                    } else if (spawnWhat > 86){
+                        if (quest == true){
+                            doCoin = true;
+                        } else {
+                            // Green block offers a quest
+                            block = this.blocks.create(posX, posY, 'atlas');
+                            block.frameName = 'blk-quest';
+                            this.setPhysicsProperties(block, 0, 0, 32, 32, 0, 0);
+                            quest = true;
+                        }
+                    }  else {
+                        doCoin = true;
+                    }
+                    
+                    if (doCoin){
+                        coin = this.coins.create(posX, posY, 'entities');
+                        coin.animations.add('spin', [36,37,38,39,40], 10, true);
+                        coin.animations.play('spin');
+                        this.setPhysicsProperties(coin, 0, 0, 32, 32, 0, 0);
+                        this.coinsInLevel++;
+                    }
+                    
+                    if (this.roll() > 90){
+                        // Spawn an enemy here too
+                    }
                 }
             }
         }
@@ -482,6 +595,179 @@ RocketTux.Game.prototype = {
     //  Add and update the score
     this.coinsCollected += 1;
     this.coinSound.play();
+    
+    if (RocketTux.powerUpActive == 'fire'){
+        if (this.boosts > 4)
+            return;
+        
+        if (this.roll() < 90)
+            return;
+            
+        this.boosts++;
+        this.blkPowerupSnd.play();
+    }
+  },
+  openBlock: function(player, block){
+    if (block.frameName == 'blk-empty')
+        return;
+      
+    if (block.frameName == 'blk-misc'){ // Blue grants misc item
+        this.blkMiscSnd.play();
+        this.grantLootItem(block.frameName);
+    } else if (block.frameName == 'blk-danger'){ // Orange grants rare item and spawns an enemy or detrimental event
+        this.blkDangerSnd.play();
+        this.grantLootItem(block.frameName);
+    } else if (block.frameName == 'blk-powerup'){ // Purple give a power up
+        this.blkPowerupSnd.play();
+        this.applyPowerUp(true);
+    } else if (block.frameName == 'blk-quest'){ // Green offers a quest
+        this.blkQuestSnd.play();
+        
+        this.questPrompt.visible = true;
+        var txt = "This is the window that opens when you get a quest. When the quest system is complete, it will be much cooler!";
+        this.questPrompt.add(new SlickUI.Element.Text(4, 0, txt));        
+    } 
+        
+    block.frameName = 'blk-empty';
+  },
+  acceptQuest: function(){
+    this.questPrompt.visible = false;
+  },
+  declineQuest: function(){
+    this.questPrompt.visible = false;
+  },
+  removePowerUp: function(){
+    if (RocketTux.powerUpActive == 'none')
+        return;
+                
+    // Reset stats
+    if (this.powerUpIcon.frameName == 'pwrup-icon-star'){
+        RocketTux.airSpeed -= 10;
+        RocketTux.groundSpeed -= 10;
+    } else if (this.powerUpIcon.frameName == 'pwrup-icon-fire'){
+        RocketTux.airSpeed -= 20;
+    } else if (this.powerUpIcon.frameName == 'pwrup-icon-water'){
+        RocketTux.luck -= 12;
+    } else if (this.powerUpIcon.frameName == 'pwrup-icon-air'){
+        RocketTux.tuxGravity += 15;
+    } else if (this.powerUpIcon.frameName == 'pwrup-icon-earth'){
+        RocketTux.tuxGravity -= 35;
+        RocketTux.luck -= 3;
+    }
+    
+    this.powerUpIcon.destroy();
+    this.powerUpIconButton.visible = false;
+    this.powerupToolTipOut();
+    RocketTux.powerUpActive = 'none';
+    localStorage.setItem('RocketTux-powerUpActive', 'none');
+  },
+  applyPowerUp: function(newPwrup){
+    if (newPwrup){
+        // Roll for new powerup
+        var pwrupNames = ['star', 'fire', 'water', 'air', 'earth'];
+        var winner = this.rollGame(pwrupNames, RocketTux.favortiePowerUp); // returns string
+        
+        this.removePowerUp(); // Replace previous with new
+
+        RocketTux.powerUpActive = winner;
+        localStorage.setItem('RocketTux-powerUpActive', winner);
+        
+        // Add special effect
+        this.doParticleExplosion(5000, 8, 'pwrup-obj-' + RocketTux.powerUpActive, true, 0, 0, 2)
+    }
+    
+    var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
+    
+    // Show the icon
+    if (tmpPwrup != 'none') {
+        this.powerUpIconButton.visible = true;
+        this.powerUpIcon;
+        this.panel.add(new SlickUI.Element.DisplayObject(333, -2, this.powerUpIcon = this.game.make.sprite(0, 0, 'atlas')));
+        this.powerUpIcon.frameName = 'pwrup-icon-' + RocketTux.powerUpActive;
+    }
+    
+    // Apply buff effect (when new and when loading level, rather than storing it)
+    if (tmpPwrup != 'none' || newPwrup == true) {
+        if (tmpPwrup == 'star'){
+            RocketTux.airSpeed += 10;
+            RocketTux.groundSpeed += 10;
+        } else if (tmpPwrup == 'fire'){
+            RocketTux.airSpeed += 20;
+        } else if (tmpPwrup == 'water'){
+            RocketTux.luck += 12;
+        } else if (tmpPwrup == 'air'){
+            RocketTux.tuxGravity -= 15;
+        } else if (tmpPwrup == 'earth'){
+            RocketTux.tuxGravity += 35;
+            RocketTux.luck += 3;
+        }
+    }
+    
+  },
+  powerupToolTipOver: function(){
+    this.powerupToolTip;
+    slickUI.add(this.powerupToolTip = new SlickUI.Element.Panel(16, 64, 360, 130));
+
+    var txt; 
+    
+    if (RocketTux.powerUpActive == 'star'){
+        txt = 'Star: Makes you fly and run faster.';
+    } else if (RocketTux.powerUpActive == 'fire'){
+        txt = 'Fire: Makes you fly very fast and gives you a chance to gain a boost when collecting coins (up to 5 boosts).';
+    } else if (RocketTux.powerUpActive == 'water'){
+        txt = 'Water: Ice Armor makes you invincible and very lucky at no cost, but the armor is consumed after one use.';
+    } else if (RocketTux.powerUpActive == 'air'){
+        txt = 'Air: Makes you lighter so can jump higher, boost better, and fall more slowly.';
+    } else if (RocketTux.powerUpActive == 'earth'){
+        txt = 'Earth: Stone Form makes you invincible and a bit more lucky, at the cost of making you much heavier.';
+    }
+    
+    txt += " Click this icon to remove the powerup."
+    
+    this.powerupToolTip.add(new SlickUI.Element.Text(4, 0, txt));
+    this.powerupToolTipIsOn = true;
+  },
+  powerupToolTipOut: function(){
+    if (this.powerupToolTipIsOn)
+        this.powerupToolTip.destroy();
+        
+    this.powerupToolTipIsOn = false;
+  },
+  grantLootItem: function(blockName){
+    var itemNumber = RocketTux.lootgroups[this.timeOfDay][this.theme][Math.floor(Math.random() * RocketTux.lootgroups[this.timeOfDay][this.theme].length)];
+    
+    if (blockName == 'blk-danger'){
+        if (this.roll() > 98 - RocketTux.luck)
+            itemNumber = RocketTux.lootgroups.rares[Math.floor(Math.random() * RocketTux.lootgroups.rares.length)]; // Rare item
+    }
+    
+    // Track items collected this level
+    this.itemsCollected[this.itemsCollected.length] = itemNumber;
+
+    // Add item to the loot bag
+    var posY = 24 + 37 * Math.floor((this.itemsCollected.length - 1) / 6);
+    
+    if (this.lootIconRowCount > 5)
+        this.lootIconRowCount = 0;
+    
+    var posX = 2 + this.lootIconRowCount * 37;
+        
+    this.lootPanel.add(new SlickUI.Element.DisplayObject(posX, posY, this.latestLootIcon = this.game.make.sprite(0, 0, 'atlas')));
+    this.latestLootIcon.frameName = 'icon-' + itemNumber;
+    
+    this.lootIconRowCount++;
+  },
+  toggleBag: function(){
+    if (this.lootPanel.visible){
+        this.lootPanel.visible = false;
+    } else {
+        this.lootPanel.visible = true;
+    }
+  },
+  lootToolTipShrink: function(){
+    this.oldLoot.visible = false;
+    this.lootPanel.width = 36;
+    this.lootToolTipExpanded = false;
   },
   quit: function(){
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects
@@ -497,6 +783,7 @@ RocketTux.Game.prototype = {
     music.destroy();
     slickUI.container.displayGroup.removeAll(true);
     this.coins.destroy();
+    this.blocks.destroy();
     
     // Calculate bonues
     var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
