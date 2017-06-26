@@ -142,6 +142,19 @@ RocketTux.Game.prototype = {
     this.powerUpIconButton.visible = false;
     this.applyPowerUp(false); // Apply powerup if there is one saved
     
+    // Quest Window
+    this.questPrompt;
+    slickUI.add(this.questPrompt = new SlickUI.Element.Panel(8, 48, 360, 480));
+    this.questPrompt.visible = false;
+    this.acceptButton;
+    this.questPrompt.add(this.acceptButton = new SlickUI.Element.Button(178, 420, 170, 60));
+    this.acceptButton.events.onInputUp.add(this.acceptQuest, this);
+    this.acceptButton.add(new SlickUI.Element.Text(0, 0, 'Accept')).center();
+    this.declineButton;
+    this.questPrompt.add(this.declineButton = new SlickUI.Element.Button(0, 420, 170, 60));
+    this.declineButton.events.onInputUp.add(this.declineQuest, this);
+    this.declineButton.add(new SlickUI.Element.Text(0, 0, 'Decline')).center();
+    
     // "Adventure Bag" Panel
     this.lootPanel;
     slickUI.add(this.lootPanel = new SlickUI.Element.Panel(8, 48, 232, 210));
@@ -609,9 +622,19 @@ RocketTux.Game.prototype = {
         this.applyPowerUp(true);
     } else if (block.frameName == 'blk-quest'){ // Green offers a quest
         this.blkQuestSnd.play();
+        
+        this.questPrompt.visible = true;
+        var txt = "This is the window that opens when you get a quest. When the quest system is complete, it will be much cooler!";
+        this.questPrompt.add(new SlickUI.Element.Text(4, 0, txt));        
     } 
         
     block.frameName = 'blk-empty';
+  },
+  acceptQuest: function(){
+    this.questPrompt.visible = false;
+  },
+  declineQuest: function(){
+    this.questPrompt.visible = false;
   },
   removePowerUp: function(){
     if (RocketTux.powerUpActive == 'none')
