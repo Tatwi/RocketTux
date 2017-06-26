@@ -49,9 +49,9 @@ When version 1.0 is released, the following game play will be available.
 ### Installation
 RocketTux is built as an "HTML5 web app" that is optimized to run well on basic Chromebooks or on desktops using the Google Chrome browser (it's slow in Firefox and I don't recommend using anything other than Google Chrome for the game). This makes RocketTux "cross platform compatible" with any system that can run a the Chrome web browser (either Google's version or the open source "Chromium" version), which means it will work on Chromebooks and Linux/Window/Mac PCs! Heck, it even runs on my Samsung Galaxy S6 Android phone, but at this time there aren't any touch screen controls for the game (Perhaps I will make them eventually). Chrome makes for a great "run time environment" for WEBGL applications.  
 
-Until such a time as I create a website to host the game, you will need to download it run it at home. However, there is a catch!  
+Until such a time as I package the final version for Linux and Windows, you will need to download it run it at home. However, there is a catch!  
 
-To run RocketTux at home, you'll need to use a "local web server" on your computer to "host" the game. This sounds complicated (and you *can* make it complicated...), but there are some really simple tools available on Linux, Mac, and Windows. Here is how you can download and run RocketTux:
+To run RocketTux at home, you'll (most likely) need to use a "local web server" on your computer to "host" the game. This sounds complicated (and you *can* make it complicated...), but there are some really simple tools available on Linux, Mac, and Windows. Here is how you can download and run RocketTux:
 
 #### Linux
 - Personally, on my Linux Mint 17 desktop I use the web server that is built into Python version 2.7.6. It is dead simple to use and requires exactly *no setup at all* (beyond installing Python). The following instructions are for using the Python web server in Debian/Mint/Ubuntu 64Bit Linux with the Google Chrome browser.
@@ -90,8 +90,9 @@ Now that you have the game running, you can add a link for it on your desktop an
 
     
 #### Windows
-- Untested, unsupported.
-- Please search the web on how to install and run a web server in Windows. The rest of steps are pretty much the same as for Linux (though you can download Chrome from Google's website rather than using the command prompt).
+- Unsupported.
+- Interestingly, I was able to run the game at full speed using Firefox (version 54) in Windows 7 64Bit, by simply double clicking the window.html file. This can also be done in Linux, but the Linux build of Firefox 54 runs the game poorly. So in Windows, play it in Firefox!
+- If Firefox doesn't cut it, please search the web on how to install and run a web server in Windows. The rest of steps are pretty much the same as for Linux (though you can download Chrome from Google's website rather than using the command prompt).
 
 #### Mac
 - Untested, unsupported.
