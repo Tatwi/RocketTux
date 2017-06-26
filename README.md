@@ -31,6 +31,7 @@ That naughty Nolok has been up to no good, again! This time he and his minions d
 When version 1.0 is released, the following game play will be available.
 - Boost and fly around collecting coins to spend on preferences, upgrades and new locales.
 - "Coin-Bounce" or use a boost to move up higher in the air. Hold up/down to maintain height. Puzzle your way through the obstacles to collect all the coins and quest items.
+- Open various blocks (by simply passing over them) that grant items, quests, and powerups.
 - Use one of 5 types of powerups to customize your game play experience.
 - Further customize your game play experience by collecting different kinds of metals which you can use to craft new (stat altering) rocketpacks in the Rocket Lab.
 - Collect items to use in quests or to sell for coins.
