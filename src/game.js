@@ -4,7 +4,7 @@ RocketTux.Game = function(){};
  
 RocketTux.Game.prototype = {
   create: function() {
-    this.game.renderer.setTexturePriority(['world', 'entities']);
+    this.game.renderer.setTexturePriority(['world', 'atlas']);
     this.gameOver = false;
     
     var pickSong = Math.floor(Math.random() * RocketTux.songs.length)
@@ -80,29 +80,26 @@ RocketTux.Game.prototype = {
     this.createTileMap();
     
     // Add the player
-    this.player = this.game.add.sprite(32, this.game.world.height - 150, 'entities');
-    this.player.animations.add('stand', [3], 10, true);
-    this.player.animations.add('right', [6, 7, 8, 9, 10, 11], 12, true);
-    this.player.animations.add('left', [13, 14, 15, 16, 17, 18], 12, true);
-    this.player.animations.add('jump-right', [4], 10, true);
-    this.player.animations.add('jump-left', [12], 10, true);
-    this.player.animations.add('duck', [5], 10, true);
-    this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 20, 40, 24, 20);
+    this.player = this.game.add.sprite(32, this.game.world.height - 150, 'atlas');
+    this.player.anchor.setTo(.5,1);
+    this.player.animations.add('stand', ['tux-stand'], 1, true);
+    this.player.animations.add('duck', ['tux-duck'], 1, true);
+    this.player.animations.add('hover', Phaser.Animation.generateFrameNames('tux-hover-', 0, 5), 10, true);
+    this.player.animations.add('run', Phaser.Animation.generateFrameNames('tux-run-', 0, 6), 12, true);
+    this.player.animations.add('fly', Phaser.Animation.generateFrameNames('tux-fly-', 0, 4), 10, true);
+    this.player.animations.play('stand');
+    this.facingLeft = false;
+
+    this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 22, 44, 37, 20);
     this.game.camera.follow(this.player);
-    this.rocketOn = 'right';
-    
-    // Add flames for the player's rocketpack
-    this.flames = this.game.add.sprite(this.player.body.x, this.player.body.y, 'entities');
-    this.flames.animations.add('flames-right', [22,23,24,25], 12, true);
-    this.flames.animations.add('flames-left', [26,27,28,29], 12, true);
-    this.flames.animations.add('idle', [19,20,21,30,31], 8, true);
-    
+
     // Rocketpack sounds
     this.sndRocketStart = this.game.add.audio('rocketpack-start');
     this.sndRocketRunning = this.game.add.audio('rocketpack-running');
     this.sndRocketWindup = this.game.add.audio('rocketpack-windup');
     this.sndRocketBoost = this.game.add.audio('rocketpack-boost');
     this.sndRocketBoostFail = this.game.add.audio('rocketpack-boost-fail');
+    this.engineRunning = false;
     
     // Input
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -185,63 +182,82 @@ RocketTux.Game.prototype = {
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.blocks, this.openBlock, null, this);
     
-    //  Reset player
-    if (!this.cursors.left.isDown || !this.cursors.right.isDown)
-        this.player.body.velocity.x = 0;
+    // Player Movement
+    if (this.cursors.right.isDown){
+        if (this.facingLeft){
+            this.player.scale.x = Math.abs(this.player.scale.x); // Face right
+            this.facingLeft = false;
+        }
         
-    if (!this.player.body.blocked.down){ // Always on when in the air
-        if (this.rocketOn == 'left'){
-            this.rocketPackIs('left');
-        } else if (this.rocketOn == 'right'){
-            this.rocketPackIs('right');
-        } else if (this.rocketOn == 'idle'){
-            this.rocketPackIs('idle');
-            this.player.play('stand');
-        }
-        this.rocketPackSoundOn(true, false);
-    } else {
-        this.rocketPackIs('off');
-        this.rocketPackSoundOn(false, false);
-    }
-    
-    //===========Player Input, Movement, and Animations============
-    // Left/Right Keys
-    if (this.cursors.left.isDown){
         if (this.player.body.blocked.down){
-            this.player.animations.play('left'); // Running
-            this.player.body.velocity.x = RocketTux.groundSpeed * -1;
-        } else if (!this.player.body.blocked.down){
-            this.rocketPackIs('left'); // Flying
-            this.player.body.velocity.x = RocketTux.airSpeed * -1;
-        }
-    } else if (this.cursors.right.isDown){
-        if (this.player.body.blocked.down){
-            this.player.animations.play('right');
+            this.player.animations.play('run');
             this.player.body.velocity.x = RocketTux.groundSpeed;
-        } else if (!this.player.body.blocked.down){
-            this.rocketPackIs('right'); // Flying
+            this.player.body.setSize(22, 44, 37, 20); // Hitbox centered
+            this.stopEngine();
+        } else {
+            this.player.animations.play('fly');
             this.player.body.velocity.x = RocketTux.airSpeed;
+            this.player.body.setSize(22, 44, 53, 20); // Hitbox shifted right 16
+            
+            if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
+                if (this.player.body.velocity.y > 0)
+                    this.player.body.velocity.y = 0;
+            }
+            
+            if (!this.engineRunning) // Play rocket pack sounds
+                this.startEngine();
         }
-    } else {
-         this.player.play('stand'); // On ground
-         
-         if (!this.player.body.blocked.down) // In air
-            this.rocketPackIs('idle');
-    }
+    } else if (this.cursors.left.isDown){
+        if (!this.facingLeft){
+            this.player.scale.x *= -1; // Face left
+        }
         
-    // Up/Down Keys
-    if (this.cursors.up.isDown || this.cursors.down.isDown){
-        if (this.cursors.down.isDown && this.player.body.blocked.down){
-            this.player.body.velocity.x = 0;
-            this.player.animations.play('duck'); // Duck when standing
-            this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 20, 20, 24, 40);
-        } else if (!this.player.body.blocked.down){
-            if (this.player.body.velocity.y > 0)
-                this.player.body.velocity.y = 0; // Hover when not moving up or down in the air
+        if (this.player.body.blocked.down){
+            this.player.animations.play('run');
+            this.player.body.velocity.x = RocketTux.groundSpeed * -1;
+            this.player.body.setSize(22, 44, 37, 20); // Hitbox centered
+            this.stopEngine();
+        } else {
+            this.player.animations.play('fly');
+            this.player.body.velocity.x = RocketTux.airSpeed * -1;
+            this.player.body.setSize(22, 44, 60, 20); // Hitbox shifted left 16
+            
+            if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
+                if (this.player.body.velocity.y > 0)
+                    this.player.body.velocity.y = 0;
+            }
+            
+            if (!this.engineRunning) // Play rocket pack sounds
+                this.startEngine();
         }
+        
+        this.facingLeft = true;
     } else {
-        this.player.body.acceleration.y = 0; // Fall
-        this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 20, 40, 24, 20);
+        this.player.body.velocity.x = 0;
+        this.player.scale.x = Math.abs(this.player.scale.x); // Face right
+        this.facingLeft = false;
+        this.player.body.setSize(22, 44, 37, 20); // Hitbox centered
+        
+        if (this.player.body.blocked.down){
+            if (this.cursors.down.isDown){
+                this.player.animations.play('duck');
+                this.player.body.setSize(22, 20, 37, 44); // Hitbox half height
+            } else {
+                this.player.animations.play('stand');
+            }
+            
+            this.stopEngine();
+        } else {
+            this.player.animations.play('hover');
+            
+            if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
+                if (this.player.body.velocity.y > 0)
+                    this.player.body.velocity.y = 0;
+            }
+            
+            if (!this.engineRunning) // Play rocket pack sounds
+                this.startEngine();
+        }
     }
     
     // Ability cooldown throttled actions
@@ -324,7 +340,7 @@ RocketTux.Game.prototype = {
             return; // no boost while crouching or flying while holding down
         
         this.sndRocketWindup.play();
-        this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.rocketPackGo, this);
+        this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.doBoost, this);
         this.abilityCooldownStart(5);
     } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.CONTROL, 1)){
         // Small, single tile jump (1 second cooldown)
@@ -338,63 +354,31 @@ RocketTux.Game.prototype = {
     }
   },
 //___________________GAME LOOP END___________________________
-  rocketPackGo: function(){
-    this.doExplosion(this.player.body.x - 10, this.player.body.y + 10);
-    this.rocketPackSoundOn(true, true);
+  doBoost: function(){
+    this.doExplosion(this.player.body.x, this.player.body.y);
+    this.sndRocketBoost.play();
     this.player.body.velocity.y = RocketTux.boostSpeed * -1;
     this.boosts--;
   },
-  rocketPackSoundOn: function(on, boost){
-    if (on){
-        if (boost){
-            this.sndRocketBoost.play();
-            this.sndRocketRunning.loopFull(1.0);
-            this.sndRocketRunning.play();
-        } else {
-            if (this.sndRocketRunning.isPlaying)
-                return;
-            
-            if (!this.sndRocketStart.isPlaying)
-                this.sndRocketStart.play();
-                
-            this.sndRocketRunning.loopFull(1.0);
-            this.sndRocketRunning.play();
-        }        
-    } else {
-        this.sndRocketRunning.fadeOut(333);
-    }
-  },
-  rocketPackIs: function (stateIs){
-    if (stateIs == 'left'){
-        this.flames.x = this.player.body.x + 12;
-        this.flames.y = this.player.body.y + 7;
-        this.flames.animations.play('flames-left');
-        this.player.animations.play('jump-left');
-        this.rocketOn = 'left';
-    } else if (stateIs == 'right'){
-        // Moving right or not pressing left or right keys and falling
-        this.flames.x = this.player.body.x - 64;
-        this.flames.y = this.player.body.y + 8;
-        this.flames.animations.play('flames-right');
-        this.player.animations.play('jump-right');
-        this.rocketOn = 'right';
-    } else if (stateIs == 'idle'){
-        this.flames.x = this.player.body.x - 28;
-        this.flames.y = this.player.body.y + 37;
-        this.flames.animations.play('idle');
-        this.rocketOn = 'idle';
-    } else if (stateIs == 'off'){
-        this.flames.y = this.game.world.height + 128; // hide rocket pack exhaust off the screen
-    }
-  },
   doExplosion: function(x, y){
-    this.boostBlast = this.game.add.sprite(x, y, 'entities');
-    this.boostBlast.animations.add('blast', [32,33,32,34,35], 10, true);
+    this.boostBlast = this.game.add.sprite(x, y, 'atlas');
+    this.boostBlast.animations.add('blast', ['explosion-0', 'explosion-1', 'explosion-0', 'explosion-2', 'explosion-3'], 10, true);
+    this.boostBlast.anchor.setTo(0.4,0);
     this.boostBlast.animations.play('blast');
     this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.douseFlames, this);
   },
   douseFlames: function(){
     this.boostBlast.destroy();
+  },
+  startEngine: function(){
+    this.sndRocketStart.play();
+    this.sndRocketRunning.loopFull(1.0);
+    this.sndRocketRunning.play();
+    this.engineRunning = true;
+  },
+  stopEngine: function(){
+    this.sndRocketRunning.fadeOut(333);
+    this.engineRunning = false;
   },
   doParticleExplosion: function(dur, num, fn, onPlayer, x, y, size){
     // Add special effect
@@ -570,8 +554,8 @@ RocketTux.Game.prototype = {
                     }
                     
                     if (doCoin){
-                        coin = this.coins.create(posX, posY, 'entities');
-                        coin.animations.add('spin', [36,37,38,39,40], 10, true);
+                        coin = this.coins.create(posX, posY, 'atlas');
+                        coin.animations.add('spin', Phaser.Animation.generateFrameNames('coin-', 0, 5), 10, true);
                         coin.animations.play('spin');
                         this.setPhysicsProperties(coin, 0, 0, 32, 32, 0, 0);
                         this.coinsInLevel++;
@@ -772,7 +756,7 @@ RocketTux.Game.prototype = {
   quit: function(){
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects
     this.player.destroy();
-    this.flames.destroy();
+    //this.flames.destroy();
     this.theLevel.destroy();
     this.sndRocketStart.destroy();
     this.sndRocketRunning.destroy();

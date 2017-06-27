@@ -1264,6 +1264,162 @@
     "frame": {"x":416,"y":1152,"w":32,"h":32},
     "rotated": false,
     "trimmed": false
+    },
+    {
+    "filename": "coin-0",
+    "frame": {"x":0,"y":1186,"w":32,"h":32},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "coin-1",
+    "frame": {"x":32,"y":1186,"w":32,"h":32},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "coin-2",
+    "frame": {"x":64,"y":1186,"w":32,"h":32},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "coin-3",
+    "frame": {"x":96,"y":1186,"w":32,"h":32},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "coin-4",
+    "frame": {"x":128,"y":1186,"w":32,"h":32},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "explosion-0",
+    "frame": {"x":160,"y":1184,"w":64,"h":64},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "explosion-1",
+    "frame": {"x":224,"y":1184,"w":64,"h":64},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "explosion-2",
+    "frame": {"x":288,"y":1184,"w":64,"h":64},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "explosion-3",
+    "frame": {"x":352,"y":1184,"w":64,"h":64},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-stand",
+    "frame": {"x":416,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-duck",
+    "frame": {"x":512,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-run-0",
+    "frame": {"x":608,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-run-1",
+    "frame": {"x":704,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-run-2",
+    "frame": {"x":800,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-run-3",
+    "frame": {"x":896,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-run-4",
+    "frame": {"x":992,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-run-5",
+    "frame": {"x":1088,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-hover-0",
+    "frame": {"x":1184,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-hover-1",
+    "frame": {"x":1280,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-hover-2",
+    "frame": {"x":1376,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-hover-3",
+    "frame": {"x":1472,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-hover-4",
+    "frame": {"x":1568,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-fly-0",
+    "frame": {"x":1664,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-fly-1",
+    "frame": {"x":1760,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-fly-2",
+    "frame": {"x":1856,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "tux-fly-3",
+    "frame": {"x":1952,"y":1184,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
     }
   ],
   "meta": {
