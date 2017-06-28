@@ -89,6 +89,7 @@ RocketTux.Game.prototype = {
     this.player.animations.add('fly', Phaser.Animation.generateFrameNames('tux-fly-', 0, 4), 10, true);
     this.player.animations.play('stand');
     this.facingLeft = false;
+    this.ducking = false;
 
     this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 22, 44, 37, 20);
     this.game.camera.follow(this.player);
@@ -192,12 +193,10 @@ RocketTux.Game.prototype = {
         if (this.player.body.blocked.down){
             this.player.animations.play('run');
             this.player.body.velocity.x = RocketTux.groundSpeed;
-            this.player.body.setSize(22, 44, 37, 20); // Hitbox centered
             this.stopEngine();
         } else {
             this.player.animations.play('fly');
             this.player.body.velocity.x = RocketTux.airSpeed;
-            this.player.body.setSize(22, 44, 53, 20); // Hitbox shifted right 16
             
             if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
                 if (this.player.body.velocity.y > 0)
@@ -215,12 +214,10 @@ RocketTux.Game.prototype = {
         if (this.player.body.blocked.down){
             this.player.animations.play('run');
             this.player.body.velocity.x = RocketTux.groundSpeed * -1;
-            this.player.body.setSize(22, 44, 37, 20); // Hitbox centered
             this.stopEngine();
         } else {
             this.player.animations.play('fly');
             this.player.body.velocity.x = RocketTux.airSpeed * -1;
-            this.player.body.setSize(22, 44, 60, 20); // Hitbox shifted left 16
             
             if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
                 if (this.player.body.velocity.y > 0)
@@ -236,14 +233,22 @@ RocketTux.Game.prototype = {
         this.player.body.velocity.x = 0;
         this.player.scale.x = Math.abs(this.player.scale.x); // Face right
         this.facingLeft = false;
-        this.player.body.setSize(22, 44, 37, 20); // Hitbox centered
         
         if (this.player.body.blocked.down){
             if (this.cursors.down.isDown){
                 this.player.animations.play('duck');
-                this.player.body.setSize(22, 20, 37, 44); // Hitbox half height
+                
+                if (!this.ducking){
+                    this.player.body.setSize(22, 20, 37, 44); // Hitbox half height once, not every frame
+                    this.ducking = true;
+                }
             } else {
                 this.player.animations.play('stand');
+                
+                if (this.ducking){
+                    this.player.body.setSize(22, 44, 37, 20); // Hitbox normal height once, not every frame
+                    this.ducking = false;
+                }
             }
             
             this.stopEngine();
