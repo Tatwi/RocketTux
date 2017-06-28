@@ -51,9 +51,9 @@ RocketTux.Preload.prototype = {
   },
   otherVariables: function(){
     RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
-    RocketTux.groundSpeed = 180; // Preference up to 220. Star +10.
-    RocketTux.airSpeed = 300; // Preference up to 340. Star +10, Fire Flower + 20.
-    RocketTux.boostSpeed = 325; // Preference up to 340. Fire Flower + 10.
+    RocketTux.groundSpeed = 180; // Preference up to 200. Star +75.
+    RocketTux.airSpeed = 300; // Preference up to 340. Star + 20, Fire Flower + 40.
+    RocketTux.boostSpeed = 325; // Preference up to 340.
     RocketTux.bonusBoosts = 0; // Preference up to 3
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
     RocketTux.favortieTheme = 'none';

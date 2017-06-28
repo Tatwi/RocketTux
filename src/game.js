@@ -73,7 +73,7 @@ RocketTux.Game.prototype = {
     }
     
     // DEBUG
-    this.myDebugText = this.game.add.text(16, 16, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
+    this.myDebugText = this.game.add.text(480, 16, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
     this.myDebugText.fixedToCamera = true;
     this.myDebugText.text = '';
     
@@ -90,9 +90,13 @@ RocketTux.Game.prototype = {
     this.player.animations.play('stand');
     this.facingLeft = false;
     this.ducking = false;
-
     this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 22, 44, 37, 20);
     this.game.camera.follow(this.player);
+    
+    // Stats that will be augmented by powerups
+    this.lvlAirSpeed = RocketTux.airSpeed;
+    this.lvlGroundSpeed = RocketTux.groundSpeed;
+    this.lvlGravity = RocketTux.tuxGravity;
 
     // Rocketpack sounds
     this.sndRocketStart = this.game.add.audio('rocketpack-start');
@@ -192,11 +196,11 @@ RocketTux.Game.prototype = {
         
         if (this.player.body.blocked.down){
             this.player.animations.play('run');
-            this.player.body.velocity.x = RocketTux.groundSpeed;
+            this.player.body.velocity.x = this.lvlGroundSpeed;// RocketTux.groundSpeed;
             this.stopEngine();
         } else {
             this.player.animations.play('fly');
-            this.player.body.velocity.x = RocketTux.airSpeed;
+            this.player.body.velocity.x = this.lvlAirSpeed; // RocketTux.airSpeed;
             
             if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
                 if (this.player.body.velocity.y > 0)
@@ -213,11 +217,11 @@ RocketTux.Game.prototype = {
         
         if (this.player.body.blocked.down){
             this.player.animations.play('run');
-            this.player.body.velocity.x = RocketTux.groundSpeed * -1;
+            this.player.body.velocity.x = this.lvlGroundSpeed* -1; //RocketTux.groundSpeed * -1;
             this.stopEngine();
         } else {
             this.player.animations.play('fly');
-            this.player.body.velocity.x = RocketTux.airSpeed * -1;
+            this.player.body.velocity.x = this.lvlAirSpeed* -1; // RocketTux.airSpeed * -1;
             
             if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
                 if (this.player.body.velocity.y > 0)
@@ -315,7 +319,7 @@ RocketTux.Game.prototype = {
     if (this.game.time.time < this.uiTimer)
         return;
         
-    //this.myDebugText.text = "Ability Cooldown On: " + this.abilityCooldown + "\nGlobal Cooldown On: " + this.globalCooldown;
+    //this.myDebugText.text = "AirSpeed: " + this.lvlAirSpeed + "   GroundSpeed: " + this.lvlGroundSpeed + "    Gravity: " + this.player.body.gravity.y;
     this.lvlCoins.value = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
     this.lvlBoosts.value = 'Boosts: ' + this.boosts;
     
@@ -631,18 +635,20 @@ RocketTux.Game.prototype = {
                 
     // Reset stats
     if (this.powerUpIcon.frameName == 'pwrup-icon-star'){
-        RocketTux.airSpeed -= 10;
-        RocketTux.groundSpeed -= 10;
+        this.lvlAirSpeed -= 20;
+        this.lvlGroundSpeed -= 75;
     } else if (this.powerUpIcon.frameName == 'pwrup-icon-fire'){
-        RocketTux.airSpeed -= 20;
+        this.lvlAirSpeed -= 40;
     } else if (this.powerUpIcon.frameName == 'pwrup-icon-water'){
         RocketTux.luck -= 12;
     } else if (this.powerUpIcon.frameName == 'pwrup-icon-air'){
-        RocketTux.tuxGravity += 15;
+        this.lvlGravity += 15;
     } else if (this.powerUpIcon.frameName == 'pwrup-icon-earth'){
-        RocketTux.tuxGravity -= 35;
+        this.lvlGravity -= 35;
         RocketTux.luck -= 3;
     }
+    
+    this.player.body.gravity.y = this.lvlGravity;
     
     this.powerUpIcon.destroy();
     this.powerUpIconButton.visible = false;
@@ -678,18 +684,20 @@ RocketTux.Game.prototype = {
     // Apply buff effect (when new and when loading level, rather than storing it)
     if (tmpPwrup != 'none' || newPwrup == true) {
         if (tmpPwrup == 'star'){
-            RocketTux.airSpeed += 10;
-            RocketTux.groundSpeed += 10;
+            this.lvlAirSpeed += 20;
+            this.lvlGroundSpeed += 75;
         } else if (tmpPwrup == 'fire'){
-            RocketTux.airSpeed += 20;
+            this.lvlAirSpeed += 40;
         } else if (tmpPwrup == 'water'){
             RocketTux.luck += 12;
         } else if (tmpPwrup == 'air'){
-            RocketTux.tuxGravity -= 15;
+            this.lvlGravity -= 15;
         } else if (tmpPwrup == 'earth'){
-            RocketTux.tuxGravity += 35;
+            this.lvlGravity += 35;
             RocketTux.luck += 3;
         }
+        
+        this.player.body.gravity.y = this.lvlGravity;
     }
     
   },
@@ -700,7 +708,7 @@ RocketTux.Game.prototype = {
     var txt; 
     
     if (RocketTux.powerUpActive == 'star'){
-        txt = 'Star: Makes you fly and run faster.';
+        txt = 'Star: Makes you run at super speed, while also causing you to fly faster.';
     } else if (RocketTux.powerUpActive == 'fire'){
         txt = 'Fire: Makes you fly very fast and gives you a chance to gain a boost when collecting coins (up to 5 boosts).';
     } else if (RocketTux.powerUpActive == 'water'){
