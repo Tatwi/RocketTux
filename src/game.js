@@ -104,7 +104,6 @@ RocketTux.Game.prototype = {
     this.sndRocketWindup = this.game.add.audio('rocketpack-windup');
     this.sndRocketBoost = this.game.add.audio('rocketpack-boost');
     this.sndRocketBoostFail = this.game.add.audio('rocketpack-boost-fail');
-    this.engineRunning = false;
     
     // Input
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -197,7 +196,6 @@ RocketTux.Game.prototype = {
         if (this.player.body.blocked.down){
             this.player.animations.play('run');
             this.player.body.velocity.x = this.lvlGroundSpeed;// RocketTux.groundSpeed;
-            this.stopEngine();
         } else {
             this.player.animations.play('fly');
             this.player.body.velocity.x = this.lvlAirSpeed; // RocketTux.airSpeed;
@@ -206,9 +204,6 @@ RocketTux.Game.prototype = {
                 if (this.player.body.velocity.y > 0)
                     this.player.body.velocity.y = 0;
             }
-            
-            if (!this.engineRunning) // Play rocket pack sounds
-                this.startEngine();
         }
     } else if (this.cursors.left.isDown){
         if (!this.facingLeft){
@@ -218,7 +213,6 @@ RocketTux.Game.prototype = {
         if (this.player.body.blocked.down){
             this.player.animations.play('run');
             this.player.body.velocity.x = this.lvlGroundSpeed* -1; //RocketTux.groundSpeed * -1;
-            this.stopEngine();
         } else {
             this.player.animations.play('fly');
             this.player.body.velocity.x = this.lvlAirSpeed* -1; // RocketTux.airSpeed * -1;
@@ -227,9 +221,6 @@ RocketTux.Game.prototype = {
                 if (this.player.body.velocity.y > 0)
                     this.player.body.velocity.y = 0;
             }
-            
-            if (!this.engineRunning) // Play rocket pack sounds
-                this.startEngine();
         }
         
         this.facingLeft = true;
@@ -254,8 +245,6 @@ RocketTux.Game.prototype = {
                     this.ducking = false;
                 }
             }
-            
-            this.stopEngine();
         } else {
             this.player.animations.play('hover');
             
@@ -263,10 +252,18 @@ RocketTux.Game.prototype = {
                 if (this.player.body.velocity.y > 0)
                     this.player.body.velocity.y = 0;
             }
-            
-            if (!this.engineRunning) // Play rocket pack sounds
-                this.startEngine();
         }
+    }
+    
+    // Update engine sound
+    if (this.player.body.blocked.down){ // Stop on landing
+        this.sndRocketRunning.fadeOut(230);
+    } else if (!this.sndRocketRunning.isPlaying){ // Start on first frame we notice we're not on the ground and the engine isn't already running
+        if (!this.sndRocketStart.isPlaying)
+            this.sndRocketStart.play();
+            
+        this.sndRocketRunning.loopFull(1.0);
+        this.sndRocketRunning.play();
     }
     
     // Ability cooldown throttled actions
@@ -378,16 +375,6 @@ RocketTux.Game.prototype = {
   },
   douseFlames: function(){
     this.boostBlast.destroy();
-  },
-  startEngine: function(){
-    this.sndRocketStart.play();
-    this.sndRocketRunning.loopFull(1.0);
-    this.sndRocketRunning.play();
-    this.engineRunning = true;
-  },
-  stopEngine: function(){
-    this.sndRocketRunning.fadeOut(333);
-    this.engineRunning = false;
   },
   doParticleExplosion: function(dur, num, fn, onPlayer, x, y, size){
     // Add special effect
