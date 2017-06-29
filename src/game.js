@@ -183,18 +183,24 @@ RocketTux.Game.prototype = {
     this.panel.add(this.lvlBoosts = new SlickUI.Element.Text(210, 0, this.displayBoosts));
     
   },
+  
 //==================GAME LOOP START========================
+
   update: function() {
     if (this.gameOver == true)
         return;
-      
+    
+    // Collide with the tilemap
     this.game.physics.arcade.collide(this.player, this.theLevel);
     this.game.physics.arcade.collide(this.coins, this.theLevel);
     this.game.physics.arcade.collide(this.enemyWalkers, this.theLevel, this.walkerUpdate, null, this);
     this.game.physics.arcade.collide(this.enemyHoppers, this.theLevel, this.hopperUpdate, null, this);
     this.game.physics.arcade.collide(this.enemyFlyers, this.theLevel);
+    
+    // Interact with the player
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.blocks, this.openBlock, null, this);
+    this.game.physics.arcade.overlap(this.player, this.enemyWalkers, this.walkerTrigger, null, this);
     
     // Player Movement
     if (this.cursors.right.isDown){
@@ -388,6 +394,9 @@ RocketTux.Game.prototype = {
     }
   },
 //___________________GAME LOOP END___________________________
+
+//==================HELPER FUNCTIONS========================
+
   doBoost: function(){
     this.doExplosion(this.player.body.x, this.player.body.y);
     this.sndRocketBoost.play();
@@ -471,6 +480,9 @@ RocketTux.Game.prototype = {
                result = prop;
         return result;
   },
+  
+//==================LEVEL CREATION========================
+
   addBackground: function(sprite, frame){
     this.activeBG = this.game.add.sprite(0, 0, sprite);
     this.activeBG.animations.add('stand', [frame], 1, true);
@@ -632,6 +644,21 @@ RocketTux.Game.prototype = {
     }
     
     //console.log("Spawned %s at %s, %s", name, posX, posY);
+  },
+  
+//==================INTERACTION WITH PLAYER========================
+
+  walkerTrigger: function(player, badguy){
+    // Mr. Bomb
+    if (badguy.frameName.indexOf('badguy-1') > -1){
+        if (badguy.ticking)
+            return;
+        
+        badguy.animations.add('ticking', ['badguy-1-3', 'badguy-1-4', 'badguy-1-5', 'badguy-1-6'], 10, true);
+        badguy.animations.play('ticking');
+        
+        badguy.ticking = true;
+    }
   },
   collectCoin: function(player, coin) {
     // Removes the coin from the screen
@@ -822,6 +849,9 @@ RocketTux.Game.prototype = {
     this.lootPanel.width = 36;
     this.lootToolTipExpanded = false;
   },
+
+//==================END OF LEVEL RELATED========================
+
   quit: function(){
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects
     this.player.destroy();
