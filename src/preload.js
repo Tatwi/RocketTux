@@ -91,7 +91,7 @@ RocketTux.Preload.prototype = {
             type: 'hopper',
             gravity: 200,
             frames: 2,
-            fps: 5
+            fps: 7
         },
         'badguy-3':{ // Short-Fuse
             type: 'walker',
