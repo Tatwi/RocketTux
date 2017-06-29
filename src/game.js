@@ -638,10 +638,7 @@ RocketTux.Game.prototype = {
   },
   doWalkerUpdate: function(){
     for (var i = 0, len = this.enemyWalkers.children.length; i < len; i++) {
-        if (this.enemyWalkers.children[i].body.blocked.down){
-            if (Math.abs(this.enemyWalkers.children[i].body.velocity.x) < 90) // Default is to face and walk left <--
-                this.enemyWalkers.children[i].body.velocity.x = -90;
-                
+        if (this.enemyWalkers.children[i].body.blocked.down){                
             if (this.enemyWalkers.children[i].body.blocked.left){ // Hit a wall, turn around and go right -->
                 this.enemyWalkers.children[i].scale.x = -1;
                 this.enemyWalkers.children[i].body.velocity.x = 90;
@@ -650,11 +647,15 @@ RocketTux.Game.prototype = {
                     this.enemyWalkers.children[i].scale.x = 1;
                     
                 this.enemyWalkers.children[i].body.velocity.x = -90;
+            } else if (Math.abs(this.enemyWalkers.children[i].body.velocity.x) < 90) { // Default is to face and walk left <--
+                this.enemyWalkers.children[i].body.velocity.x = -90;
+                this.enemyWalkers.children[i].scale.x = 1;
             }
         }
     }
     
-    this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.doWalkerUpdate, this);
+    var rng = Math.max(0.2, Math.random());
+    this.game.time.events.add(Phaser.Timer.SECOND * rng, this.doWalkerUpdate, this);
   },
   collectCoin: function(player, coin) {
     // Removes the coin from the screen
