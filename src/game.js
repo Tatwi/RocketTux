@@ -596,24 +596,23 @@ RocketTux.Game.prototype = {
         badguy = this.enemyWalkers.create(posX, posY, 'atlas');
         badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
         badguy.animations.play('move');
-        badguy.anchor.setTo(0.5,0.5);
+        badguy.anchor.setTo(.5,.5);
         this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
-        badguy.body.velocity.x = -90;
-        //this.game.time.events.add(Phaser.Timer.SECOND * 5, this.doWalkerUpdate, this);
+        this.game.time.events.add(Phaser.Timer.SECOND * 5, this.doWalkerUpdate, this);
     } else if (type == 'hopper'){
         badguy = this.enemyHoppers.create(posX, posY, 'atlas');
         badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
         name+= '0';
         badguy.animations.add('sit', [name], 0, true);
         badguy.animations.play('sit');
-        badguy.anchor.setTo(0.5,0.5);
+        badguy.anchor.setTo(.5,.5);
         this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
         this.game.time.events.add(Phaser.Timer.SECOND * 5, this.doHop, this);
     } else if (type == 'flyer'){
         badguy = this.enemyFlyers.create(posX, posY, 'atlas');
         badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
         badguy.animations.play('move');
-        badguy.anchor.setTo(0.5,0.5);
+        badguy.anchor.setTo(.5,.5);
         this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
         badguy.body.velocity.x = -200;
         //this.game.time.events.add(Phaser.Timer.SECOND * 5, this.doFlyerUpdate, this);
@@ -636,6 +635,26 @@ RocketTux.Game.prototype = {
     
     var rng = Math.max(1, 5 * Math.random());
     this.game.time.events.add(Phaser.Timer.SECOND * rng, this.doHop, this);
+  },
+  doWalkerUpdate: function(){
+    for (var i = 0, len = this.enemyWalkers.children.length; i < len; i++) {
+        if (this.enemyWalkers.children[i].body.blocked.down){
+            if (Math.abs(this.enemyWalkers.children[i].body.velocity.x) < 90) // Default is to face and walk left <--
+                this.enemyWalkers.children[i].body.velocity.x = -90;
+                
+            if (this.enemyWalkers.children[i].body.blocked.left){ // Hit a wall, turn around and go right -->
+                this.enemyWalkers.children[i].scale.x = -1;
+                this.enemyWalkers.children[i].body.velocity.x = 90;
+            } else if (this.enemyWalkers.children[i].body.blocked.right){ // Hit a wall, turn around and go left <--
+                if (this.enemyWalkers.children[i].width < 0) // Negative when sprite is flipped, so flip it back
+                    this.enemyWalkers.children[i].scale.x = 1;
+                    
+                this.enemyWalkers.children[i].body.velocity.x = -90;
+            }
+        }
+    }
+    
+    this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.doWalkerUpdate, this);
   },
   collectCoin: function(player, coin) {
     // Removes the coin from the screen

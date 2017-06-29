@@ -72,23 +72,29 @@ RocketTux.Preload.prototype = {
     // Data used for spawning enemeies
     RocketTux.badguyConfig = {
         // Spawn groups
-        snow1:['badguy-2'],
-        snow2:['badguy-2'],
-        snow3:['badguy-2'],
-        forest1:['badguy-2'],
-        forest2:['badguy-2'],
-        beach1:['badguy-2'],
-        beach1:['badguy-2'],
-        candyland:['badguy-2'],
+        snow1:['badguy-1', 'badguy-2', 'badguy-3'],
+        snow2:['badguy-1', 'badguy-2', 'badguy-3'],
+        snow3:['badguy-1', 'badguy-2', 'badguy-3'],
+        forest1:['badguy-1', 'badguy-2', 'badguy-3'],
+        forest2:['badguy-1', 'badguy-2', 'badguy-3'],
+        beach1:['badguy-1', 'badguy-2', 'badguy-3'],
+        beach1:['badguy-1', 'badguy-2', 'badguy-3'],
+        candyland:['badguy-1', 'badguy-2', 'badguy-3'],
         // Personal details
-        'badguy-1':{
+        'badguy-1':{ // Mr. Bomb
             type: 'walker',
             gravity: 200,
             frames: 2,
             fps: 5
         },
-        'badguy-2':{
+        'badguy-2':{ // Jumpy
             type: 'hopper',
+            gravity: 200,
+            frames: 2,
+            fps: 5
+        },
+        'badguy-3':{ // Short-Fuse
+            type: 'walker',
             gravity: 200,
             frames: 2,
             fps: 5
