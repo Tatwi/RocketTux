@@ -1420,6 +1420,144 @@
     "frame": {"x":1952,"y":1184,"w":96,"h":96},
     "rotated": false,
     "trimmed": false
+    },
+    {
+    "filename": "badguy-1-0",
+    "frame": {"x":0,"y":1248,"w":42,"h":40},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-1-1",
+    "frame": {"x":42,"y":1248,"w":42,"h":40},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-1-2",
+    "frame": {"x":84,"y":1248,"w":42,"h":40},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-1-3",
+    "frame": {"x":126,"y":1248,"w":42,"h":40},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-1-4",
+    "frame": {"x":168,"y":1248,"w":42,"h":40},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-1-5",
+    "frame": {"x":210,"y":1248,"w":42,"h":40},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-1-6",
+    "frame": {"x":252,"y":1248,"w":42,"h":40},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-2-0",
+    "frame": {"x":0,"y":1290,"w":47,"h":54},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-2-1",
+    "frame": {"x":47,"y":1290,"w":47,"h":54},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-2-2",
+    "frame": {"x":94,"y":1290,"w":47,"h":54},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-3-0",
+    "frame": {"x":0,"y":1227,"w":32,"h":21},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-3-1",
+    "frame": {"x":32,"y":1227,"w":32,"h":21},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-3-2",
+    "frame": {"x":64,"y":1227,"w":32,"h":21},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-4-0",
+    "frame": {"x":288,"y":1295,"w":43,"h":61},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-4-1",
+    "frame": {"x":331,"y":1295,"w":43,"h":61},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-4-2",
+    "frame": {"x":374,"y":1295,"w":43,"h":61},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-4-3",
+    "frame": {"x":417,"y":1295,"w":43,"h":61},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "fbadguy-1-0",
+    "frame": {"x":146,"y":1290,"w":44,"h":67},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "fbadguy-1-1",
+    "frame": {"x":190,"y":1290,"w":44,"h":67},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "fbadguy-1-2",
+    "frame": {"x":234,"y":1290,"w":44,"h":67},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "wbadguy-1-0",
+    "frame": {"x":300,"y":1248,"w":37,"h":46},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "wbadguy-1-1",
+    "frame": {"x":337,"y":1248,"w":37,"h":46},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "wbadguy-1-2",
+    "frame": {"x":374,"y":1248,"w":37,"h":46},
+    "rotated": false,
+    "trimmed": false
     }
   ],
   "meta": {

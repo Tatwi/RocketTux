@@ -69,6 +69,32 @@ RocketTux.Preload.prototype = {
         levelSectionsMax: 12, // Unlocks: Upto +3
     };
     
+    // Data used for spawning enemeies
+    RocketTux.badguyConfig = {
+        // Spawn groups
+        snow1:['badguy-2'],
+        snow2:['badguy-2'],
+        snow3:['badguy-2'],
+        forest1:['badguy-2'],
+        forest2:['badguy-2'],
+        beach1:['badguy-2'],
+        beach1:['badguy-2'],
+        candyland:['badguy-2'],
+        // Personal details
+        'badguy-1':{
+            type: 'walker',
+            gravity: 200,
+            frames: 2,
+            fps: 5
+        },
+        'badguy-2':{
+            type: 'hopper',
+            gravity: 200,
+            frames: 2,
+            fps: 5
+        },
+    }
+    
     // Powerup state
     RocketTux.powerUpActive = 'none';
     var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');

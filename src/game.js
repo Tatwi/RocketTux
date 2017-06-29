@@ -61,6 +61,10 @@ RocketTux.Game.prototype = {
     this.blkQuestSnd = this.game.add.audio('blk-quest');
     this.itemsCollected = [];
     
+    // Add group for enemies
+    this.enemyWalkers = this.game.add.group();
+    this.enemyHoppers = this.game.add.group();
+    this.enemyFlyers = this.game.add.group();
     
     // Add boosts
     this.boosts = Math.max(2, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 2 + bonus
@@ -118,6 +122,9 @@ RocketTux.Game.prototype = {
     this.spawnEntities();
     this.game.world.bringToTop(this.blocks);
     this.game.world.bringToTop(this.coins);
+    this.game.world.bringToTop(this.enemyWalkers);
+    this.game.world.bringToTop(this.enemyHoppers);
+    this.game.world.bringToTop(this.enemyFlyers);
     
     // Put player up front
     this.player.bringToTop();
@@ -183,6 +190,9 @@ RocketTux.Game.prototype = {
       
     this.game.physics.arcade.collide(this.player, this.theLevel);
     this.game.physics.arcade.collide(this.coins, this.theLevel);
+    this.game.physics.arcade.collide(this.enemyWalkers, this.theLevel);
+    this.game.physics.arcade.collide(this.enemyHoppers, this.theLevel);
+    this.game.physics.arcade.collide(this.enemyFlyers, this.theLevel);
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.blocks, this.openBlock, null, this);
     
@@ -496,6 +506,7 @@ RocketTux.Game.prototype = {
         var columns = this.mapSections * 40; // 32px tiles
         var powerup = false;
         var quest = false;
+        var badguySpacer = 0;
 
         for (var i = 5; i < columns; i++){
             if (this.roll() > 78){
@@ -557,12 +568,74 @@ RocketTux.Game.prototype = {
                         this.coinsInLevel++;
                     }
                     
-                    if (this.roll() > 90){
-                        // Spawn an enemy here too
+                    if (this.roll() > 50 && badguySpacer > 6){
+                        badguySpacer = 0;
+                        var name = RocketTux.badguyConfig[this.theme][Math.floor(Math.random() * RocketTux.badguyConfig[this.theme].length)];
+                        this.spawnBadGuy(name, posX, posY);
                     }
+                    
+                    badguySpacer++;
                 }
             }
         }
+  },
+  spawnBadGuy: function(name, posX, posY){
+    if (name == undefined)
+        return;
+      
+    // Values
+    var type = RocketTux.badguyConfig[name].type;
+    var gravity = RocketTux.badguyConfig[name].gravity;
+    var frames = RocketTux.badguyConfig[name].frames;
+    var fps = RocketTux.badguyConfig[name].fps;
+    
+    name+= '-';
+    
+    // Spawn into one of the groups and schedule a status update
+    if (type == 'walker'){
+        badguy = this.enemyWalkers.create(posX, posY, 'atlas');
+        badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
+        badguy.animations.play('move');
+        badguy.anchor.setTo(0.5,0.5);
+        this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
+        badguy.body.velocity.x = -90;
+        //this.game.time.events.add(Phaser.Timer.SECOND * 5, this.doWalkerUpdate, this);
+    } else if (type == 'hopper'){
+        badguy = this.enemyHoppers.create(posX, posY, 'atlas');
+        badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
+        name+= '0';
+        badguy.animations.add('sit', [name], 0, true);
+        badguy.animations.play('sit');
+        badguy.anchor.setTo(0.5,0.5);
+        this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
+        this.game.time.events.add(Phaser.Timer.SECOND * 5, this.doHop, this);
+    } else if (type == 'flyer'){
+        badguy = this.enemyFlyers.create(posX, posY, 'atlas');
+        badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
+        badguy.animations.play('move');
+        badguy.anchor.setTo(0.5,0.5);
+        this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
+        badguy.body.velocity.x = -200;
+        //this.game.time.events.add(Phaser.Timer.SECOND * 5, this.doFlyerUpdate, this);
+    }
+    
+    //console.log("Spawned %s at %s, %s", name, posX, posY);
+  },
+  doHop: function(){
+    for (var i = 0, len = this.enemyHoppers.children.length; i < len; i++) {
+        if (this.roll() > 49) // Help prevent them from all hopping at the same time
+            continue;
+        
+        if (this.enemyHoppers.children[i].body.blocked.down){
+            this.enemyHoppers.children[i].body.velocity.y = -200;
+            this.enemyHoppers.children[i].animations.play('move');
+        } else {
+            this.enemyHoppers.children[i].animations.play('sit');
+        }
+    }
+    
+    var rng = Math.max(1, 5 * Math.random());
+    this.game.time.events.add(Phaser.Timer.SECOND * rng, this.doHop, this);
   },
   collectCoin: function(player, coin) {
     // Removes the coin from the screen
