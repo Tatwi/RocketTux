@@ -668,6 +668,8 @@ RocketTux.Game.prototype = {
         badguy.ticking = true;
         this.sndTicking.play();
         this.game.time.events.add(Phaser.Timer.SECOND * 1.5, this.blowupBadguy, this, badguy);
+    } else if (badguy.frameName.indexOf('badguy-3') > -1){
+        this.blowupBadguy(badguy);
     }
   },
   blowupBadguy: function(badguy){
