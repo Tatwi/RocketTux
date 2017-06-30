@@ -109,6 +109,10 @@ RocketTux.Game.prototype = {
     this.sndRocketBoost = this.game.add.audio('rocketpack-boost');
     this.sndRocketBoostFail = this.game.add.audio('rocketpack-boost-fail');
     
+    // Misc sounds
+    this.sndExplosion = this.game.add.audio('explosion');
+    this.sndTicking = this.game.add.audio('ticking');
+    
     // Input
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.globalCooldown = false;
@@ -351,6 +355,9 @@ RocketTux.Game.prototype = {
         sprite.body.velocity.x = -90;
         sprite.scale.x = 1;
     }
+    
+    if (sprite.ticking && Math.abs(sprite.body.velocity.x) < 150) // Speed up again after changing directions
+        sprite.body.velocity.x *= 1.75;
   },
   hopperUpdate: function(sprite, tile){
     sprite.y -= 2; // move up to avoid re-triggering blocked.down next frame
@@ -656,9 +663,17 @@ RocketTux.Game.prototype = {
         
         badguy.animations.add('ticking', ['badguy-1-3', 'badguy-1-4', 'badguy-1-5', 'badguy-1-6'], 10, true);
         badguy.animations.play('ticking');
+        badguy.body.velocity.x *= 1.75;
         
         badguy.ticking = true;
+        this.sndTicking.play();
+        this.game.time.events.add(Phaser.Timer.SECOND * 1.5, this.blowupBadguy, this, badguy);
     }
+  },
+  blowupBadguy: function(badguy){
+    this.doExplosion(badguy.body.x, badguy.body.y);
+    this.sndExplosion.play();
+    badguy.kill();
   },
   collectCoin: function(player, coin) {
     // Removes the coin from the screen

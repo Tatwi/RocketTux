@@ -37,6 +37,8 @@ RocketTux.Preload.prototype = {
     this.load.audio('blk-powerup', 'data/sounds/blk-powerup.ogg');
     this.load.audio('blk-quest', 'data/sounds/blk-quest.ogg');
     this.load.audio('coin-drop', 'data/sounds/coin-drop.ogg');
+    this.load.audio('explosion', 'data/sounds/explosion.ogg');
+    this.load.audio('ticking', 'data/sounds/ticking.ogg');
     
     // Initialize variables used to generate levels
     this.worldObjects(); // Tiled objects from world texture
