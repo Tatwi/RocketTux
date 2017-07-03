@@ -94,6 +94,8 @@ RocketTux.Game.prototype = {
     this.ducking = false;
     this.setPhysicsProperties(this.player, RocketTux.tuxGravity, 0, 22, 44, 37, 20);
     this.game.camera.follow(this.player);
+    this.playerHurt = false;
+    this.playerInvicible = false;
     
     // Stats that will be augmented by powerups
     this.lvlAirSpeed = RocketTux.airSpeed;
@@ -110,6 +112,9 @@ RocketTux.Game.prototype = {
     // Misc sounds
     this.sndExplosion = this.game.add.audio('explosion');
     this.sndTicking = this.game.add.audio('ticking');
+    this.sndDropCoins = this.game.add.audio('coin-drop');
+    this.sndCollide = this.game.add.audio('collide');
+    this.sndShakeOff = this.game.add.audio('shakeoff');
     
     // Input
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -201,6 +206,34 @@ RocketTux.Game.prototype = {
     this.game.physics.arcade.overlap(this.player, this.enemies, this.aiTrigger, null, this);
     
     // Player Movement
+    this.movePlayer();
+    
+    // Update engine sound
+    if (this.player.body.blocked.down){ // Stop on landing
+        this.sndRocketRunning.fadeOut(230);
+    } else if (!this.sndRocketRunning.isPlaying){ // Start on first frame we notice we're not on the ground and the engine isn't already running
+        if (!this.sndRocketStart.isPlaying)
+            this.sndRocketStart.play();
+            
+        this.sndRocketRunning.loopFull(1.0);
+        this.sndRocketRunning.play();
+    }
+    
+    // Ability cooldown throttled actions
+    this.doPlayerAbilities();
+    
+    // Global cooldown throttled actions (1 sec)
+    this.throttledInput();
+    
+    // UI Updates (Throttled to 1 update per second)
+    this.uiUpdate();
+  },
+  movePlayer: function(){
+    if (this.playerHurt){ // No input for a bit after touching a badguy or an explosion to enable a push back or "bounce" effect
+        this.player.body.velocity.y += 12;
+        return;
+    }
+    
     if (this.cursors.right.isDown){
         if (this.facingLeft){
             this.player.scale.x = Math.abs(this.player.scale.x); // Face right
@@ -268,26 +301,6 @@ RocketTux.Game.prototype = {
             }
         }
     }
-    
-    // Update engine sound
-    if (this.player.body.blocked.down){ // Stop on landing
-        this.sndRocketRunning.fadeOut(230);
-    } else if (!this.sndRocketRunning.isPlaying){ // Start on first frame we notice we're not on the ground and the engine isn't already running
-        if (!this.sndRocketStart.isPlaying)
-            this.sndRocketStart.play();
-            
-        this.sndRocketRunning.loopFull(1.0);
-        this.sndRocketRunning.play();
-    }
-    
-    // Ability cooldown throttled actions
-    this.doPlayerAbilities();
-    
-    // Global cooldown throttled actions (1 sec)
-    this.throttledInput();
-    
-    // UI Updates (Throttled to 1 update per second)
-    this.uiUpdate();
   },
   globalCooldownStart: function(seconds){
       this.globalCooldown = true;
@@ -441,7 +454,7 @@ RocketTux.Game.prototype = {
     this.emitter.setYSpeed(-200, 200);
     this.emitter.setScale(0.1, size, 0.1, size, 4000, Phaser.Easing.Quintic.Out);
     this.emitter.start(true, dur, null, num);
-    this.game.time.events.add(dur, this.destroyEmitter, this);
+    //this.game.time.events.add(dur, this.destroyEmitter, this);
   },
   destroyEmitter: function(){
     this.emitter.destroy();
@@ -645,6 +658,9 @@ RocketTux.Game.prototype = {
 //==================INTERACTION WITH PLAYER========================
 
   aiTrigger: function(player, badguy){
+    if (this.playerHurt) // Thou shall not spam hurt!
+        return;
+      
     // Use the frameName from the world.json to do character specific player interactions
     if (badguy.frameName.indexOf('badguy-1') > -1){ // Mr. Bomb
         if (badguy.ticking)
@@ -659,12 +675,82 @@ RocketTux.Game.prototype = {
         this.game.time.events.add(Phaser.Timer.SECOND * 1.5, this.blowupBadguy, this, badguy);
     } else if (badguy.frameName.indexOf('badguy-3') > -1){ // Mr. Shortfuse
         this.blowupBadguy(badguy);
+    } else if (badguy.frameName.indexOf('badguy-2') > -1){ // Jumpy
+        if (!this.playerInvicible)
+            this.sndCollide.play();
+            
+        this.hurtPlayer();
     }
   },
   blowupBadguy: function(badguy){
     this.doExplosion(badguy.body.x, badguy.body.y);
     this.sndExplosion.play();
     badguy.kill();
+    
+    var x = Math.abs(this.player.x - badguy.body.x);
+    var y = Math.abs(this.player.y - badguy.body.y);
+    var blastRadius = 64;
+    
+    if (badguy.frameName.indexOf('badguy-3') > -1)
+        blastRadius = 32;
+    
+    if (x > blastRadius && y > blastRadius)
+        return;
+    
+    this.hurtPlayer();
+  },
+  hurtPlayer: function(){
+    var dir = 1;
+    
+    if (this.player.body.velocity.x > 1) // Bounce in direction opposite of player's motion
+        dir = -1  
+      
+    // Handle powerup
+    if (RocketTux.powerUpActive == 'earth'){ // Invincible
+        if (!this.sndShakeOff.isPlaying) // No spam!
+            this.sndShakeOff.play();
+            
+        return;
+    } else if (RocketTux.powerUpActive == 'water'){ // Invincible once
+        this.sndShakeOff.play();
+        this.removePowerUp();
+        
+        // Bounce player (prevents the enemy hitting the player again on the next frame, because he is no longer invincible)
+        this.player.body.velocity.y = -200;
+        this.player.body.velocity.x = 300 * dir;
+        
+        // Set player in hurt state
+        this.playerHurt = true;
+        this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.playerOK, this);
+        
+        return;
+    } else {
+        this.removePowerUp();
+    }
+      
+    // Bounce player
+    this.player.body.velocity.y = -200;
+    this.player.body.velocity.x = 300 * dir;
+    
+    // Coin explosion
+    this.sndDropCoins.play();
+    this.doParticleExplosion(5000, 12, 'coin-0', true, 0, 0, 0.5);
+    
+    // Set player in hurt state
+    this.playerHurt = true;
+    this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.playerOK, this);
+    
+    // Remove coins from wallet
+    var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
+    
+    if (savedCoins < 1)
+        return;
+        
+    var newWalletValue = Math.max(1, savedCoins - 10);
+    localStorage.setItem('RocketTux-myWallet', newWalletValue);
+  },
+  playerOK: function(){
+    this.playerHurt = false;
   },
   collectCoin: function(player, coin) {
     // Removes the coin from the screen
@@ -730,11 +816,13 @@ RocketTux.Game.prototype = {
         this.lvlAirSpeed -= 40;
     } else if (this.powerUpIcon.frameName == 'pwrup-icon-water'){
         RocketTux.luck -= 12;
+        this.playerInvicible = false;
     } else if (this.powerUpIcon.frameName == 'pwrup-icon-air'){
         this.lvlGravity += 15;
     } else if (this.powerUpIcon.frameName == 'pwrup-icon-earth'){
         this.lvlGravity -= 35;
         RocketTux.luck -= 3;
+        this.playerInvicible = false;
     }
     
     this.player.body.gravity.y = this.lvlGravity;
@@ -779,11 +867,13 @@ RocketTux.Game.prototype = {
             this.lvlAirSpeed += 40;
         } else if (tmpPwrup == 'water'){
             RocketTux.luck += 12;
+            this.playerInvicible = true;
         } else if (tmpPwrup == 'air'){
             this.lvlGravity -= 15;
         } else if (tmpPwrup == 'earth'){
             this.lvlGravity += 35;
             RocketTux.luck += 3;
+            this.playerInvicible = true;
         }
         
         this.player.body.gravity.y = this.lvlGravity;
@@ -861,7 +951,6 @@ RocketTux.Game.prototype = {
   quit: function(){
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects
     this.player.destroy();
-    //this.flames.destroy();
     this.theLevel.destroy();
     this.sndRocketStart.destroy();
     this.sndRocketRunning.destroy();
@@ -873,6 +962,7 @@ RocketTux.Game.prototype = {
     slickUI.container.displayGroup.removeAll(true);
     this.coins.destroy();
     this.blocks.destroy();
+    this.enemies.destroy();
     
     // Calculate bonues
     var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
