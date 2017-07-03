@@ -62,9 +62,7 @@ RocketTux.Game.prototype = {
     this.itemsCollected = [];
     
     // Add group for enemies
-    this.enemyWalkers = this.game.add.group();
-    this.enemyHoppers = this.game.add.group();
-    this.enemyFlyers = this.game.add.group();
+    this.enemies = this.game.add.group();
     
     // Add boosts
     this.boosts = Math.max(2, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 2 + bonus
@@ -126,9 +124,7 @@ RocketTux.Game.prototype = {
     this.spawnEntities();
     this.game.world.bringToTop(this.blocks);
     this.game.world.bringToTop(this.coins);
-    this.game.world.bringToTop(this.enemyWalkers);
-    this.game.world.bringToTop(this.enemyHoppers);
-    this.game.world.bringToTop(this.enemyFlyers);
+    this.game.world.bringToTop(this.enemies);
     
     // Put player up front
     this.player.bringToTop();
@@ -197,14 +193,12 @@ RocketTux.Game.prototype = {
     // Collide with the tilemap
     this.game.physics.arcade.collide(this.player, this.theLevel);
     this.game.physics.arcade.collide(this.coins, this.theLevel);
-    this.game.physics.arcade.collide(this.enemyWalkers, this.theLevel, this.walkerUpdate, null, this);
-    this.game.physics.arcade.collide(this.enemyHoppers, this.theLevel, this.hopperUpdate, null, this);
-    this.game.physics.arcade.collide(this.enemyFlyers, this.theLevel);
+    this.game.physics.arcade.collide(this.enemies, this.theLevel, this.aiUpdate, null, this);
     
     // Interact with the player
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
     this.game.physics.arcade.overlap(this.player, this.blocks, this.openBlock, null, this);
-    this.game.physics.arcade.overlap(this.player, this.enemyWalkers, this.walkerTrigger, null, this);
+    this.game.physics.arcade.overlap(this.player, this.enemies, this.aiTrigger, null, this);
     
     // Player Movement
     if (this.cursors.right.isDown){
@@ -342,24 +336,35 @@ RocketTux.Game.prototype = {
     
     this.uiTimer = this.game.time.time + 1000;
   },
-  walkerUpdate: function(sprite, tile){
+  aiUpdate: function(sprite, tile){
+    // Run per frame for each enemy that is colliding with a tile. Checks true state on sprite.madeUpName variable and does stuff specific to the madeUpName type of enemies.
+    if (sprite.walker){
+        this.turnAround(sprite, 90);
+        
+        if (sprite.ticking && Math.abs(sprite.body.velocity.x) < 150) // Speed up again after changing directions
+            sprite.body.velocity.x *= 1.75;
+    } else if (sprite.hopper){
+        this.hop(sprite, tile)
+    } else if (sprite.flyer){
+        
+    }
+  },
+// --- AI Actions -------
+  turnAround: function(sprite, walkSpeed){
     if (sprite.body.blocked.left){
         sprite.scale.x = -1;
         sprite.x += 2; // push right to avoid re-triggering blocked.left next frame
-        sprite.body.velocity.x = 90;
+        sprite.body.velocity.x = walkSpeed;
     } else if (sprite.body.blocked.right){
         sprite.scale.x = 1;
         sprite.x -= 2; // push left to avoid re-triggering blocked.left next frame
-        sprite.body.velocity.x = -90;
-    } else if (Math.abs(sprite.body.velocity.x) < 90) { // Default is to face and walk left <--
-        sprite.body.velocity.x = -90;
+        sprite.body.velocity.x = walkSpeed * -1;
+    } else if (Math.abs(sprite.body.velocity.x) < walkSpeed) { // Default is to face and walk left <--
+        sprite.body.velocity.x = walkSpeed * -1;
         sprite.scale.x = 1;
     }
-    
-    if (sprite.ticking && Math.abs(sprite.body.velocity.x) < 150) // Speed up again after changing directions
-        sprite.body.velocity.x *= 1.75;
   },
-  hopperUpdate: function(sprite, tile){
+  hop: function(sprite, tile){
     sprite.y -= 2; // move up to avoid re-triggering blocked.down next frame
     sprite.body.velocity.y = (this.roll() + 80) * -1;
   },
@@ -629,35 +634,19 @@ RocketTux.Game.prototype = {
     name+= '-';
     
     // Spawn into one of the groups and schedule a status update
-    if (type == 'walker'){
-        badguy = this.enemyWalkers.create(posX, posY, 'atlas');
-        badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
-        badguy.animations.play('move');
-        badguy.anchor.setTo(.5,.5);
-        this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
-    } else if (type == 'hopper'){
-        badguy = this.enemyHoppers.create(posX, posY, 'atlas');
-        badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
-        badguy.animations.play('move');
-        badguy.anchor.setTo(.5,.5);
-        this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
-    } else if (type == 'flyer'){
-        badguy = this.enemyFlyers.create(posX, posY, 'atlas');
-        badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
-        badguy.animations.play('move');
-        badguy.anchor.setTo(.5,.5);
-        this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
-        badguy.body.velocity.x = -200;
-    }
-    
-    //console.log("Spawned %s at %s, %s", name, posX, posY);
+    badguy = this.enemies.create(posX, posY, 'atlas');
+    badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
+    badguy.animations.play('move');
+    badguy.anchor.setTo(.5,.5);
+    badguy[type] = true; // Using this Boolean value to differentiate between badguy types for simplicity/speed 
+    this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
   },
   
 //==================INTERACTION WITH PLAYER========================
 
-  walkerTrigger: function(player, badguy){
-    // Mr. Bomb
-    if (badguy.frameName.indexOf('badguy-1') > -1){
+  aiTrigger: function(player, badguy){
+    // Use the frameName from the world.json to do character specific player interactions
+    if (badguy.frameName.indexOf('badguy-1') > -1){ // Mr. Bomb
         if (badguy.ticking)
             return;
         
@@ -668,7 +657,7 @@ RocketTux.Game.prototype = {
         badguy.ticking = true;
         this.sndTicking.play();
         this.game.time.events.add(Phaser.Timer.SECOND * 1.5, this.blowupBadguy, this, badguy);
-    } else if (badguy.frameName.indexOf('badguy-3') > -1){
+    } else if (badguy.frameName.indexOf('badguy-3') > -1){ // Mr. Shortfuse
         this.blowupBadguy(badguy);
     }
   },
