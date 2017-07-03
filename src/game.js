@@ -359,7 +359,15 @@ RocketTux.Game.prototype = {
     } else if (sprite.hopper){
         this.hop(sprite, tile)
     } else if (sprite.flyer){
+        this.turnAround(sprite, 190);
         
+        if (this.game.time.time > this.uiTimer){
+            var rng = this.roll()
+            sprite.body.velocity.y = -3 * rng; // Lift off
+            
+            if (rng > 98)
+                this.blowupBadguy(sprite, 96); // Ooops!
+        }
     }
   },
 // --- AI Actions -------
@@ -672,29 +680,35 @@ RocketTux.Game.prototype = {
         
         badguy.ticking = true;
         this.sndTicking.play();
-        this.game.time.events.add(Phaser.Timer.SECOND * 1.5, this.blowupBadguy, this, badguy);
+        this.game.time.events.add(Phaser.Timer.SECOND * 1.5, this.blowupBadguy, this, badguy, 96);
     } else if (badguy.frameName.indexOf('badguy-3') > -1){ // Mr. Shortfuse
-        this.blowupBadguy(badguy);
+        this.blowupBadguy(badguy, 64);
     } else if (badguy.frameName.indexOf('badguy-2') > -1){ // Jumpy
         if (!this.playerInvicible)
             this.sndCollide.play();
             
         this.hurtPlayer();
+    } if (badguy.frameName.indexOf('badguy-4') > -1){ // Rocketboots
+        if (badguy.ticking)
+            return;
+        
+        badguy.ticking = true;
+        this.sndTicking.play();
+        this.game.time.events.add(Phaser.Timer.SECOND * 1.5, this.blowupBadguy, this, badguy, 200);
     }
   },
-  blowupBadguy: function(badguy){
+  blowupBadguy: function(badguy, blastRadius){
     this.doExplosion(badguy.body.x, badguy.body.y);
     this.sndExplosion.play();
     badguy.kill();
     
-    var x = Math.abs(this.player.x - badguy.body.x);
-    var y = Math.abs(this.player.y - badguy.body.y);
-    var blastRadius = 64;
+    var x = Math.abs(this.player.x - badguy.x);
+    var y = Math.abs(this.player.y - badguy.y);
+    var disToPlayer = Math.sqrt(x*x + y*y);
     
-    if (badguy.frameName.indexOf('badguy-3') > -1)
-        blastRadius = 32;
+    //console.log('blast radius: %s, x: %s, y: %s, hyp: %s \nPlayer y: %s \nBadguy y: %s', blastRadius, x, y, disToPlayer, this.player.y, badguy.y);
     
-    if (x > blastRadius && y > blastRadius)
+    if (disToPlayer > blastRadius)
         return;
     
     this.hurtPlayer();

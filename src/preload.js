@@ -75,14 +75,14 @@ RocketTux.Preload.prototype = {
     // Data used for spawning enemeies
     RocketTux.badguyConfig = {
         // Spawn groups
-        snow1:['badguy-1', 'badguy-2', 'badguy-3'],
-        snow2:['badguy-1', 'badguy-2', 'badguy-3'],
-        snow3:['badguy-1', 'badguy-2', 'badguy-3'],
-        forest1:['badguy-1', 'badguy-2', 'badguy-3'],
-        forest2:['badguy-1', 'badguy-2', 'badguy-3'],
-        beach1:['badguy-1', 'badguy-2', 'badguy-3'],
-        beach1:['badguy-1', 'badguy-2', 'badguy-3'],
-        candyland:['badguy-1', 'badguy-2', 'badguy-3'],
+        snow1:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
+        snow2:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
+        snow3:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
+        forest1:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
+        forest2:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
+        beach1:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
+        beach1:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
+        candyland:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
         // Personal details
         'badguy-1':{ // Mr. Bomb
             type: 'walker',
@@ -102,6 +102,12 @@ RocketTux.Preload.prototype = {
             frames: 2,
             fps: 5
         },
+        'badguy-4':{ // Short-Fuse
+            type: 'flyer',
+            gravity: 30,
+            frames: 3,
+            fps: 10
+        }
     }
     
     // Powerup state
