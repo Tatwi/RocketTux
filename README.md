@@ -4,7 +4,7 @@ A pengiun with a rocket pack? It sure is as awesome as you're imagining!
 RocketTux is a side scroller adventure with player-influenced random level generation, quests, reputations, basic crafting, and other fun stuff! The game is primarily about collecting coins and completing quests by collecting and/or crafting items, while puzzling your way through resources management and level navigation. While there isn't any combat in the game, the ever mischievous Nolok has a tendency to let his walking bombs and other "hilarious machines" run wild... Along with Nolok's toy-box gone wrong, the Tux may also encounter extreme weather, angry stones, and various projectiles of questionable origin.  
 
 ### About Development
-- **Current Version:** 0.3 (June 2017)
+- **Current Version:** 0.3.5 (July 2017)
 - **Version 1.0 Expected:** February 4th, 2018 (My 40th birthday!)
 - Programmed from scratch using [Phaser CE](http://phaser.io/download/stable), as a way to learn the Phaser CE framework and because making games is fun!
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
@@ -20,6 +20,7 @@ RocketTux is a side scroller adventure with player-influenced random level gener
 - Vesion 0.2: Complete player, level generation, and entity spawning mechanics.
 - Vesion 0.2.5: Playable basic game with usable UI.
 - Vesion 0.3: Block spawning (Quest, Powerup, Loot, Dangerous Loot) mechanic, functional powerups, implemented the 196 quest item icons, in-level item collection tracking, quest window.
+- Version 0.3.5: Enemy spawning, 3 functional enemies, player interaction with enemies, several performance improvements.
 
 ### Target Audience
 RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn more about programming. Indeed, it is possible to create this entire game on a Chromebook in ChromeOS directly, with the proper apps! 
@@ -39,7 +40,7 @@ When version 1.0 is released, the following game play will be available.
 - Meet new people, do quests for them, and gain reputation with them to unlock unique rewards.
 - Randomly generated levels with at least 26 different tiles per theme.
 - Influence the time and place of your adventures, along with other properties of the world.
-- No death mechanic. If you bump into an enemy, you lose some coins.
+- No death mechanic. The player gets knocked back and loses 10 coins from his wallet on contact with an enemy or an explosion, unless he is invincible at the time.
 - No "murder hobo" lifestyle; Nolok's minions are obstacles to be avoided (you can't kill them, though the bomb guys do explode).
 - No time limits. Stop and smell the Fire Flowers!
 - No forced movement through levels. This ain't no "endless runner" game!
@@ -56,6 +57,22 @@ When version 1.0 is released, the following game play will be available.
 - Down Arrow: Hover when in the air. Do NOT altitude when collecting coins (handy for collecting a row of coins). Duck when on the ground.
 - Music Controls: M for mute, Comma for quieter, Period for louder.
 - B: Toggles the display of your Adventure Bag, which show the items you found in a level.
+
+#### Powerups
+- Star: Makes you fly faster and makes you run at super speed!
+- Fire Flower: You fly even faster than with the Star and you have a chance to gain a boost when collecting coins (to a max of 5 active boosts).
+- Water Flower: Makes you invincible and very lucky, but the powerup is consumed after the first time it protects you.
+- Earth Flower: Makes you completely invincible at the cost of also making you very, very heavy.
+- Air Flower: Makes you much lighter, improving your jumps, coin-jumps, and boosts, while also causing you to drop slower.
+- All powerups, with the exception of the Earth Flower, are lost on contact with an enemy or an explosion.
+
+#### Enemies
+- Mr. Bomb: Walks around, preferably on the ground. He is programmed to run, tick, and explode when Tux gets near him. Large blast radius.
+- Mr. Short-fuse: Walks around, preferably on the ground. He doesn't have time for ticking, he just explodes! Smaller blast radius.
+- Jumpy: Likes to stay in one spot and hop the day away. Invincible, everlasting.
+- Woody: Like Jumpy, but made of wood and only found in the forest.
+- Rocketboots: Flies around, bouncing off things. He is programmed to explode when Tux gets near him, but he may well blow himself up just by bouncing around. Enormous blast radius.
+- And more...
 
 #### Gameplay Tips
 - Each map is a puzzle, where the idea is to collect as many coins as possible. However, you only have so many boosts and "coin jumps" to get up to the high coins and to get over obstacles. So the biggest tip is to go back and forth and get all the highest coins first, then work your way down. 
