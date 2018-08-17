@@ -82,19 +82,13 @@ RocketTux.MainMenu.prototype = {
         this.powerUpIcon.scale.setTo(2.5, 2.5); 
     }
     
-    // Inventory Window
-    this.inventoryWindow;
-    slickUI.add(this.inventoryWindow = new SlickUI.Element.Panel(this.game.width - 610, 20, 600, this.game.height - 40));
-    var invName;
-    this.inventoryWindow.add(invName = new SlickUI.Element.Text(0, 0, 'Inventory'));
-    invName.centerHorizontally();
-    this.inventoryWindow.visible = false;
-    
     // Inventory Button
     var btInventory;
     panel.add(btInventory = new SlickUI.Element.Button(0, this.game.height - 107, 140, 80));
     btInventory.events.onInputUp.add(this.toggleInventory, this);
     btInventory.add(new SlickUI.Element.Text(0, 0, 'Inventory')).center();
+    this.invOpen = false;
+    this.invPage = 0;
     
     // Cubimal Window
     this.cubimalWindow;
@@ -185,9 +179,11 @@ RocketTux.MainMenu.prototype = {
     this.powerupToolTipIsOn = false;
   },
   toggleInventory: function(){
-    if (this.inventoryWindow.visible){
-        this.inventoryWindow.visible = false;
+    if (this.invOpen){
+        this.inventoryWindow.destroy();
+        this.invOpen = false;
     } else {
+        this.populateInventory();
         this.inventoryWindow.visible = true;
     }
   },
@@ -197,5 +193,59 @@ RocketTux.MainMenu.prototype = {
     } else {
         this.cubimalWindow.visible = true;
     }
+  },
+  populateInventory: function(){
+    // Create Inventory Window
+    this.inventoryWindow;
+    slickUI.add(this.inventoryWindow = new SlickUI.Element.Panel(this.game.width - 610, 20, 600, this.game.height - 40));
+    this.invName;
+    this.inventoryWindow.add(this.invName = new SlickUI.Element.Text(0, 0, 'Inventory\n Page: ' + (this.invPage + 1) ));
+    this.invName.centerHorizontally();
+    this.inventoryWindow.visible = false; 
+
+    var btNext;
+    this.inventoryWindow.add(btNext = new SlickUI.Element.Button(448, 0, 140, 80));
+    btNext.events.onInputUp.add(this.invNextPage, this);
+    btNext.add(new SlickUI.Element.Text(0, 0, 'Next')).center();
+    
+    var btBack;
+    this.inventoryWindow.add(btBack = new SlickUI.Element.Button(2, 0, 140, 80));
+    btBack.events.onInputUp.add(this.invPrevPage, this);
+    btBack.add(new SlickUI.Element.Text(0, 0, 'Back')).center();
+
+    this.invOpen = true;
+    
+    this.showInvPage();
+  }, 
+  showInvPage: function(){
+    this.iconLine = 100;
+    for (i = 0; i < 12; i++){
+        this.iconQnt;
+        this.inventoryWindow.add(this.iconQnt = new SlickUI.Element.Text(2, this.iconLine, "999 -" ));
+        this.inventoryWindow.add(new SlickUI.Element.DisplayObject(64, this.iconLine, this.invIcon = this.game.make.sprite(0, 0, 'atlas')));
+        this.invIcon.frameName = 'icon-' + (i + this.invPage * 12);
+        this.iconDesc;
+        this.inventoryWindow.add(this.iconDesc = new SlickUI.Element.Text(104, this.iconLine - 4, 'This is a description that will be pulled from a table...' ));
+        
+        this.iconLine += 48;
+    }
+  },
+  invNextPage: function(){
+    if (this.invPage == 15){
+        return; // Already on last page
+    }
+    this.inventoryWindow.destroy();
+    this.invOpen = false;
+    this.invPage += 1;
+    this.toggleInventory();
+  },
+  invPrevPage: function(){
+    if (this.invPage == 0){
+        return; // Already on first page
+    }
+    this.inventoryWindow.destroy();
+    this.invOpen = false;
+    this.invPage -= 1;
+    this.toggleInventory();
   }
 };
