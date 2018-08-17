@@ -81,6 +81,34 @@ RocketTux.MainMenu.prototype = {
         this.powerUpIcon.frameName = 'pwrup-icon-' + tmpPwrup;
         this.powerUpIcon.scale.setTo(2.5, 2.5); 
     }
+    
+    // Inventory Window
+    this.inventoryWindow;
+    slickUI.add(this.inventoryWindow = new SlickUI.Element.Panel(this.game.width - 610, 20, 600, this.game.height - 40));
+    var invName;
+    this.inventoryWindow.add(invName = new SlickUI.Element.Text(0, 0, 'Inventory'));
+    invName.centerHorizontally();
+    this.inventoryWindow.visible = false;
+    
+    // Inventory Button
+    var btInventory;
+    panel.add(btInventory = new SlickUI.Element.Button(0, this.game.height - 107, 140, 80));
+    btInventory.events.onInputUp.add(this.toggleInventory, this);
+    btInventory.add(new SlickUI.Element.Text(0, 0, 'Inventory')).center();
+    
+    // Cubimal Window
+    this.cubimalWindow;
+    slickUI.add(this.cubimalWindow = new SlickUI.Element.Panel(164, 120, 500, 580));
+    var cubName;
+    this.cubimalWindow.add(cubName = new SlickUI.Element.Text(0, 0, 'Cubimals'));
+    cubName.centerHorizontally();
+    this.cubimalWindow.visible = false;
+    
+    // Cubimal Button
+    var btCubimals;
+    panel.add(btCubimals = new SlickUI.Element.Button(0, this.game.height - 189, 140, 80));
+    btCubimals.events.onInputUp.add(this.toggleCubimals, this);
+    btCubimals.add(new SlickUI.Element.Text(0, 0, 'Cubimals')).center();
   },
   update: function() {
 /*      
@@ -156,4 +184,18 @@ RocketTux.MainMenu.prototype = {
         
     this.powerupToolTipIsOn = false;
   },
+  toggleInventory: function(){
+    if (this.inventoryWindow.visible){
+        this.inventoryWindow.visible = false;
+    } else {
+        this.inventoryWindow.visible = true;
+    }
+  },
+  toggleCubimals: function(){
+    if (this.cubimalWindow.visible){
+        this.cubimalWindow.visible = false;
+    } else {
+        this.cubimalWindow.visible = true;
+    }
+  }
 };
