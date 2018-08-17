@@ -120,6 +120,23 @@ RocketTux.Preload.prototype = {
         RocketTux.powerUpActive = tmpPwrup;
     }
     
+    // Load Inventory
+    RocketTux.inventory = {};
+    var tmpInv = localStorage.getItem('RocketTux-invItem196');
+    if (tmpInv == null || tmpInv == undefined){
+        // Initial first saved data
+        for (i = 0; i < 197; i++){
+            localStorage.setItem('RocketTux-invItem' + i, 0);
+        }
+        // Set initialized condition (Only items 0-195 are used as actual inventory items)
+        localStorage.setItem('RocketTux-invItem196', 999);
+    } else {
+       // Load data into array
+       for (i = 0; i < 197; i++){
+            RocketTux.inventory[i] = parseInt(localStorage.getItem('RocketTux-invItem' + i));
+        }
+    }
+    
     // Loot group values are array positions that represent the icon numbers 0 to 196. 
     // Numbers are used in the atlas.json like so, icon-0, icon-1, etc. to point to the images of the icons.
     // Numbers are also used in the tables below to match the names and descriptions of the items.

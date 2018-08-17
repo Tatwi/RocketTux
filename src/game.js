@@ -937,6 +937,11 @@ RocketTux.Game.prototype = {
     // Add item to the loot bag
     var posY = 24 + 37 * Math.floor((this.itemsCollected.length - 1) / 6);
     
+    // Save item to player's inventory
+    var tmpInvVal = parseInt(localStorage.getItem('RocketTux-invItem' + itemNumber));
+    if (tmpInvVal > 999){tmpInvVal = 999;}
+    localStorage.setItem('RocketTux-invItem' + itemNumber, tmpInvVal + 1);
+    
     if (this.lootIconRowCount > 5)
         this.lootIconRowCount = 0;
     

@@ -221,7 +221,12 @@ RocketTux.MainMenu.prototype = {
     this.iconLine = 100;
     for (i = 0; i < 12; i++){
         this.iconQnt;
-        this.inventoryWindow.add(this.iconQnt = new SlickUI.Element.Text(2, this.iconLine, "999 -" ));
+        var tmpInvVal = parseInt(localStorage.getItem('RocketTux-invItem' + (i + this.invPage * 12)));
+        var spaces = '';
+        if (tmpInvVal > 9){spaces = '  ';}
+        if (tmpInvVal > 99){spaces = ' ';}
+        if (tmpInvVal < 10){spaces = '   ';}
+        this.inventoryWindow.add(this.iconQnt = new SlickUI.Element.Text(9, this.iconLine, spaces + tmpInvVal));
         this.inventoryWindow.add(new SlickUI.Element.DisplayObject(64, this.iconLine, this.invIcon = this.game.make.sprite(0, 0, 'atlas')));
         this.invIcon.frameName = 'icon-' + (i + this.invPage * 12);
         this.iconDesc;
