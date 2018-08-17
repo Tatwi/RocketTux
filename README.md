@@ -5,7 +5,7 @@ RocketTux is a side scroller adventure with player-influenced random level gener
 
 ### About Development
 - **Current Version:** 0.3.5 (July 2017)
-- **Version 1.0 Expected:** February 4th, 2018 (My 40th birthday!)
+- **Version 1.0 Expected:** Before 2019
 - Programmed from scratch using [Phaser CE](http://phaser.io/download/stable), as a way to learn the Phaser CE framework and because making games is fun!
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
 - RocketTux is its own unique game, rather than a clone of Supertux.
@@ -26,7 +26,7 @@ RocketTux is a side scroller adventure with player-influenced random level gener
 RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn more about programming. Indeed, it is possible to create this entire game on a Chromebook in ChromeOS directly, with the proper apps! 
 
 ### Story
-That naughty Nolok has been up to no good, again! This time he and his minions decided it would be hilarious if they took people's everyday items and hid them inside of magic blocks all over the world. Someone has to clean up Nolok's mess and Tux is always up for a challenge. With the use of Rob the Tinkerer's custom rocket packs, Tux is able to travel the world way faster than he could on foot - This penguin can fly! Of course, Nolok isn't going to make it easy for him, even though he does think the rocket pack thing is cool.
+That naughty Nolok has been up to no good, again! This time he and his minions decided it would be hilarious if they took people's everyday items and hid them inside of magic blocks all over the world. Someone has to clean up Nolok's mess and Tux is always up for a challenge. Of course, Nolok isn't going to make it easy for him, even though he does think the rocket pack thing is cool.
 
 ### Gameplay
 When version 1.0 is released, the following game play will be available.
@@ -80,9 +80,7 @@ When version 1.0 is released, the following game play will be available.
 - Don't sweat it if you weren't able to collect all the coins in a map. There are an infinite amount of chances ahead of you to collect more!
 
 ### Installation
-RocketTux is built as an "HTML5 web app" that is optimized to run well on basic Chromebooks or on desktops using the Google Chrome browser (it's slow in Firefox and I don't recommend using anything other than Google Chrome for the game). This makes RocketTux "cross platform compatible" with any system that can run a the Chrome web browser (either Google's version or the open source "Chromium" version), which means it will work on Chromebooks and Linux/Window/Mac PCs! Heck, it even runs on my Samsung Galaxy S6 Android phone, but at this time there aren't any touch screen controls for the game (Perhaps I will make them eventually). Chrome makes for a great "run time environment" for WEBGL applications.  
-
-Until such a time as I package the final version for Linux and Windows, you will need to download it run it at home. However, there is a catch!  
+RocketTux is built as an "HTML5 web app" that is optimized to run well on basic Chromebooks or on desktops using the Google Chrome browser (it's slow in Firefox and I don't recommend using anything other than Google Chrome for the game). This makes RocketTux "cross platform compatible" with any system that can run a the Chrome web browser, however that may not always be the case, due to changes Google makes to the broswer (which is infuriating as hobby developer!). So, if you find it doesn't work and you're using a version of Chrome greater than 66 (Aug 2018), then sorry that was the most recent version of Chrome that worked for me...
 
 To run RocketTux at home, you'll (most likely) need to use a "local web server" on your computer to "host" the game. This sounds complicated (and you *can* make it complicated...), but there are some really simple tools available on Linux, Mac, and Windows. Here is how you can download and run RocketTux:
 
@@ -118,8 +116,7 @@ Now that you have the game running, you can add a link for it on your desktop an
     
 #### Chromebooks and Android
 - Unfortunately, Google "Packaged Apps" will no longer be supported outside of ChromeOS on Chromebooks after 2018 (and who knows how long they will be around even on ChromeOS...). That reality, along with the convoluted, **unreliable** mess that was required to store the saved game data when RocketTux was a "Google Packaged App", means that you can't run RocketTux directly on a Chromebook anymore. Take the good with the bad: Normal HTML5 data storage works great!
-- You will have to host RocketTux from a desktop computer on your home network, by following the steps above. The only difference is on the Chromebook you will have to type in the network address of the computer that is hosting the game, rather than 127.0.0.1. If you don't know how to find the ip address of the host computer, you can use the included Python "runserver.py" script to find it or you can do a quick internet search about how to find the IP address of the host computer. :) Personally, I set the IP address on my desktop as a "static ip" of 192.168.0.77 so that it will always be the same and it is easy to remember.
-- At this time, RocketTux does not have controls for touch screen devices, such as Android phones and tablets. So, while it will load on them, you won't be able to DO anything in the game.
+- Search the Google Web Store for a Chrome extention called "Web Server for Chrome". This extension will allow you to host a folder on your Chromebook as a website, allowing you to play the game at the 127.0.0.1 address, similar to the above. See the app's documentation for details on how to configure it.
 
     
 #### Windows
