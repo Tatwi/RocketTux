@@ -45,14 +45,42 @@ RocketTux.MainMenu.prototype = {
     // Coins display
     var tmpCoins = localStorage.getItem('RocketTux-myWallet');
     
+    // Enforce coin cap at 9,999,999
+    if (tmpCoins > 9999998){
+        localStorage.setItem('RocketTux-myWallet', '9999999');
+    }
+   
     if (tmpCoins == null || tmpCoins == undefined){
         // Initial first saved data
         localStorage.setItem('RocketTux-myWallet', '1');
     }
     
-    text = 'My Coins:\n' + localStorage.getItem('RocketTux-myWallet');
-   // var displayCoins = this.game.add.text(8, 8, text, style);
-   panel.add(new SlickUI.Element.Text(0, 0, text)).center();
+    this.coinIcon
+    panel.add(new SlickUI.Element.DisplayObject(8, 265, this.coinIcon = this.game.make.sprite(0, 0, 'atlas')));
+    this.coinIcon.frameName = 'ui-coin';
+    text = ': ' + localStorage.getItem('RocketTux-myWallet');
+    panel.add(new SlickUI.Element.Text(42, 267, text));
+    
+    // Show game logo
+    this.logo = this.coinIcon = this.game.make.sprite(0, 0, 'logo')
+    this.logo.scale.setTo(2, 0.5); //wide, tall
+    this.logo.anchor.setTo(0.5);
+    panel.add(new SlickUI.Element.DisplayObject(408, 40, this.logo));
+    
+    // Show power up icon
+    var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
+    
+    if (tmpPwrup != 'none') {
+        var btPowerup;
+        panel.add(btPowerup = new SlickUI.Element.Button(30, 306, 70, 70));
+        btPowerup.events.onInputOver.add(this.powerupToolTipOver, this);
+        btPowerup.events.onInputOut.add(this.powerupToolTipOut, this);
+        
+        this.powerUpIcon;
+        panel.add(new SlickUI.Element.DisplayObject(26, 304, this.powerUpIcon = this.game.make.sprite(0, 0, 'atlas')));
+        this.powerUpIcon.frameName = 'pwrup-icon-' + tmpPwrup;
+        this.powerUpIcon.scale.setTo(2.5, 2.5); 
+    }
   },
   update: function() {
 /*      
@@ -98,5 +126,34 @@ RocketTux.MainMenu.prototype = {
   },
   btHardOut: function(){
     this.btHardTip.destroy();
+  },
+  powerupToolTipOver: function(){
+    this.powerupToolTip;
+    slickUI.add(this.powerupToolTip = new SlickUI.Element.Panel(164, 300, 360, 130));
+
+    var txt; 
+    
+    if (RocketTux.powerUpActive == 'star'){
+        txt = 'Star: Makes you run at super speed, while also causing you to fly faster.';
+    } else if (RocketTux.powerUpActive == 'fire'){
+        txt = 'Fire: Makes you fly very fast and gives you a chance to gain a boost when collecting coins (up to 5 boosts).';
+    } else if (RocketTux.powerUpActive == 'water'){
+        txt = 'Water: Ice Armor makes you invincible and very lucky at no cost, but the armor is consumed after one use.';
+    } else if (RocketTux.powerUpActive == 'air'){
+        txt = 'Air: Makes you lighter so can jump higher, boost better, and fall more slowly.';
+    } else if (RocketTux.powerUpActive == 'earth'){
+        txt = 'Earth: Stone Form makes you invincible and a bit more lucky, at the cost of making you much heavier.';
+    }
+    
+    txt += " Powerups are found inside purple boxes!"
+    
+    this.powerupToolTip.add(new SlickUI.Element.Text(4, 0, txt));
+    this.powerupToolTipIsOn = true;
+  },
+  powerupToolTipOut: function(){
+    if (this.powerupToolTipIsOn)
+        this.powerupToolTip.destroy();
+        
+    this.powerupToolTipIsOn = false;
   },
 };
