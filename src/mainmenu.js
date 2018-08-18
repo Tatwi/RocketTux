@@ -15,6 +15,9 @@ RocketTux.MainMenu.prototype = {
     music.loop = true;
     music.play();
     
+    // UI Sounds
+    this.mouseoverSnd = this.game.add.audio('mouseover');
+    
     // UI
     this.world.add(slickUI.container.displayGroup);
     var panel;
@@ -90,19 +93,13 @@ RocketTux.MainMenu.prototype = {
     this.invOpen = false;
     this.invPage = 0;
     
-    // Cubimal Window
-    this.cubimalWindow;
-    slickUI.add(this.cubimalWindow = new SlickUI.Element.Panel(164, 120, 500, 580));
-    var cubName;
-    this.cubimalWindow.add(cubName = new SlickUI.Element.Text(0, 0, 'Cubimals'));
-    cubName.centerHorizontally();
-    this.cubimalWindow.visible = false;
-    
     // Cubimal Button
     var btCubimals;
     panel.add(btCubimals = new SlickUI.Element.Button(0, this.game.height - 189, 140, 80));
     btCubimals.events.onInputUp.add(this.toggleCubimals, this);
     btCubimals.add(new SlickUI.Element.Text(0, 0, 'Cubimals')).center();
+    this.cubOpen = false;
+    this.cubPage = 0;
   },
   update: function() {
 /*      
@@ -178,6 +175,7 @@ RocketTux.MainMenu.prototype = {
         
     this.powerupToolTipIsOn = false;
   },
+//==================INVENTORY========================
   toggleInventory: function(){
     if (this.invOpen){
         this.inventoryWindow.destroy();
@@ -185,13 +183,6 @@ RocketTux.MainMenu.prototype = {
     } else {
         this.populateInventory();
         this.inventoryWindow.visible = true;
-    }
-  },
-  toggleCubimals: function(){
-    if (this.cubimalWindow.visible){
-        this.cubimalWindow.visible = false;
-    } else {
-        this.cubimalWindow.visible = true;
     }
   },
   populateInventory: function(){
@@ -253,5 +244,88 @@ RocketTux.MainMenu.prototype = {
     this.invOpen = false;
     this.invPage -= 1;
     this.toggleInventory();
+  },
+//==================CUBIMALS========================
+  toggleCubimals: function(){
+    if (this.cubOpen){
+        this.cubWindow.destroy();
+        this.cubOpen = false;
+    } else {
+        this.populateCubimals();
+        this.cubWindow.visible = true;
+    }
+  },
+  populateCubimals: function(){
+    // Create Cubimal Window
+    this.cubWindow; 
+    slickUI.add(this.cubWindow = new SlickUI.Element.Panel(164, 100, 500, 600));
+    this.cubName;
+    this.cubWindow.add(this.cubName = new SlickUI.Element.Text(0, 0, 'Cubimals\n Page: ' + (this.cubPage + 1)));
+    this.cubName.centerHorizontally();
+    this.cubWindow.visible = false; 
+
+    var btNext;
+    this.cubWindow.add(btNext = new SlickUI.Element.Button(348, 0, 140, 80));
+    btNext.events.onInputUp.add(this.cubNextPage, this);
+    btNext.add(new SlickUI.Element.Text(0, 0, 'Next')).center();
+    
+    var btBack;
+    this.cubWindow.add(btBack = new SlickUI.Element.Button(2, 0, 140, 80));
+    btBack.events.onInputUp.add(this.cubPrevPage, this);
+    btBack.add(new SlickUI.Element.Text(0, 0, 'Back')).center();
+    
+    // Display Active Cubimals
+    var activeCubTitle;
+    this.cubWindow.add(activeCubTitle = new SlickUI.Element.Text(0, 74, 'Active Cubimals\n\n\n_____________'));
+    activeCubTitle.centerHorizontally();
+    for (i = 0; i < 5; i++){
+        var activeCub;
+        this.cubWindow.add(new SlickUI.Element.DisplayObject(34 + i * 88, 94, activeCub = this.game.make.sprite(0, 0, 'atlas')));
+        activeCub.frameName = 'cub-' + i * 3; 
+    }
+    
+    this.cubOpen = true;
+    
+    this.showCubPage();
+  }, 
+  showCubPage: function(){
+    this.iconLine = 178;
+    for (i = 0; i < 5; i++){
+        var curItem = i + this.cubPage * 5
+        
+        var btAdd;
+        this.cubWindow.add(btAdd = new SlickUI.Element.Button(2, this.iconLine + 8, 50, 48));
+        btAdd.events.onInputUp.add(this.testSound, this);
+        btAdd.add(new SlickUI.Element.Text(0, 0, 'Add')).center();
+        
+        this.iconCub;
+        this.cubWindow.add(new SlickUI.Element.DisplayObject(56, this.iconLine, this.cubIcon = this.game.make.sprite(0, 0, 'atlas')));
+        this.cubIcon.frameName = 'cub-' + curItem; 
+        this.iconDesc;
+        this.cubWindow.add(this.iconDesc = new SlickUI.Element.Text(128, this.iconLine, RocketTux.lootNames[curItem] + '\nHint: ' + RocketTux.lootDesc[curItem]));
+        
+        this.iconLine += 84;
+    }
+  },
+  cubNextPage: function(){
+    if (this.cubPage == 8){
+        return; // Already on last page
+    }
+    this.cubWindow.destroy();
+    this.cubOpen = false;
+    this.cubPage += 1;
+    this.toggleCubimals();
+  },
+  cubPrevPage: function(){
+    if (this.cubPage == 0){
+        return; // Already on first page
+    }
+    this.cubWindow.destroy();
+    this.cubOpen = false;
+    this.cubPage -= 1;
+    this.toggleCubimals();
+  },
+  testSound: function(){
+    this.mouseoverSnd.play();
   }
 };
