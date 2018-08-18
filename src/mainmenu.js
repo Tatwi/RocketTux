@@ -302,7 +302,23 @@ RocketTux.MainMenu.prototype = {
         this.cubWindow.add(new SlickUI.Element.DisplayObject(56, this.iconLine, this.cubIcon = this.game.make.sprite(0, 0, 'atlas')));
         this.cubIcon.frameName = 'cub-' + curItem; 
         this.iconDesc;
-        this.cubWindow.add(this.iconDesc = new SlickUI.Element.Text(128, this.iconLine, RocketTux.lootNames[curItem] + '\nHint: ' + RocketTux.lootDesc[curItem]));
+        this.cubWindow.add(this.iconDesc = new SlickUI.Element.Text(128, this.iconLine, RocketTux.cubNames[curItem] + ': ' + RocketTux.cubDesc[curItem]));
+        
+        // Coin cost
+        var coinIcon;
+        this.cubWindow.add(new SlickUI.Element.DisplayObject(123, this.iconLine + 47, coinIcon = this.game.make.sprite(0, 0, 'atlas')));
+        coinIcon.frameName = 'ui-coin';
+        var coinQnt;
+        this.cubWindow.add(coinQnt = new SlickUI.Element.Text(155, this.iconLine + 50, parseInt(RocketTux.cubCost[curItem][0] * (parseInt(localStorage.getItem('RocketTux-cubCoinBonus')) / 100 + 1))));
+        
+        // Item cost
+        var itemIcon;
+        var itemQnt;
+        for (j = 1; j < 4; j++){
+            this.cubWindow.add(new SlickUI.Element.DisplayObject(149 + j * 75, this.iconLine + 47, itemIcon = this.game.make.sprite(0, 0, 'atlas')));
+            itemIcon.frameName = 'icon-' + RocketTux.cubCost[curItem][j]; 
+            this.cubWindow.add(itemQnt = new SlickUI.Element.Text(187 + j * 75, this.iconLine + 50, 22 - j * parseInt(localStorage.getItem('RocketTux-cubItemBonus'))));
+        }
         
         this.iconLine += 84;
     }
