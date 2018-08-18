@@ -220,17 +220,18 @@ RocketTux.MainMenu.prototype = {
   showInvPage: function(){
     this.iconLine = 100;
     for (i = 0; i < 12; i++){
+        var curItem = i + this.invPage * 12
         this.iconQnt;
-        var tmpInvVal = parseInt(localStorage.getItem('RocketTux-invItem' + (i + this.invPage * 12)));
+        var tmpInvVal = parseInt(localStorage.getItem('RocketTux-invItem' + curItem));
         var spaces = '';
         if (tmpInvVal > 9){spaces = '  ';}
         if (tmpInvVal > 99){spaces = ' ';}
         if (tmpInvVal < 10){spaces = '   ';}
         this.inventoryWindow.add(this.iconQnt = new SlickUI.Element.Text(9, this.iconLine, spaces + tmpInvVal));
         this.inventoryWindow.add(new SlickUI.Element.DisplayObject(64, this.iconLine, this.invIcon = this.game.make.sprite(0, 0, 'atlas')));
-        this.invIcon.frameName = 'icon-' + (i + this.invPage * 12);
+        this.invIcon.frameName = 'icon-' + curItem; 
         this.iconDesc;
-        this.inventoryWindow.add(this.iconDesc = new SlickUI.Element.Text(104, this.iconLine - 4, 'This is a description that will be pulled from a table...' ));
+        this.inventoryWindow.add(this.iconDesc = new SlickUI.Element.Text(104, this.iconLine - 5, RocketTux.lootNames[curItem] + '\nHint: ' + RocketTux.lootDesc[curItem]));
         
         this.iconLine += 48;
     }
