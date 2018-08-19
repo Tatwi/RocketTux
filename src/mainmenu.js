@@ -10,16 +10,22 @@ RocketTux.MainMenu.prototype = {
     this.activeBG.play('stand');
     this.activeBG.bringToTop();
     this.activeBG.fixedToCamera = true;
+    
+    // Game Logo
+    this.logo = this.game.add.sprite(412, 52, 'logo')
+    this.logo.scale.setTo(2, 0.5);
+    this.logo.anchor.setTo(0.5);
 
+    // Music and sounds
     music = this.game.add.audio('menu');
     music.loop = true;
     music.play();
-    
-    // UI Sounds
     this.mouseoverSnd = this.game.add.audio('mouseover');
     
     // UI
     this.world.add(slickUI.container.displayGroup);
+
+//==================Main Panel========================
     var panel;
     slickUI.add(panel = new SlickUI.Element.Panel(8, 8, 150, this.game.height - 16));
 
@@ -42,9 +48,6 @@ RocketTux.MainMenu.prototype = {
     btHard.events.onInputOut.add(this.btHardOut, this);
     btHard.add(new SlickUI.Element.Text(0, 0, 'Play Hard')).center();
 
-    this.add.tween(panel).from({alpha: 0}, 500, Phaser.Easing.Quadratic.In).start();
-    this.add.tween(panel).from({x: -150}, 500, Phaser.Easing.Back.InOut).start();
-    
     // Coins display
     var tmpCoins = localStorage.getItem('RocketTux-myWallet');
     
@@ -64,13 +67,7 @@ RocketTux.MainMenu.prototype = {
     text = ': ' + localStorage.getItem('RocketTux-myWallet');
     panel.add(new SlickUI.Element.Text(42, 267, text));
     
-    // Show game logo
-    this.logo = this.coinIcon = this.game.make.sprite(0, 0, 'logo')
-    this.logo.scale.setTo(2, 0.5); //wide, tall
-    this.logo.anchor.setTo(0.5);
-    panel.add(new SlickUI.Element.DisplayObject(408, 40, this.logo));
-    
-    // Show power up icon
+    // Powerup icon
     var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
     
     if (tmpPwrup != 'none') {
@@ -85,13 +82,13 @@ RocketTux.MainMenu.prototype = {
         this.powerUpIcon.scale.setTo(2.5, 2.5); 
     }
     
-    // Inventory Button
-    var btInventory;
-    panel.add(btInventory = new SlickUI.Element.Button(0, this.game.height - 107, 140, 80));
-    btInventory.events.onInputUp.add(this.toggleInventory, this);
-    btInventory.add(new SlickUI.Element.Text(0, 0, 'Inventory')).center();
-    this.invOpen = false;
-    this.invPage = 0;
+    // Quest Button
+    var btQuest;
+    panel.add(btQuest = new SlickUI.Element.Button(0, this.game.height - 271, 140, 80));
+    btQuest.events.onInputUp.add(this.toggleCubimals, this); // Testing place holder
+    btQuest.add(new SlickUI.Element.Text(0, 0, 'Quests')).center();
+    this.qstOpen = false;
+    this.qstPage = 0;
     
     // Cubimal Button
     var btCubimals;
@@ -100,14 +97,79 @@ RocketTux.MainMenu.prototype = {
     btCubimals.add(new SlickUI.Element.Text(0, 0, 'Cubimals')).center();
     this.cubOpen = false;
     this.cubPage = 0;
+    
+    // Inventory Button
+    var btInventory;
+    panel.add(btInventory = new SlickUI.Element.Button(0, this.game.height - 107, 140, 80));
+    btInventory.events.onInputUp.add(this.toggleInventory, this);
+    btInventory.add(new SlickUI.Element.Text(0, 0, 'Inventory')).center();
+    this.invOpen = false;
+    this.invPage = 0;
+    
+    this.add.tween(panel).from({alpha: 0}, 500, Phaser.Easing.Quadratic.In).start();
+    this.add.tween(panel).from({x: -150}, 500, Phaser.Easing.Back.InOut).start();
+
+//==================INVENTORY========================
+    // Inventory Background
+    this.invBg = this.game.add.sprite(this.game.width - 461, 10, 'ui-bg')
+    this.invBg.scale.setTo(4.54, 6.46); // 454x644
+    this.invBg.visible = false;
+    // Inventory Window Controls
+    this.invPanel;
+    slickUI.add(this.invPanel = new SlickUI.Element.Panel(this.game.width - 464, this.game.height - 58, 460, 50));
+    this.invPanel.visible = false;
+    this.invPage = 0;
+    var btInvNext;
+    this.invPanel.add(btInvNext = new SlickUI.Element.Button(360, 0, 100, 46));
+    btInvNext.events.onInputUp.add(this.invNextPage, this);
+    btInvNext.add(new SlickUI.Element.Text(0, 0, 'Next')).center();
+    var btInvBack;
+    this.invPanel.add(btInvBack = new SlickUI.Element.Button(0, 0, 100, 46));
+    btInvBack.events.onInputUp.add(this.invPrevPage, this);
+    btInvBack.add(new SlickUI.Element.Text(0, 0, 'Back')).center();
+    var invName;
+    this.invPanel.add(invName = new SlickUI.Element.Text(0, 0, 'Inventory Page: ' + (this.invPage + 1) ));
+    invName.centerHorizontally();
+    invName.centerVertically();
+    // Quantity/Icon/Description Slots
+    this.invQnt = [];
+    this.invIcons = this.game.add.group();
+    this.invDesc = [];
+    var lineSpace = 0;
+    for (i = 0; i < 12; i++){
+        // Quant
+        this.invPanel.add(this.invQnt[i] = new SlickUI.Element.Text(0, -640 + lineSpace, '999'));
+        //Icons
+        var tmpIcon = this.invIcons.create(this.game.width - 408, 24 + lineSpace, 'atlas');
+        tmpIcon.frameName = 'icon-' + i;
+        // Description
+        this.invPanel.add(this.invDesc[i] = new SlickUI.Element.Text(100, -648 + lineSpace, 'Item Name\nHint line is about this long here.'));
+
+        lineSpace += 53;
+    }
+    this.invIcons.visible = false;
+
+//==================CUBIMALS========================    
+    // Cubimal Window Controls
+    var cubPanel;
+    slickUI.add(cubPanel = new SlickUI.Element.Panel(164, this.game.height - 58, 504, 50));
+    this.invPanel.visible = false;
+    this.cubPage = 0;
+    var btCubNext;
+    cubPanel.add(btCubNext = new SlickUI.Element.Button(400, 0, 100, 46));
+    btCubNext.events.onInputUp.add(this.toggleCubimals, this); // Testing place holder
+    btCubNext.add(new SlickUI.Element.Text(0, 0, 'Next')).center();
+    var btCubBack;
+    cubPanel.add(btCubBack = new SlickUI.Element.Button(0, 0, 100, 46));
+    btCubBack.events.onInputUp.add(this.toggleCubimals, this); // Testing place holder
+    btCubBack.add(new SlickUI.Element.Text(0, 0, 'Back')).center();
+    var cubName;
+    cubPanel.add(cubName = new SlickUI.Element.Text(0, 0, 'Cubimals Page: ' + (this.invPage + 1) ));
+    cubName.centerHorizontally();
+    cubName.centerVertically();
   },
   update: function() {
-/*      
-    if(this.game.input.activePointer.justPressed()) {
-      music.destroy();
-      this.game.state.start('Game');
-    }
-*/
+    // Game Loop
   },
   startGame: function () {
     music.destroy();
@@ -176,74 +238,50 @@ RocketTux.MainMenu.prototype = {
     this.powerupToolTipIsOn = false;
   },
 //==================INVENTORY========================
-  toggleInventory: function(){
-    if (this.invOpen){
-        this.inventoryWindow.destroy();
-        this.invOpen = false;
-    } else {
-        this.populateInventory();
-        this.inventoryWindow.visible = true;
-    }
-  },
-  populateInventory: function(){
-    // Create Inventory Window
-    this.inventoryWindow;
-    slickUI.add(this.inventoryWindow = new SlickUI.Element.Panel(this.game.width - 610, 20, 600, this.game.height - 40));
-    this.invName;
-    this.inventoryWindow.add(this.invName = new SlickUI.Element.Text(0, 0, 'Inventory\n Page: ' + (this.invPage + 1) ));
-    this.invName.centerHorizontally();
-    this.inventoryWindow.visible = false; 
-
-    var btNext;
-    this.inventoryWindow.add(btNext = new SlickUI.Element.Button(448, 0, 140, 80));
-    btNext.events.onInputUp.add(this.invNextPage, this);
-    btNext.add(new SlickUI.Element.Text(0, 0, 'Next')).center();
-    
-    var btBack;
-    this.inventoryWindow.add(btBack = new SlickUI.Element.Button(2, 0, 140, 80));
-    btBack.events.onInputUp.add(this.invPrevPage, this);
-    btBack.add(new SlickUI.Element.Text(0, 0, 'Back')).center();
-
-    this.invOpen = true;
-    
-    this.showInvPage();
-  }, 
-  showInvPage: function(){
-    this.iconLine = 100;
+  fillInv: function(){
+    // Change the contents of the inventory page
+    var curItem = 0;
     for (i = 0; i < 12; i++){
-        var curItem = i + this.invPage * 12
-        this.iconQnt;
+        curItem = i + this.invPage * 12;
+        
         var tmpInvVal = parseInt(localStorage.getItem('RocketTux-invItem' + curItem));
         var spaces = '';
         if (tmpInvVal > 9){spaces = '  ';}
         if (tmpInvVal > 99){spaces = ' ';}
         if (tmpInvVal < 10){spaces = '   ';}
-        this.inventoryWindow.add(this.iconQnt = new SlickUI.Element.Text(9, this.iconLine, spaces + tmpInvVal));
-        this.inventoryWindow.add(new SlickUI.Element.DisplayObject(64, this.iconLine, this.invIcon = this.game.make.sprite(0, 0, 'atlas')));
-        this.invIcon.frameName = 'icon-' + curItem; 
-        this.iconDesc;
-        this.inventoryWindow.add(this.iconDesc = new SlickUI.Element.Text(104, this.iconLine - 5, RocketTux.lootNames[curItem] + '\nHint: ' + RocketTux.lootDesc[curItem]));
         
-        this.iconLine += 48;
+        this.invQnt[i].value = spaces + tmpInvVal;
+        this.invDesc[i].value = RocketTux.lootNames[curItem] + '\nHint: ' + RocketTux.lootDesc[curItem];
+        this.invIcons.getAt(i).frameName = 'icon-' + curItem;
+    }
+  },
+  toggleInventory: function(){
+    if (this.invOpen){
+        this.invOpen = false; // close
+        this.invBg.visible = false;
+        this.invPanel.visible = false;
+        this.invIcons.visible = false;
+    } else {
+        this.invOpen = true; // open
+        this.fillInv();
+        this.invBg.visible = true;
+        this.invPanel.visible = true;
+        this.invIcons.visible = true;
     }
   },
   invNextPage: function(){
     if (this.invPage == 15){
         return; // Already on last page
     }
-    this.inventoryWindow.destroy();
-    this.invOpen = false;
     this.invPage += 1;
-    this.toggleInventory();
+    this.fillInv();
   },
   invPrevPage: function(){
     if (this.invPage == 0){
         return; // Already on first page
     }
-    this.inventoryWindow.destroy();
-    this.invOpen = false;
     this.invPage -= 1;
-    this.toggleInventory();
+    this.fillInv();
   },
 //==================CUBIMALS========================
   toggleCubimals: function(){

@@ -16,6 +16,7 @@ RocketTux.Preload.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
  
   	// Load game assets
+    this.load.image('ui-bg', 'data/ui/ui-bg.png'); // For use in main menu
     this.load.image('world', 'data/world.png'); // For tilemap
     this.game.load.atlas('atlas', 'data/world.png', 'data/world.json');  // For all other elements
     this.load.spritesheet('skies', 'data/skies.png', 1024, 1024);
