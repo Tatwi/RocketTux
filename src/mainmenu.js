@@ -129,10 +129,10 @@ RocketTux.MainMenu.prototype = {
     this.invPanel.add(btInvBack = new SlickUI.Element.Button(0, 0, 100, 46));
     btInvBack.events.onInputUp.add(this.invPrevPage, this);
     btInvBack.add(new SlickUI.Element.Text(0, 0, 'Back')).center();
-    var invName;
-    this.invPanel.add(invName = new SlickUI.Element.Text(0, 0, 'Inventory Page: ' + (this.invPage + 1) ));
-    invName.centerHorizontally();
-    invName.centerVertically();
+    this.invName;
+    this.invPanel.add(this.invName = new SlickUI.Element.Text(0, 0, 'Inventory Page: ' + (this.invPage + 1) ));
+    this.invName.centerHorizontally();
+    this.invName.centerVertically();
     
     // Quantity/Icon/Description Slots
     this.invQnt = [];
@@ -171,10 +171,10 @@ RocketTux.MainMenu.prototype = {
     this.cubPanel.add(btCubBack = new SlickUI.Element.Button(0, 0, 100, 46));
     btCubBack.events.onInputUp.add(this.cubPrevPage, this); // Testing place holder
     btCubBack.add(new SlickUI.Element.Text(0, 0, 'Back')).center();
-    var cubName;
-    this.cubPanel.add(cubName = new SlickUI.Element.Text(0, 0, 'Cubimals Page: ' + (this.invPage + 1) ));
-    cubName.centerHorizontally();
-    cubName.centerVertically();
+    this.cubName;
+    this.cubPanel.add(this.cubName = new SlickUI.Element.Text(0, 0, 'Cubimals Page: ' + (this.invPage + 1) ));
+    this.cubName.centerHorizontally();
+    this.cubName.centerVertically();
     
     // Display Active Cubimals
     var activeCubTitle;
@@ -334,6 +334,9 @@ RocketTux.MainMenu.prototype = {
         this.invQnt[i].value = spaces + tmpInvVal;
         this.invDesc[i].value = RocketTux.lootNames[curItem] + '\nHint: ' + RocketTux.lootDesc[curItem];
         this.invIcons.getAt(i).frameName = 'icon-' + curItem;
+        
+        // Update Page Number
+        this.invName.value = 'Inventory Page: ' + (this.invPage + 1);
     }
   },
   toggleInventory: function(){
@@ -405,6 +408,9 @@ RocketTux.MainMenu.prototype = {
             }
         }
     }
+    
+     // Update Page Number
+     this.cubName.value = 'Cubimals Page: ' + (this.cubPage + 1);
   },
   toggleCubimals: function(){
     if (this.cubOpen){
