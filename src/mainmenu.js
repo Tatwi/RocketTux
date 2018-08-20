@@ -367,7 +367,7 @@ RocketTux.MainMenu.prototype = {
 //==================CUBIMALS DATA========================
   fillCub: function(){
     var curItem = 0;
-    var skp = 1;
+    var skp = 0;
     for (i = 0; i < 5; i++){
         curItem = i + this.cubPage * 5;
         // Item costs
@@ -382,12 +382,28 @@ RocketTux.MainMenu.prototype = {
         
         // Cubimal Icons
         this.cubIcons.getAt(i).frameName = 'cub-' + curItem;
+    }
+    
+    // Cost icons
+    var mod;
+    var cubPos = 0;
+    // Account for the selected page
+    if (this.cubPage > 0){
+        cubPos = this.cubPage * 5;
+    }
+    
+    for (j = 0; j < 25; j++){
+        mod = j % 5;
         
-        // Cost icons
-        for (j = 1; j < 4; j++){
-            this.cubCostIcons.getAt(this.cubPage + j).frameName = 'icon-' + RocketTux.cubCostIcons[i][j];
+        // Skip first icon in each row, as it's already the coin
+        if (mod != 0){
+            this.cubCostIcons.getAt(j).frameName = 'icon-' + RocketTux.cubCostIcons[cubPos][mod - 1]; // Must -1 because array has positions 0,1,2,3
+        } else {
+            // Every 5th iteration, move onto a new group of icons in array, exept on the first time we open the loop when we need cubPos to be 0
+             if (j != 0){
+                cubPos++; 
+            }
         }
-        skp += 5;
     }
   },
   toggleCubimals: function(){
