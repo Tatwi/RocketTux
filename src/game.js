@@ -529,11 +529,27 @@ RocketTux.Game.prototype = {
         var data = '';
         var rows = ["","","","","","","","","","","","","","","","","","","","","","",""];
         var theme = RocketTux[this.theme];
+        var rngSection = 0;
+        var sectionsUsed = "";
+        var failSafe = 0;
         
         // Generate the width of the map
         for (var i = 0; i < this.mapSections; i++)
         {
-            var rngSection = this.pickRandomProperty(theme);
+            failSafe = 0;
+            rngSection = this.pickRandomProperty(theme);
+            
+            // Prevent using the same section twice
+            while (sectionsUsed.indexOf(rngSection) >= 0){
+                if (failSafe > 24){
+                    break; // Prevent infite loop in cases where mapSections being used > number of different sections to choose from
+                }
+                
+                rngSection = this.pickRandomProperty(theme);
+                failSafe++;
+            }
+            
+            sectionsUsed += rngSection;
             
             for (var j = 0; j < 23; j++) {
                 rows[j] += theme[rngSection][j];
