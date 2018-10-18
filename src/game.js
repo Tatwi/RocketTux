@@ -570,7 +570,7 @@ RocketTux.Game.prototype = {
         this.map.addTilesetImage('world', 'world', 32, 32);
         
         // Set collision values on tiles
-        this.map.setCollisionBetween(2881, 4096);
+        this.map.setCollisionBetween(3072, 4096);
 
         //  0 is important
         this.theLevel = this.map.createLayer(0);
