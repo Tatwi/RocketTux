@@ -1,3 +1,8 @@
+"""
+RocketTux:
+Use this script to run a Python server if you're using Linux (Debian 7, 8, 9 tested).
+"""
+
 import SimpleHTTPServer
 import SocketServer
 import socket
@@ -16,5 +21,5 @@ httpd = SocketServer.TCPServer(("", PORT), Handler)
 
 here = 'Serving this folder at ' + str(IP) + ':' + str(PORT)
 
-print here 
+print (here) 
 httpd.serve_forever()
