@@ -1,0 +1,16 @@
+{
+  "name": "RocketTux",
+  "main": "window.html",
+  "window": {
+    "icon": "icon-128.png",
+    "toolbar": false,
+    "frame": true,
+    "width": 1280,
+    "height": 720,
+    "position": "center",
+    "min_width": 800,
+    "min_height": 450,
+    "max_width": 1920,
+    "max_height": 1080
+  }
+}
