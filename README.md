@@ -7,6 +7,7 @@ RocketTux is a side scroller adventure that is primarily about collecting coins 
 - Development Version: 0.4.0 (2018.11.11)
 - **Windows:** [7/8/10 64Bit](https://drive.google.com/open?id=1RZy3ebWwFBqzajM01s8NNAS9cACADeQj), [7/8/10 32Bit](https://drive.google.com/open?id=1sGTnVQ_-M_sBv1ia02LOr-ZDm6guYu3W)
 - **Linux:** [AMD64](https://drive.google.com/open?id=1twlRw0uAK5gQbQEWKd8lMjQyCedmfs5D), [x86](https://drive.google.com/open?id=1p8W95cfrZU7kXLnDERF_kuyh_jqvdZfQ)
+- Previous Versions: [Directory of all releases](https://drive.google.com/open?id=1HIeXdRdk2E9728L978p4-uPapfudT1VS)
 - MacOS: Not supported, but it would probably work fine.
 - Android/iOS: Not support. Will run, but you'd need a keyboad and mouse.
 
@@ -105,6 +106,7 @@ The following are links to documents related to the development of the game. Hop
 - [Building an executable using NW.js](doc/wiki-building.md)
 
 #### Project and Programming
+- [Art and release files in my Google Drive](https://drive.google.com/open?id=0By31kDj_eHBcWHdXRlFzdnZIdUU)
 - [File structure and types](doc/wiki-file_structure.md)
 - [Overview of Phaser CE, Pixi, Slick-UI, and JavaScript](doc/wiki-programming_overview.md)
 - [Step by step walk through of the game states](doc/wiki-game_states.md)
