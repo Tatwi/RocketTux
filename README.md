@@ -71,7 +71,7 @@ When version 1.0 is released, the following game play will be available.
 - Don't sweat it if you weren't able to collect all the coins in a level. There are an infinite amount of chances ahead of you to collect more!
 
 ### About Development
-- **Current Version:** 0.4.0 (Nov 2018)
+- **Current Version:** 0.4.2 (Nov 2018)
 - **Version 1.0 Expected:** Before the heat death of the universe!
 - Programmed from scratch using [Phaser CE](http://phaser.io/download/stable).
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
