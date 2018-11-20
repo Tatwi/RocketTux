@@ -16,6 +16,14 @@
             background: #000000;
         }
     </style>
+    <script>
+    nw.App.registerGlobalHotKey(new nw.Shortcut({
+	  key: "F11",
+	  active: function () {
+		nw.Window.get().toggleFullscreen();
+	  }
+	}));
+    </script>
 </head>
 <body>
     <script src="src/main.js"></script>
