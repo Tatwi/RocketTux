@@ -4,9 +4,9 @@ A pengiun with a rocket pack? It sure is as awesome as you're imagining!
 RocketTux is a side scroller adventure that is primarily about collecting coins and completing quests by collecting items. Help Tux navigate his way through the randomly pieced together levels, managing his boosts, collecting Cubimals for bonuses, and avoiding the ever mischievous Nolok's walking bombs and other "hilarious machines"...
 
 ### Download
-- Development Version: 0.4.0 (2018.11.11)
-- **Windows:** [7/8/10 64Bit](https://drive.google.com/open?id=1RZy3ebWwFBqzajM01s8NNAS9cACADeQj), [7/8/10 32Bit](https://drive.google.com/open?id=1sGTnVQ_-M_sBv1ia02LOr-ZDm6guYu3W)
-- **Linux:** [AMD64](https://drive.google.com/open?id=1twlRw0uAK5gQbQEWKd8lMjQyCedmfs5D), [x86](https://drive.google.com/open?id=1p8W95cfrZU7kXLnDERF_kuyh_jqvdZfQ)
+- Development Version: 0.4.3 (2018.12.17)
+- **Windows:** [7/8/10 64Bit](https://drive.google.com/open?id=1cPh6nHXv2BINCHQCf4hkMBSbqZwogfcI), [7/8/10 32Bit](https://drive.google.com/open?id=1N7hpHihpHhqDWuDJJyq30eRu--3v3Gy8)
+- **Linux:** [AMD64](https://drive.google.com/open?id=1CxWSmGFCafJP1mbnsVHUh1IHvjvhn-fH), [x86](https://drive.google.com/open?id=1u9zUUZrFrAFiLNuKlKe1ggBJ4YOW3oFk)
 - Previous Versions: [Directory of all releases](https://drive.google.com/open?id=1HIeXdRdk2E9728L978p4-uPapfudT1VS)
 - MacOS: Not supported, but it would probably work fine.
 - Android/iOS: Not support. Will run, but you'd need a keyboad and mouse.
