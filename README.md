@@ -73,11 +73,12 @@ When version 1.0 is released, the following game play will be available.
 ### About Development
 - **Current Version:** 0.4.4 (Jan 2019)
 - **Version 1.0 Expected:** Before the heat death of the universe!
-- Programmed from scratch using [Phaser CE](http://phaser.io/download/stable).
+- Programmed from scratch using [Phaser CE](https://github.com/photonstorm/phaser-ce).
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
 - RocketTux is its own unique game, rather than a clone of Supertux.
 - Created with Linux Mint 17 and Windows 10 64Bit on an AMD FX-8320 / R9 270 based desktop PC. 
 - Originally intended to be a Chrome App and optimized for low end Chromebooks, but the Chrome App arciteture was limiting. However, I kept the design philosophy and regularly test the game on an [HP Chromebook 14 G4](https://support.hp.com/us-en/product/hp-chromebook-14-g4/8326221/document/c04828937). 
+- Packaged as a native application for Windows and Linux using [NW.js](https://github.com/nwjs/nw.js), which is based on [Node.js](https://nodejs.org/en/about/) and the [Chromium](https://www.chromium.org/Home)  web browser.
 - **No advertisements, no subscriptions, no micro-transaction, and no purchase fees.** Just free, open source fun!
 
 #### Milestones to Release

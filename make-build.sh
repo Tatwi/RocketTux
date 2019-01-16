@@ -9,7 +9,7 @@
 # downloaded by putting it in the root directory of the project
 # and running this script.
 #
-# MacOS is not supported, as I no way to test it. However, it 
+# MacOS is not supported, as I have no way to test it. However, it 
 # should work using http://dl.nwjs.io/v0.35.4/nwjs-v0.35.4-osx-x64.zip
 
 clear
