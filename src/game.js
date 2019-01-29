@@ -4,7 +4,9 @@ RocketTux.Game = function(){};
  
 RocketTux.Game.prototype = {
   create: function() {
-    this.game.renderer.setTexturePriority(['world', 'atlas']);
+    this.game.renderer.setTexturePriority(['world', 'atlas', 'skies', 'skies-special', 'ui-bg', 'logo', 'preloadbar']); // low-end hardware will likely only use the first 2 items in the list, where as high-end hardware can use up to 16 (more for very high-end).
+    this.game.clearBeforeRender = false; // Every scene always has an opaque background image that gets repainted every frame
+    
     this.gameOver = false;
     
     var pickSong = Math.floor(Math.random() * RocketTux.songs.length)

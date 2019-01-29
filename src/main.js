@@ -7,6 +7,7 @@ RocketTux.config = {
     renderer: Phaser.AUTO,
     antialias: false,
     multiTexture: true,
+    enableDebug: false,
 };
 
 RocketTux.game = new Phaser.Game(RocketTux.config);
