@@ -12,6 +12,7 @@
 # MacOS is not supported, as I have no way to test it. However, it 
 # should work using http://dl.nwjs.io/v0.35.4/nwjs-v0.35.4-osx-x64.zip
 
+set -e
 clear
 echo "    Building RocketTux Release"
 echo -e "==================================\n"
@@ -105,11 +106,14 @@ fi
 # Extract the NW.js file
 echo -e "\nExtracting" $FILENAME "now..."
 
-if [[ $FILENAME != *"zip"* ]]
+if [[ $FILENAME == *"linux"* ]]
 then
 	# Linux
 	tar -xvzf $FILENAME
-else 
+fi
+
+if [[ $FILENAME == *"zip"* ]] 
+then
 	# Windows
 	unzip -o $FILENAME
 fi
@@ -142,8 +146,14 @@ echo -e "Copying game files...\n"
 
 # Make directories
 mkdir build/src
-mkdir build/lib
 mkdir build/data
+
+if [[ -d build/lib ]]
+then 
+	echo -e "build/lib already exits..."
+else
+	mkdir build/lib
+fi
 
 # Rename executable file
 if [[ $FILENAME != *"zip"* ]]
