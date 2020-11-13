@@ -582,6 +582,38 @@ RocketTux.Game.prototype = {
         
         // debug
         //this.theLevel.alpha = 0.5;
+        
+        // Set collision direction on cloud and kite center tiles
+        var columns = this.mapSections * 40;
+        var targetTile = null
+        for (var i = 0; i < columns; i++){
+			for (var ii = 0; ii < 23; ii++){
+				targetTile = this.map.getTile(i, ii, this.theLevel, true);
+				
+				switch (targetTile.index){
+					case 3088:
+					case 3089:
+					case 3090:
+					case 3116:
+					case 3117:
+					case 3118:
+					case 3181:
+					case 3182:
+					case 3183:
+					case 3341:
+					case 3342:
+					case 3343:
+					case 3344:
+					case 3345:
+					case 3346:
+						// setCollision(left, right, up/top, down/bottom)
+						targetTile.setCollision(false, false, true, false)
+						break;
+					default:
+						break;
+				}
+			}
+		} 
     },
     spawnEntities: function (){
         var columns = this.mapSections * 40; // 32px tiles
