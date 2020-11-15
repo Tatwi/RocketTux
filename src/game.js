@@ -583,7 +583,8 @@ RocketTux.Game.prototype = {
         // debug
         //this.theLevel.alpha = 0.5;
         
-        // Set collision direction on cloud and kite center tiles
+        // Set collision direction on platform type tiles (inc. clouds, kites, and palm trees)
+        // This would have been cleaner had I thought of it before completing 95% the art/levels lol...
         var columns = this.mapSections * 40;
         var targetTile = null
         for (var i = 0; i < columns; i++){
@@ -594,18 +595,55 @@ RocketTux.Game.prototype = {
 					case 3088:
 					case 3089:
 					case 3090:
+					case 3091:
+					case 3092:
+					case 3093:
+					case 3094:
+					case 3095:
+					case 3096:
+					case 3097:
 					case 3116:
 					case 3117:
 					case 3118:
+					case 3146:
+					case 3147:
+					case 3148:
 					case 3181:
 					case 3182:
 					case 3183:
+					case 3243:
+					case 3244:
+					case 3245:
+					case 3246:
+					case 3247:
+					case 3309:
+					case 3310:
+					case 3311:
+					case 3328:
+					case 3329:
+					case 3330:
+					case 3331:
+					case 3332:
+					case 3333:
+					case 3334:
+					case 3335:
+					case 3336:
+					case 3337:
+					case 3340:
 					case 3341:
 					case 3342:
 					case 3343:
 					case 3344:
 					case 3345:
 					case 3346:
+					case 3636:
+					case 3637:
+					case 3638:
+					case 3639:
+					case 3640:
+					case 3700:
+					case 3701:
+					case 3702:
 						// setCollision(left, right, up/top, down/bottom)
 						targetTile.setCollision(false, false, true, false)
 						break;
