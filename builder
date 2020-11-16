@@ -4,6 +4,7 @@
 # must be added to C:\Program Files\Git\mingw64\
 #
 # NW.js 0.49.2 runs the game using Node.js 15.0.1 and Chromium 86.
+# JavaScript minified using YUICompressor 2.4.8.
 # 
 # Note that you can reuse a NW.js zip file that you have already
 # downloaded by putting it in the root directory of the project
@@ -134,7 +135,6 @@ then
 fi 
 
 # Rename build directory
-# Rename build directory
 if [ $NWJS == 1 ]; then
 	mv nwjs-v* build
 fi 
@@ -175,11 +175,6 @@ cp -v window.html build/
 cp -v package.json build/
 cp -v favicon.ico build/
 cp -v data/icons/icon-128.png build/
-cp -v src/boot.js build/src/
-cp -v src/game.js build/src/
-cp -v src/main.js build/src/
-cp -v src/mainmenu.js build/src/
-cp -v src/preload.js build/src/
 cp -v lib/phaser.min.js build/lib/phaser.js
 cp -v lib/slick-ui.min.js build/lib/
 cp -rv data/music build/data/music
@@ -187,6 +182,25 @@ cp -rv data/sounds build/data/sounds
 cp -rv data/ui build/data/ui
 cp -v data/*png build/data
 cp -v data/world.json build/data
+
+# Minify the game files
+if ! command -v java &> /dev/null
+then
+	echo -e "Java not installed. Unable to minify JavaScript."
+	cp -v src/boot.js build/src/
+	cp -v src/game.js build/src/
+	cp -v src/main.js build/src/
+	cp -v src/mainmenu.js build/src/
+	cp -v src/preload.js build/src/
+
+else
+	echo -e "Minify JavaScript with YUICompressor..."
+	java -jar lib/yuicompressor-2.4.8.jar src/boot.js -o build/src/boot.js
+	java -jar lib/yuicompressor-2.4.8.jar src/game.js -o build/src/game.js
+	java -jar lib/yuicompressor-2.4.8.jar src/main.js -o build/src/main.js
+	java -jar lib/yuicompressor-2.4.8.jar src/mainmenu.js -o build/src/mainmenu.js
+	java -jar lib/yuicompressor-2.4.8.jar src/preload.js -o build/src/preload.js
+fi
 
 echo "=================================="
 echo -e $BUILDTYPE "Build Complete!\n\nAll files required to play the game are in the build directory."
