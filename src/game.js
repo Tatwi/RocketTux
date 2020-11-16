@@ -340,6 +340,12 @@ RocketTux.Game.prototype = {
         this.toggleBag();
         this.globalCooldownStart(1);
     }
+    
+    /* Debug /
+    if (this.game.input.activePointer.isDown){
+		this.spawnBadGuy("badguy-2", this.game.input.activePointer.worldX, this.game.input.activePointer.worldY);
+		this.globalCooldownStart(1);
+	} //*/
   },
   uiUpdate: function(){
     if (this.game.time.time < this.uiTimer)
@@ -389,7 +395,7 @@ RocketTux.Game.prototype = {
   },
   hop: function(sprite, tile){
     sprite.y -= 2; // move up to avoid re-triggering blocked.down next frame
-    sprite.body.velocity.y = (this.roll() + 80) * -1;
+    sprite.body.velocity.y = -160;
   },
   abilityCooldownStart: function(seconds){
       this.abilityCooldown = true;
@@ -717,6 +723,9 @@ RocketTux.Game.prototype = {
                         coin.animations.play('spin');
                         this.setPhysicsProperties(coin, 0, 0, 32, 32, 0, 0);
                         this.coinsInLevel++;
+                        
+                        // Prevent Jumpy from overlapping a coin (all other enemies move away from their spawn points)
+                        posX = posX - 64
                     }
                     
                     if (this.roll() > 50 && badguySpacer > 6){
@@ -749,6 +758,12 @@ RocketTux.Game.prototype = {
     badguy.anchor.setTo(.5,.5);
     badguy[type] = true; // Using this Boolean value to differentiate between badguy types for simplicity/speed 
     this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
+    
+    // Allow Jumpy to bounce above the screen
+    if (badguy.hopper){
+		badguy.body.collideWorldBounds = false;
+		badguy.body.checkCollision.up = false
+	}
   },
   
 //==================INTERACTION WITH PLAYER========================
