@@ -249,9 +249,20 @@ RocketTux.MainMenu.prototype = {
     this.cubButPanel.visible = false;
     
   },
+  
+//==================GAME LOOP START========================
   update: function() {
-    // Game Loop
+	// Keyboard input
+	if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ONE, 1)){
+		this.startGame();
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.TWO, 1)){
+		this.startGameEasy();
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.THREE, 1)){
+		this.startGameHard();
+	}
   },
+//__________________GAME LOOP END___________________________ 
+  
   startGame: function () {
     music.destroy();
     RocketTux.gameMode = 'normal';
