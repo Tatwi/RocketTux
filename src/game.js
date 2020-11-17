@@ -4,7 +4,6 @@ RocketTux.Game = function(){};
  
 RocketTux.Game.prototype = {
   create: function() {
-    this.game.renderer.setTexturePriority(['world', 'atlas', 'skies', 'skies-special', 'ui-bg', 'logo', 'preloadbar']); // low-end hardware will likely only use the first 2 items in the list, where as high-end hardware can use up to 16 (more for very high-end).
     this.game.clearBeforeRender = false; // Every scene always has an opaque background image that gets repainted every frame
     
     this.gameOver = false;
@@ -69,7 +68,7 @@ RocketTux.Game.prototype = {
     // Add boosts
     this.boosts = Math.max(2, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 2 + bonus
     
-    // Hardmode
+    // Easy and Hard mode adjustments
     if (RocketTux.gameMode == 'easy'){
         this.boosts = 100;
     } else if (RocketTux.gameMode == 'hard'){
@@ -103,6 +102,7 @@ RocketTux.Game.prototype = {
     this.lvlAirSpeed = RocketTux.airSpeed;
     this.lvlGroundSpeed = RocketTux.groundSpeed;
     this.lvlGravity = RocketTux.tuxGravity;
+    this.lvlLuck = RocketTux.luck;
 
     // Rocketpack sounds
     this.sndRocketStart = this.game.add.audio('rocketpack-start');
@@ -136,59 +136,11 @@ RocketTux.Game.prototype = {
     // Put player up front
     this.player.bringToTop();
     
-    // UI Panel
-    this.uiTimer = this.game.time.time + 1000;
-    this.world.add(slickUI.container.displayGroup);
-    this.panel;
-    slickUI.add(this.panel = new SlickUI.Element.Panel(4, 8, 375, 38));
-
-    this.btQuit;
-    this.panel.add(btQuit = new SlickUI.Element.Button(0, 0, 60, 32));
-    btQuit.events.onInputUp.add(this.quit, this);
-    btQuit.events.onInputOver.add(this.toolTipOver, this);
-    btQuit.events.onInputOut.add(this.toolTipOut, this);
-    btQuit.add(new SlickUI.Element.Text(0, 0, 'Quit')).center();
+    // Apply powerup if there is one saved
+    this.applyPowerUp(false);
     
-    this.powerUpIconButton; // Needed for tooltip/removal, because Slick-UI images don't have events 
-    this.panel.add(this.powerUpIconButton = new SlickUI.Element.Button(333, 0, 32, 32));
-    this.powerUpIconButton.events.onInputOver.add(this.powerupToolTipOver, this);
-    this.powerUpIconButton.events.onInputOut.add(this.powerupToolTipOut, this);
-    this.powerUpIconButton.events.onInputUp.add(this.removePowerUp, this);
-    this.powerUpIconButton.visible = false;
-    this.applyPowerUp(false); // Apply powerup if there is one saved
-    
-    // Quest Window
-    this.questPrompt;
-    slickUI.add(this.questPrompt = new SlickUI.Element.Panel(8, 48, 360, 480));
-    this.questPrompt.visible = false;
-    this.acceptButton;
-    this.questPrompt.add(this.acceptButton = new SlickUI.Element.Button(178, 420, 170, 60));
-    this.acceptButton.events.onInputUp.add(this.acceptQuest, this);
-    this.acceptButton.add(new SlickUI.Element.Text(0, 0, 'Accept')).center();
-    this.declineButton;
-    this.questPrompt.add(this.declineButton = new SlickUI.Element.Button(0, 420, 170, 60));
-    this.declineButton.events.onInputUp.add(this.declineQuest, this);
-    this.declineButton.add(new SlickUI.Element.Text(0, 0, 'Decline')).center();
-    
-    // "Adventure Bag" Panel
-    this.lootPanel;
-    slickUI.add(this.lootPanel = new SlickUI.Element.Panel(8, 48, 232, 210));
-    var bagName;
-    this.lootPanel.add(bagName = new SlickUI.Element.Text(0, 0, 'Adventure Bag'));
-    bagName.centerHorizontally();
-    this.lootPanel.visible = false;
-    this.lootIconRowCount = 0; // Resets x position on display of items that have been collected
-    
-    // UI Coins
-    this.displayCoins = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
-    this.lvlCoins; 
-    this.panel.add(this.lvlCoins = new SlickUI.Element.Text(70, 0, this.displayCoins));
-    
-    // UI Boosts
-    this.displayBoosts = 'Boosts: ' + this.boosts;
-    this.lvlBoosts;
-    this.panel.add(this.lvlBoosts = new SlickUI.Element.Text(210, 0, this.displayBoosts));
-    
+    // UI
+    this.uiTimer = this.game.time.time + 1000;    
   },
   
 //==================GAME LOOP START========================
@@ -344,10 +296,9 @@ RocketTux.Game.prototype = {
         }
         
         this.globalCooldownStart(1);
-    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.B, 1)){ 
-        this.toggleBag();
-        this.globalCooldownStart(1);
-    }
+    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
+		this.quit();
+	}
     
     /* Debug
     if (this.game.input.activePointer.isDown){
@@ -361,8 +312,6 @@ RocketTux.Game.prototype = {
     }
         
     //this.myDebugText.text = "AirSpeed: " + this.lvlAirSpeed + "   GroundSpeed: " + this.lvlGroundSpeed + "    Gravity: " + this.player.body.gravity.y;
-    this.lvlCoins.value = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
-    this.lvlBoosts.value = 'Boosts: ' + this.boosts;
     
     this.uiTimer = this.game.time.time + 1000;
   },
@@ -960,48 +909,24 @@ RocketTux.Game.prototype = {
         this.blkPowerupSnd.play();
         this.applyPowerUp(true);
     } else if (block.frameName == 'blk-quest'){ // Green offers a quest
-        this.blkQuestSnd.play();
-        
-        this.questPrompt.visible = true;
-        var txt = "This is the window that opens when you get a quest. When the quest system is complete, it will be much cooler!";
-        this.questPrompt.add(new SlickUI.Element.Text(4, 0, txt));        
+        this.blkQuestSnd.play();       
     } 
         
     block.frameName = 'blk-empty';
-  },
-  acceptQuest: function(){
-    this.questPrompt.visible = false;
-  },
-  declineQuest: function(){
-    this.questPrompt.visible = false;
   },
   removePowerUp: function(){
     if (RocketTux.powerUpActive == 'none'){
         return;
     }
               
-    // Reset stats
-    if (this.powerUpIcon.frameName == 'pwrup-icon-star'){
-        this.lvlAirSpeed -= 20;
-        this.lvlGroundSpeed -= 75;
-    } else if (this.powerUpIcon.frameName == 'pwrup-icon-fire'){
-        this.lvlAirSpeed -= 40;
-    } else if (this.powerUpIcon.frameName == 'pwrup-icon-water'){
-        RocketTux.luck -= 12;
-        this.playerInvicible = false;
-    } else if (this.powerUpIcon.frameName == 'pwrup-icon-air'){
-        this.lvlGravity += 15;
-    } else if (this.powerUpIcon.frameName == 'pwrup-icon-earth'){
-        this.lvlGravity -= 35;
-        RocketTux.luck -= 3;
-        this.playerInvicible = false;
-    }
-    
+    // Reset stats to their default values
+    this.lvlGroundSpeed = RocketTux.groundSpeed;
+    this.lvlAirSpeed = RocketTux.airSpeed;
+    this.lvlGravity = RocketTux.tuxGravity;
     this.player.body.gravity.y = this.lvlGravity;
+    this.lvlLuck = RocketTux.luck;
+    this.playerInvicible = false;
     
-    this.powerUpIcon.destroy();
-    this.powerUpIconButton.visible = false;
-    this.powerupToolTipOut();
     RocketTux.powerUpActive = 'none';
     localStorage.setItem('RocketTux-powerUpActive', 'none');
   },
@@ -1011,82 +936,47 @@ RocketTux.Game.prototype = {
         var pwrupNames = ['star', 'fire', 'water', 'air', 'earth'];
         var winner = this.rollGame(pwrupNames, RocketTux.favortiePowerUp); // returns string
         
-        this.removePowerUp(); // Replace previous with new
-
+        this.removePowerUp();
+		
+		// Store the new powerup
         RocketTux.powerUpActive = winner;
         localStorage.setItem('RocketTux-powerUpActive', winner);
         
-        // Add special effect
+        // Play special effect
         this.doParticleExplosion(5000, 8, 'pwrup-obj-' + RocketTux.powerUpActive, true, 0, 0, 2);
     }
     
-    var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
+    var storedPwrup = localStorage.getItem('RocketTux-powerUpActive');
     
-    // Show the icon
-    if (tmpPwrup != 'none') {
-        this.powerUpIconButton.visible = true;
-        this.powerUpIcon;
-        this.panel.add(new SlickUI.Element.DisplayObject(333, -2, this.powerUpIcon = this.game.make.sprite(0, 0, 'atlas')));
-        this.powerUpIcon.frameName = 'pwrup-icon-' + RocketTux.powerUpActive;
+    // Bail if there isn't a powerup to apply
+    if (storedPwrup == 'none') {
+        return;
     }
     
-    // Apply buff effect (when new and when loading level, rather than storing it)
-    if (tmpPwrup != 'none' || newPwrup == true) {
-        if (tmpPwrup == 'star'){
-            this.lvlAirSpeed += 20;
-            this.lvlGroundSpeed += 75;
-        } else if (tmpPwrup == 'fire'){
-            this.lvlAirSpeed += 40;
-        } else if (tmpPwrup == 'water'){
-            RocketTux.luck += 12;
-            this.playerInvicible = true;
-        } else if (tmpPwrup == 'air'){
-            this.lvlGravity -= 15;
-        } else if (tmpPwrup == 'earth'){
-            this.lvlGravity += 35;
-            RocketTux.luck += 3;
-            this.playerInvicible = true;
-        }
+    // Apply effects
+    if (storedPwrup == 'star'){
+		this.lvlAirSpeed += 20;
+		this.lvlGroundSpeed += 75;
+	} else if (storedPwrup == 'fire'){
+		this.lvlAirSpeed += 40;
+	} else if (storedPwrup == 'water'){
+		this.lvlLuck += 12;
+		this.playerInvicible = true;
+	} else if (storedPwrup == 'air'){
+		this.lvlGravity -= 15;
+	} else if (storedPwrup == 'earth'){
+		this.lvlGravity += 35;
+		this.lvlLuck += 3;
+		this.playerInvicible = true;
+	}
         
-        this.player.body.gravity.y = this.lvlGravity;
-    }
-    
-  },
-  powerupToolTipOver: function(){
-    this.powerupToolTip;
-    slickUI.add(this.powerupToolTip = new SlickUI.Element.Panel(16, 64, 360, 130));
-
-    var txt; 
-    
-    if (RocketTux.powerUpActive == 'star'){
-        txt = 'Star: Makes you run at super speed, while also causing you to fly faster.';
-    } else if (RocketTux.powerUpActive == 'fire'){
-        txt = 'Fire: Makes you fly very fast and gives you a chance to gain a boost when collecting coins (up to 5 boosts).';
-    } else if (RocketTux.powerUpActive == 'water'){
-        txt = 'Water: Ice Armor makes you invincible and very lucky at no cost, but the armor is consumed after one use.';
-    } else if (RocketTux.powerUpActive == 'air'){
-        txt = 'Air: Makes you lighter so can jump higher, boost better, and fall more slowly.';
-    } else if (RocketTux.powerUpActive == 'earth'){
-        txt = 'Earth: Stone Form makes you invincible and a bit more lucky, at the cost of making you much heavier.';
-    }
-    
-    txt += " Click this icon to remove the powerup.";
-    
-    this.powerupToolTip.add(new SlickUI.Element.Text(4, 0, txt));
-    this.powerupToolTipIsOn = true;
-  },
-  powerupToolTipOut: function(){
-    if (this.powerupToolTipIsOn){
-        this.powerupToolTip.destroy();
-    }
-        
-    this.powerupToolTipIsOn = false;
+    this.player.body.gravity.y = this.lvlGravity;  
   },
   grantLootItem: function(blockName){
     var itemNumber = RocketTux.lootgroups[this.timeOfDay][this.theme][Math.floor(Math.random() * RocketTux.lootgroups[this.timeOfDay][this.theme].length)];
     
     if (blockName == 'blk-danger'){
-        if (this.roll() > 98 - RocketTux.luck){
+        if (this.roll() > 98 - this.lvlLuck){
             itemNumber = RocketTux.lootgroups.rares[Math.floor(Math.random() * RocketTux.lootgroups.rares.length)]; // Rare item
         }
     }
@@ -1094,36 +984,10 @@ RocketTux.Game.prototype = {
     // Track items collected this level
     this.itemsCollected[this.itemsCollected.length] = itemNumber;
 
-    // Add item to the loot bag
-    var posY = 24 + 37 * Math.floor((this.itemsCollected.length - 1) / 6);
-    
     // Save item to player's inventory
     var tmpInvVal = parseInt(localStorage.getItem('RocketTux-invItem' + itemNumber));
     if (tmpInvVal > 999){tmpInvVal = 999;}
     localStorage.setItem('RocketTux-invItem' + itemNumber, tmpInvVal + 1);
-    
-    if (this.lootIconRowCount > 5){
-        this.lootIconRowCount = 0;
-    }
-    
-    var posX = 2 + this.lootIconRowCount * 37;
-        
-    this.lootPanel.add(new SlickUI.Element.DisplayObject(posX, posY, this.latestLootIcon = this.game.make.sprite(0, 0, 'atlas')));
-    this.latestLootIcon.frameName = 'icon-' + itemNumber;
-    
-    this.lootIconRowCount++;
-  },
-  toggleBag: function(){
-    if (this.lootPanel.visible){
-        this.lootPanel.visible = false;
-    } else {
-        this.lootPanel.visible = true;
-    }
-  },
-  lootToolTipShrink: function(){
-    this.oldLoot.visible = false;
-    this.lootPanel.width = 36;
-    this.lootToolTipExpanded = false;
   },
 
 //==================END OF LEVEL RELATED========================
@@ -1139,7 +1003,6 @@ RocketTux.Game.prototype = {
     
     this.sndWarp.play();
     music.destroy();
-    slickUI.container.displayGroup.removeAll(true);
     this.coins.destroy();
     this.blocks.destroy();
     this.enemies.destroy();
@@ -1168,35 +1031,9 @@ RocketTux.Game.prototype = {
     } 
     localStorage.setItem('RocketTux-myWallet', newWalletValue);
     
-    // UI Show player
-    this.world.add(slickUI.container.displayGroup);
-    this.grats;
-    slickUI.add(this.grats = new SlickUI.Element.Panel(this.game.camera.width / 2 - 180, this.game.camera.height / 2 - 150, 360, 300));
-    
-    this.txt = 'GREAT JOB!\n\nCoins Collected: ' + this.coinsCollected + '\nBonus Coins: ' + bonusCoins + '\n\nTotal Coins Earned:\n\n' + totalCoins;
-    this.gratMessage;
-    this.grats.add(this.gratMessage = new SlickUI.Element.Text(0, 0, this.txt));
-    this.gratMessage.centerHorizontally();
-
-    this.ender;
-    this.grats.add(this.ender = new SlickUI.Element.Button(0, 220, 360, 72));
-    this.ender.events.onInputUp.add(this.endLevel, this);
-    this.ender.add(new SlickUI.Element.Text(0, 0, 'Awesome!')).center();
-    
-    this.add.tween(this.grats).from({alpha: 0}, 500, Phaser.Easing.Quadratic.In).start();
-    this.add.tween(this.grats).from({y: this.game.camera.height + 150}, 500, Phaser.Easing.Back.InOut).start();
+    this.endLevel()
   },
   endLevel: function(){
-    slickUI.container.displayGroup.removeAll(true);
     this.game.state.start('MainMenu', true, false); // Destroy all - yes. Clear cache - no.
-  },
-  toolTipOver: function(){
-    this.quitToolTip;
-    slickUI.add(this.quitToolTip = new SlickUI.Element.Panel(16, 64, 300, 110));
-    var txt = 'Click this button to the end the level after you have collected all the coins and items that you could reach.';
-    this.quitToolTip.add(new SlickUI.Element.Text(4, 0, txt));
-  },
-  toolTipOut: function(){
-    this.quitToolTip.destroy();
   }
 };
