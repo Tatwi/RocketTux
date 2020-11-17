@@ -140,7 +140,7 @@ This is an open source project that stands on the backs of many others, which is
 ### Software
 - Game Engine: [Phaser CE 2.8.0](http://phaser.io/download/stable).
 - Level Building: [Tiled](http://www.mapeditor.org/) by Thorbjørn Lindeijer.
-- User Interface: [Slick-UI](https://github.com/Flaxis/slick-ui.git) by Richard Snijders, with the [Kenney Theme](http://kenney.nl/assets/ui-pack) by the Kenney Vleugels.
+- User Interface: Versions 0.40 and older used SlickUI/Kenny, while more recent versions I created myself (Tatwi).
 - Operating System: [Debian](http://www.debian.org/), [Linux Mint](https://linuxmint.com/), [XFCE](https://xfce.org/).
 - Graphics: [GIMP](https://www.gimp.org/) with some brushes by [Bill Scott](http://www.texturemate.com/content/about).
 - Sound: [Audacity](http://www.audacityteam.org/), [Sunvox](http://www.warmplace.ru/soft/sunvox/) by Alexander Zolotov.
