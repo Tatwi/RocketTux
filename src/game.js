@@ -9,7 +9,7 @@ RocketTux.Game.prototype = {
     
     this.gameOver = false;
     
-    var pickSong = Math.floor(Math.random() * RocketTux.songs.length)
+    var pickSong = Math.floor(Math.random() * RocketTux.songs.length);
     music = this.game.add.audio(RocketTux.songs[pickSong]);
     music.loop = true;
     music.volume = 0.5;
@@ -85,7 +85,7 @@ RocketTux.Game.prototype = {
     
     // Add the player
     this.player = this.game.add.sprite(32, this.game.world.height - 150, 'atlas');
-    this.player.anchor.setTo(.5,1);
+    this.player.anchor.setTo(0.5, 1);
     this.player.animations.add('stand', ['tux-stand'], 1, true);
     this.player.animations.add('duck', ['tux-duck'], 1, true);
     this.player.animations.add('hover', Phaser.Animation.generateFrameNames('tux-hover-', 0, 5), 10, true);
@@ -186,7 +186,7 @@ RocketTux.Game.prototype = {
     
     // UI Boosts
     this.displayBoosts = 'Boosts: ' + this.boosts;
-    this.lvlBoosts
+    this.lvlBoosts;
     this.panel.add(this.lvlBoosts = new SlickUI.Element.Text(210, 0, this.displayBoosts));
     
   },
@@ -194,8 +194,9 @@ RocketTux.Game.prototype = {
 //==================GAME LOOP START========================
 
   update: function() {
-    if (this.gameOver == true)
+    if (this.gameOver == true){
         return;
+	}
     
     // Collide with the tilemap
     this.game.physics.arcade.collide(this.player, this.theLevel);
@@ -214,8 +215,9 @@ RocketTux.Game.prototype = {
     if (this.player.body.blocked.down){ // Stop on landing
         this.sndRocketRunning.fadeOut(230);
     } else if (!this.sndRocketRunning.isPlaying){ // Start on first frame we notice we're not on the ground and the engine isn't already running
-        if (!this.sndRocketStart.isPlaying)
+        if (!this.sndRocketStart.isPlaying){
             this.sndRocketStart.play();
+		}
             
         this.sndRocketRunning.loopFull(1.0);
         this.sndRocketRunning.play();
@@ -250,8 +252,9 @@ RocketTux.Game.prototype = {
             this.player.body.velocity.x = this.lvlAirSpeed; // RocketTux.airSpeed;
             
             if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
-                if (this.player.body.velocity.y > 0)
+                if (this.player.body.velocity.y > 0){
                     this.player.body.velocity.y = 0;
+                }
             }
         }
     } else if (this.cursors.left.isDown){
@@ -267,8 +270,9 @@ RocketTux.Game.prototype = {
             this.player.body.velocity.x = this.lvlAirSpeed* -1; // RocketTux.airSpeed * -1;
             
             if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
-                if (this.player.body.velocity.y > 0)
+                if (this.player.body.velocity.y > 0){
                     this.player.body.velocity.y = 0;
+                }
             }
         }
         
@@ -298,8 +302,9 @@ RocketTux.Game.prototype = {
             this.player.animations.play('hover');
             
             if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
-                if (this.player.body.velocity.y > 0)
+                if (this.player.body.velocity.y > 0){
                     this.player.body.velocity.y = 0;
+                }
             }
         }
     }
@@ -312,19 +317,22 @@ RocketTux.Game.prototype = {
       this.globalCooldown = false;
   },
   throttledInput: function(){
-      if (this.globalCooldown)
+      if (this.globalCooldown){
         return;
+      }
 
     // M , . keys for music volume
     if (this.game.input.keyboard.downDuration(Phaser.Keyboard.PERIOD, 1)){
-        if (music.volume > 0.9)
+        if (music.volume > 0.9){
             return;
+        }
             
         music.volume += 0.1;
         this.globalCooldownStart(1);
     } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.COMMA, 1)){
-        if (music.volume < 0.1)
+        if (music.volume < 0.1){
             return;
+        }
             
         music.volume -= 0.1;
         this.globalCooldownStart(1);
@@ -341,15 +349,16 @@ RocketTux.Game.prototype = {
         this.globalCooldownStart(1);
     }
     
-    /* Debug /
+    /* Debug
     if (this.game.input.activePointer.isDown){
 		this.spawnBadGuy("badguy-2", this.game.input.activePointer.worldX, this.game.input.activePointer.worldY);
 		this.globalCooldownStart(1);
-	} //*/
+	} */
   },
   uiUpdate: function(){
-    if (this.game.time.time < this.uiTimer)
+    if (this.game.time.time < this.uiTimer){
         return;
+    }
         
     //this.myDebugText.text = "AirSpeed: " + this.lvlAirSpeed + "   GroundSpeed: " + this.lvlGroundSpeed + "    Gravity: " + this.player.body.gravity.y;
     this.lvlCoins.value = 'Coins: ' + this.coinsCollected + "/" + this.coinsInLevel;
@@ -362,19 +371,22 @@ RocketTux.Game.prototype = {
     if (sprite.walker){
         this.turnAround(sprite, 90);
         
-        if (sprite.ticking && Math.abs(sprite.body.velocity.x) < 150) // Speed up again after changing directions
+        // Speed up again after changing directions
+        if (sprite.ticking && Math.abs(sprite.body.velocity.x) < 150){
             sprite.body.velocity.x *= 1.75;
+        }
     } else if (sprite.hopper){
-        this.hop(sprite, tile)
+        this.hop(sprite, tile);
     } else if (sprite.flyer){
         this.turnAround(sprite, 190);
         
         if (this.game.time.time > this.uiTimer){
-            var rng = this.roll()
+            var rng = this.roll();
             sprite.body.velocity.y = -3 * rng; // Lift off
             
-            if (rng > 98)
+            if (rng > 98){
                 this.blowupBadguy(sprite, 96); // Ooops!
+            }
         }
     }
   },
@@ -405,8 +417,9 @@ RocketTux.Game.prototype = {
       this.abilityCooldown = false;
   },
   doPlayerAbilities: function(){
-    if (this.abilityCooldown)
+    if (this.abilityCooldown){
         return;
+    }
         
     if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5)){
         // Spacebar Boost (5 second cooldown)
@@ -417,20 +430,23 @@ RocketTux.Game.prototype = {
             return;
         }
         
-        if (this.cursors.down.isDown)
+        if (this.cursors.down.isDown){
             return; // no boost while crouching or flying while holding down
+        }
         
         this.sndRocketWindup.play();
         this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.doBoost, this);
         this.abilityCooldownStart(5);
     } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.CONTROL, 1)){
         // Small, single tile jump (1 second cooldown)
-        if (!this.player.body.blocked.down)
+        if (!this.player.body.blocked.down){
             return;
+        }
         
-        if (this.cursors.down.isDown)
+        if (this.cursors.down.isDown){
             return;
-            
+        }
+           
         this.player.body.velocity.y = -100;
     }
   },
@@ -481,8 +497,9 @@ RocketTux.Game.prototype = {
     entity.body.gravity.y = gravity;
     entity.body.collideWorldBounds = true;
     
-    if (boundingBoxSizeX > 0)
+    if (boundingBoxSizeX > 0){
         entity.body.setSize(boundingBoxSizeX, boundingBoxSizeY, boundingBoxPosX, boundingBoxPosY);
+    }
   },
   roll: function() {
     return this.game.rnd.between(0, 100);
@@ -493,12 +510,15 @@ RocketTux.Game.prototype = {
     // playerFavorite: One of the string values contained in contestants or 'none'
 
     var rolls = [];
+    var i =0;
+    var j = 0;
  
     for (i = 0; i < contestants.length; i++){
-    rolls[i] = this.roll();
+		rolls[i] = this.roll();
 
-    if (contestants[i] == playerFavorite)
-      rolls[i] += 20;
+		if (contestants[i] == playerFavorite){
+		  rolls[i] += 20;
+		}
     }
 
     var winner = 0;
@@ -514,12 +534,14 @@ RocketTux.Game.prototype = {
     return contestants[winner];
   },
   pickRandomProperty: function(obj){
-        var result;
-        var count = 0;
-        for (var prop in obj)
-            if (Math.random() < 1/++count)
-               result = prop;
-        return result;
+	var result;
+	var count = 0;
+	for (var prop in obj){
+		if (Math.random() < 1/++count){
+		   result = prop;
+		}
+	}
+	return result;
   },
   
 //==================LEVEL CREATION========================
@@ -540,9 +562,13 @@ RocketTux.Game.prototype = {
         var rngSection = 0;
         var sectionsUsed = "";
         var failSafe = 0;
+        var i =0;
+        var ii =0;
+        var j =0;
+        var tmpRow = "";
         
         // Generate the width of the map
-        for (var i = 0; i < this.mapSections; i++)
+        for (i = 0; i < this.mapSections; i++)
         {
             failSafe = 0;
             rngSection = this.pickRandomProperty(theme);
@@ -559,14 +585,14 @@ RocketTux.Game.prototype = {
             
             sectionsUsed += rngSection;
             
-            for (var j = 0; j < 23; j++) {
+            for (j = 0; j < 23; j++) {
                 rows[j] += theme[rngSection][j];
             }
         }
         
         // Consolidate the width and height into the single data variable
-        for (var i = 0; i < 23; i++){
-            var tmpRow = rows[i].toString();
+        for (i = 0; i < 23; i++){
+            tmpRow = rows[i].toString();
             data += tmpRow.slice(0, -1) + "\n"; // Remove trailing comma to prevent white line of right edge of screen
         }
 
@@ -592,9 +618,9 @@ RocketTux.Game.prototype = {
         // Set collision direction on platform type tiles (inc. clouds, kites, and palm trees)
         // This would have been cleaner had I thought of it before completing 95% the art/levels lol...
         var columns = this.mapSections * 40;
-        var targetTile = null
-        for (var i = 0; i < columns; i++){
-			for (var ii = 0; ii < 23; ii++){
+        var targetTile = null;
+        for (i = 0; i < columns; i++){
+			for (ii = 0; ii < 23; ii++){
 				targetTile = this.map.getTile(i, ii, this.theLevel, true);
 				
 				switch (targetTile.index){
@@ -651,7 +677,7 @@ RocketTux.Game.prototype = {
 					case 3701:
 					case 3702:
 						// setCollision(left, right, up/top, down/bottom)
-						targetTile.setCollision(false, false, true, false)
+						targetTile.setCollision(false, false, true, false);
 						break;
 					default:
 						break;
@@ -664,24 +690,37 @@ RocketTux.Game.prototype = {
         var powerup = false;
         var quest = false;
         var badguySpacer = 0;
+        var tilePosY = 0;
+        var targetTile = 0;
+        var TargetTileIndex = 0;
+        var posX = 0;
+        var posY = 0;
+        var spawnWhat = 1;
+        var coin;
+        var doCoin = false;
+        var block;
+        var name = "";
+        var i =0;
 
-        for (var i = 5; i < columns; i++){
+        for (i = 5; i < columns; i++){
             if (this.roll() > 78){
-                var tilePosY = this.game.rnd.between(0, 20);
-                var targetTile = this.map.getTile(i, tilePosY, this.theLevel, true);
+                tilePosY = this.game.rnd.between(0, 20);
+                targetTile = this.map.getTile(i, tilePosY, this.theLevel, true);
                
-                if (!targetTile) // Prevent crash if null
+               // Prevent crash if null
+                if (!targetTile){
                     continue;
+                }
                     
-                var TargetTileIndex = targetTile.index;
-                var posX = i * 32;
-                var posY = tilePosY * 32;
+                TargetTileIndex = targetTile.index;
+                posX = i * 32;
+                posY = tilePosY * 32;
                 
                 if (TargetTileIndex < 2881){
-                    var spawnWhat = this.roll();
-                    var coin;
-                    var doCoin = false;
-                    var block;
+                    spawnWhat = this.roll();
+                    coin;
+                    doCoin = false;
+                    block;
                     
                     if (spawnWhat > 94){
                         // Blue block grants misc item
@@ -725,12 +764,12 @@ RocketTux.Game.prototype = {
                         this.coinsInLevel++;
                         
                         // Prevent Jumpy from overlapping a coin (all other enemies move away from their spawn points)
-                        posX = posX - 64
+                        posX = posX - 64;
                     }
                     
                     if (this.roll() > 50 && badguySpacer > 6){
                         badguySpacer = 0;
-                        var name = RocketTux.badguyConfig[this.theme][Math.floor(Math.random() * RocketTux.badguyConfig[this.theme].length)];
+                        name = RocketTux.badguyConfig[this.theme][Math.floor(Math.random() * RocketTux.badguyConfig[this.theme].length)];
                         this.spawnBadGuy(name, posX, posY);
                     }
                     
@@ -740,9 +779,10 @@ RocketTux.Game.prototype = {
         }
   },
   spawnBadGuy: function(name, posX, posY){
-    if (name == undefined)
+    if (name == undefined){
         return;
-      
+    }
+    
     // Values
     var type = RocketTux.badguyConfig[name].type;
     var gravity = RocketTux.badguyConfig[name].gravity;
@@ -755,27 +795,30 @@ RocketTux.Game.prototype = {
     badguy = this.enemies.create(posX, posY, 'atlas');
     badguy.animations.add('move', Phaser.Animation.generateFrameNames(name, 0, frames), fps, true);
     badguy.animations.play('move');
-    badguy.anchor.setTo(.5,.5);
+    badguy.anchor.setTo(0.5, 0.5);
     badguy[type] = true; // Using this Boolean value to differentiate between badguy types for simplicity/speed 
     this.setPhysicsProperties(badguy, gravity, 0, 0, 0, 0, 0);
     
     // Allow Jumpy to bounce above the screen
     if (badguy.hopper){
 		badguy.body.collideWorldBounds = false;
-		badguy.body.checkCollision.up = false
+		badguy.body.checkCollision.up = false;
 	}
   },
   
 //==================INTERACTION WITH PLAYER========================
 
   aiTrigger: function(player, badguy){
-    if (this.playerHurt) // Thou shall not spam hurt!
+	// Thou shall not spam hurt!
+    if (this.playerHurt){
         return;
+    }
       
     // Use the frameName from the world.json to do character specific player interactions
     if (badguy.frameName.indexOf('badguy-1') > -1){ // Mr. Bomb
-        if (badguy.ticking)
+        if (badguy.ticking){
             return;
+        }
         
         badguy.animations.add('ticking', ['badguy-1-3', 'badguy-1-4', 'badguy-1-5', 'badguy-1-6'], 10, true);
         badguy.animations.play('ticking');
@@ -787,13 +830,15 @@ RocketTux.Game.prototype = {
     } else if (badguy.frameName.indexOf('badguy-3') > -1){ // Mr. Shortfuse
         this.blowupBadguy(badguy, 64);
     } else if (badguy.frameName.indexOf('badguy-2') > -1){ // Jumpy
-        if (!this.playerInvicible)
+        if (!this.playerInvicible){
             this.sndCollide.play();
+        }
             
         this.hurtPlayer();
     } if (badguy.frameName.indexOf('badguy-4') > -1){ // Rocketboots
-        if (badguy.ticking)
+        if (badguy.ticking){
             return;
+        }
         
         badguy.ticking = true;
         this.sndTicking.play();
@@ -811,21 +856,25 @@ RocketTux.Game.prototype = {
     
     //console.log('blast radius: %s, x: %s, y: %s, hyp: %s \nPlayer y: %s \nBadguy y: %s', blastRadius, x, y, disToPlayer, this.player.y, badguy.y);
     
-    if (disToPlayer > blastRadius)
+    if (disToPlayer > blastRadius){
         return;
+    }
     
     this.hurtPlayer();
   },
   hurtPlayer: function(){
     var dir = 1;
     
-    if (this.player.body.velocity.x > 1) // Bounce in direction opposite of player's motion
-        dir = -1  
+    // Bounce in direction opposite of player's motion
+    if (this.player.body.velocity.x > 1){
+        dir = -1;
+    }
       
     // Handle powerup
     if (RocketTux.powerUpActive == 'earth'){ // Invincible
-        if (!this.sndShakeOff.isPlaying) // No spam!
+        if (!this.sndShakeOff.isPlaying){ // No spam!
             this.sndShakeOff.play();
+        }
             
         return;
     } else if (RocketTux.powerUpActive == 'water'){ // Invincible once
@@ -841,9 +890,9 @@ RocketTux.Game.prototype = {
         this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.playerOK, this);
         
         return;
-    } else {
-        this.removePowerUp();
-    }
+    } 
+    
+    this.removePowerUp();
       
     // Bounce player
     this.player.body.velocity.y = -200;
@@ -860,8 +909,9 @@ RocketTux.Game.prototype = {
     // Remove coins from wallet
     var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
     
-    if (savedCoins < 1)
+    if (savedCoins < 1){
         return;
+    }
         
     var newWalletValue = Math.max(1, savedCoins - 10);
     localStorage.setItem('RocketTux-myWallet', newWalletValue);
@@ -874,27 +924,31 @@ RocketTux.Game.prototype = {
     coin.kill();
 
     // Give boost (prevented by pressing down arrow)
-    if (!this.cursors.down.isDown && !this.abilityCooldown)
+    if (!this.cursors.down.isDown && !this.abilityCooldown){
         this.player.body.velocity.y = -160;
-
+	}
+	
     //  Add and update the score
     this.coinsCollected += 1;
     this.coinSound.play();
     
     if (RocketTux.powerUpActive == 'fire'){
-        if (this.boosts > 4)
+        if (this.boosts > 4){
             return;
+        }
         
-        if (this.roll() < 90)
+        if (this.roll() < 90){
             return;
+        }
             
         this.boosts++;
         this.blkPowerupSnd.play();
     }
   },
   openBlock: function(player, block){
-    if (block.frameName == 'blk-empty')
+    if (block.frameName == 'blk-empty'){
         return;
+    }
       
     if (block.frameName == 'blk-misc'){ // Blue grants misc item
         this.blkMiscSnd.play();
@@ -922,9 +976,10 @@ RocketTux.Game.prototype = {
     this.questPrompt.visible = false;
   },
   removePowerUp: function(){
-    if (RocketTux.powerUpActive == 'none')
+    if (RocketTux.powerUpActive == 'none'){
         return;
-                
+    }
+              
     // Reset stats
     if (this.powerUpIcon.frameName == 'pwrup-icon-star'){
         this.lvlAirSpeed -= 20;
@@ -962,7 +1017,7 @@ RocketTux.Game.prototype = {
         localStorage.setItem('RocketTux-powerUpActive', winner);
         
         // Add special effect
-        this.doParticleExplosion(5000, 8, 'pwrup-obj-' + RocketTux.powerUpActive, true, 0, 0, 2)
+        this.doParticleExplosion(5000, 8, 'pwrup-obj-' + RocketTux.powerUpActive, true, 0, 0, 2);
     }
     
     var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
@@ -1015,14 +1070,15 @@ RocketTux.Game.prototype = {
         txt = 'Earth: Stone Form makes you invincible and a bit more lucky, at the cost of making you much heavier.';
     }
     
-    txt += " Click this icon to remove the powerup."
+    txt += " Click this icon to remove the powerup.";
     
     this.powerupToolTip.add(new SlickUI.Element.Text(4, 0, txt));
     this.powerupToolTipIsOn = true;
   },
   powerupToolTipOut: function(){
-    if (this.powerupToolTipIsOn)
+    if (this.powerupToolTipIsOn){
         this.powerupToolTip.destroy();
+    }
         
     this.powerupToolTipIsOn = false;
   },
@@ -1030,8 +1086,9 @@ RocketTux.Game.prototype = {
     var itemNumber = RocketTux.lootgroups[this.timeOfDay][this.theme][Math.floor(Math.random() * RocketTux.lootgroups[this.timeOfDay][this.theme].length)];
     
     if (blockName == 'blk-danger'){
-        if (this.roll() > 98 - RocketTux.luck)
+        if (this.roll() > 98 - RocketTux.luck){
             itemNumber = RocketTux.lootgroups.rares[Math.floor(Math.random() * RocketTux.lootgroups.rares.length)]; // Rare item
+        }
     }
     
     // Track items collected this level
@@ -1045,8 +1102,9 @@ RocketTux.Game.prototype = {
     if (tmpInvVal > 999){tmpInvVal = 999;}
     localStorage.setItem('RocketTux-invItem' + itemNumber, tmpInvVal + 1);
     
-    if (this.lootIconRowCount > 5)
+    if (this.lootIconRowCount > 5){
         this.lootIconRowCount = 0;
+    }
     
     var posX = 2 + this.lootIconRowCount * 37;
         
@@ -1140,5 +1198,5 @@ RocketTux.Game.prototype = {
   },
   toolTipOut: function(){
     this.quitToolTip.destroy();
-  },
+  }
 };
