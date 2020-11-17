@@ -122,6 +122,8 @@ RocketTux.Game.prototype = {
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.globalCooldown = false;
     this.abilityCooldown = false;
+    this.game.input.gamepad.start(); // Tested with Super Nintendo style USB
+    this.pad1 = this.game.input.gamepad.pad1;
 
     // Sounds
     this.sndMouseOver = this.game.add.audio('mouseover');
@@ -190,7 +192,7 @@ RocketTux.Game.prototype = {
         return;
     }
     
-    if (this.cursors.right.isDown){
+    if (this.cursors.right.isDown || this.pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT)){
         if (this.facingLeft){
             this.player.scale.x = Math.abs(this.player.scale.x); // Face right
             this.facingLeft = false;
@@ -203,13 +205,13 @@ RocketTux.Game.prototype = {
             this.player.animations.play('fly');
             this.player.body.velocity.x = this.lvlAirSpeed; // RocketTux.airSpeed;
             
-            if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
+            if (this.cursors.up.isDown || this.cursors.down.isDown || this.pad1.isDown(Phaser.Gamepad.XBOX360_X) || this.pad1.isDown(Phaser.Gamepad.XBOX360_Y)){ // Maintain altitude
                 if (this.player.body.velocity.y > 0){
                     this.player.body.velocity.y = 0;
                 }
             }
         }
-    } else if (this.cursors.left.isDown){
+    } else if (this.cursors.left.isDown || this.pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT)){
         if (!this.facingLeft){
             this.player.scale.x *= -1; // Face left
         }
@@ -221,7 +223,7 @@ RocketTux.Game.prototype = {
             this.player.animations.play('fly');
             this.player.body.velocity.x = this.lvlAirSpeed* -1; // RocketTux.airSpeed * -1;
             
-            if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
+            if (this.cursors.up.isDown || this.cursors.down.isDown || this.pad1.isDown(Phaser.Gamepad.XBOX360_X) || this.pad1.isDown(Phaser.Gamepad.XBOX360_Y)){ // Maintain altitude
                 if (this.player.body.velocity.y > 0){
                     this.player.body.velocity.y = 0;
                 }
@@ -235,7 +237,7 @@ RocketTux.Game.prototype = {
         this.facingLeft = false;
         
         if (this.player.body.blocked.down){
-            if (this.cursors.down.isDown){
+            if (this.cursors.down.isDown || this.pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN)){
                 this.player.animations.play('duck');
                 
                 if (!this.ducking){
@@ -253,7 +255,7 @@ RocketTux.Game.prototype = {
         } else {
             this.player.animations.play('hover');
             
-            if (this.cursors.up.isDown || this.cursors.down.isDown){ // Maintain altitude
+            if (this.cursors.up.isDown || this.cursors.down.isDown || this.pad1.isDown(Phaser.Gamepad.XBOX360_X) || this.pad1.isDown(Phaser.Gamepad.XBOX360_Y)){ // Maintain altitude. Y/X are swapped on XBOX360 vs. Super Nintendo.
                 if (this.player.body.velocity.y > 0){
                     this.player.body.velocity.y = 0;
                 }
@@ -296,7 +298,7 @@ RocketTux.Game.prototype = {
         }
         
         this.globalCooldownStart(1);
-    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
+    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1) || this.pad1.justPressed(9)){ // Gamepad Start
 		this.quit();
 	}
     
@@ -370,7 +372,7 @@ RocketTux.Game.prototype = {
         return;
     }
         
-    if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5)){
+    if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5) || this.pad1.justPressed(Phaser.Gamepad.XBOX360_B)){ // A/B swapped on XBOX360 vs. Super Nintendo
         // Spacebar Boost (5 second cooldown)
          if (this.boosts < 1){
             this.sndRocketBoostFail.play();
@@ -379,20 +381,20 @@ RocketTux.Game.prototype = {
             return;
         }
         
-        if (this.cursors.down.isDown){
+        if (this.cursors.down.isDown || this.pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN)){
             return; // no boost while crouching or flying while holding down
         }
         
         this.sndRocketWindup.play();
         this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.doBoost, this);
         this.abilityCooldownStart(5);
-    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.CONTROL, 1)){
+    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.CONTROL, 1) || this.pad1.justPressed(Phaser.Gamepad.XBOX360_A)){
         // Small, single tile jump (1 second cooldown)
         if (!this.player.body.blocked.down){
             return;
         }
         
-        if (this.cursors.down.isDown){
+        if (this.cursors.down.isDown || this.pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN)){
             return;
         }
            
@@ -873,7 +875,7 @@ RocketTux.Game.prototype = {
     coin.kill();
 
     // Give boost (prevented by pressing down arrow)
-    if (!this.cursors.down.isDown && !this.abilityCooldown){
+    if (!this.cursors.down.isDown && !this.pad1.isDown(Phaser.Gamepad.XBOX360_Y) && !this.abilityCooldown){
         this.player.body.velocity.y = -160;
 	}
 	
