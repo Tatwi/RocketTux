@@ -1,5 +1,4 @@
 var RocketTux = RocketTux || {};
-var slickUI;
 
 RocketTux.config = {
     width: 1280,

@@ -45,10 +45,6 @@ RocketTux.Preload.prototype = {
     // Initialize variables used to generate levels
     this.worldObjects(); // Tiled objects from world texture
     this.otherVariables(); // Misc objects, variables, settings
-    
-    // Slick-UI
-    slickUI = this.game.plugins.add(Phaser.Plugin.SlickUI);
-    slickUI.load('data/ui/kenney.json');
   },
   create: function() {
   	this.state.start('MainMenu');
