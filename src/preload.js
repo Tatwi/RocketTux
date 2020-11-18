@@ -42,25 +42,63 @@ RocketTux.Preload.prototype = {
     this.load.audio('ticking', 'data/sounds/ticking.ogg');
     this.load.audio('shakeoff', 'data/sounds/shakeoff.ogg');
     
-    // Initialize variables used to generate levels
-    this.worldObjects(); // Tiled objects from world texture
+    // Initialize constants and variables
+    this.worldObjects(); // Tilemap objects from world texture
     this.otherVariables(); // Misc objects, variables, settings
+    
+    // Load game save data, overwriting some values loaded in otherVariables()
+    this.loadSavedGame();
   },
   create: function() {
   	this.state.start('MainMenu');
   },
+  loadSavedGame: function(){
+	 // Powerup state
+    RocketTux.powerUpActive = 'none';
+    var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
+    if (tmpPwrup == null || tmpPwrup == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-powerUpActive', 'none');
+    } else {
+        RocketTux.powerUpActive = tmpPwrup;
+    }
+    
+    // Load Inventory
+    RocketTux.inventory = {};
+    var tmpInv = localStorage.getItem('RocketTux-invItem196');
+    if (tmpInv == null || tmpInv == undefined){
+        // Initial first saved data
+        for (i = 0; i < 197; i++){
+            localStorage.setItem('RocketTux-invItem' + i, 0);
+        }
+        // Set initialized condition (Only items 0-195 are used as actual inventory items)
+        localStorage.setItem('RocketTux-invItem196', 999);
+    } else {
+       // Load data into array
+       for (i = 0; i < 197; i++){
+            RocketTux.inventory[i] = parseInt(localStorage.getItem('RocketTux-invItem' + i));
+        }
+    }
+    
+    // Cubimal Data
+    var tmpcubCF = localStorage.getItem('RocketTux-cubItemBonus');
+    if (tmpcubCF == null || tmpcubCF == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-cubItemBonus', '2'); // 3-6 reduce Cubimal item cost
+    }
+    
+    var tmpcubCF = localStorage.getItem('RocketTux-cubCoinBonus');
+    if (tmpcubCF == null || tmpcubCF == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-cubCoinBonus', '0'); // Percent change Cubimal coin cost
+    }
+  },
   otherVariables: function(){
-    RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
-    RocketTux.groundSpeed = 180; // Preference up to 200. Star +75.
-    RocketTux.airSpeed = 300; // Preference up to 340. Star + 20, Fire Flower + 40.
-    RocketTux.boostSpeed = 325; // Preference up to 340.
-    RocketTux.bonusBoosts = 0; // Preference up to 3
-    RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
+    // Variables that are over-written by values from "game save" data (local storage) or during game play
     RocketTux.favortieTheme = 'none';
     RocketTux.favortieTime = 'none';
     RocketTux.gameMode = 'normal';
     RocketTux.favortiePowerUp = 'none'; // Star, Fire, Water, Air, Earth
-    RocketTux.luck = 0, // Increases chance to get rare loot
     
     RocketTux.unlocks = {
         themes:'snow1,snow2,forest1,candyland,forest2,beach,beachfront,snow3', // Unlocks: snow3, forest2, candyland, beach, beachfront
@@ -69,7 +107,17 @@ RocketTux.Preload.prototype = {
         levelSectionsMax: 12, // Unlocks: Upto +3
     };
     
-    // Data used for spawning enemeies
+    // All values below this line are constants
+        	
+    RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
+    RocketTux.groundSpeed = 180; // Preference up to 200. Star +75.
+    RocketTux.airSpeed = 300; // Preference up to 340. Star + 20, Fire Flower + 40.
+    RocketTux.boostSpeed = 325; // Preference up to 340.
+    RocketTux.bonusBoosts = 0; // Preference up to 3
+    RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
+    RocketTux.luck = 0, // Increases chance to get rare loot
+    
+    // Data used for spawning enemies
     RocketTux.badguyConfig = {
         // Spawn groups
         snow1:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
@@ -105,34 +153,7 @@ RocketTux.Preload.prototype = {
             frames: 3,
             fps: 10
         }
-    }
-    
-    // Powerup state
-    RocketTux.powerUpActive = 'none';
-    var tmpPwrup = localStorage.getItem('RocketTux-powerUpActive');
-    if (tmpPwrup == null || tmpPwrup == undefined){
-        // Initial first saved data
-        localStorage.setItem('RocketTux-powerUpActive', 'none');
-    } else {
-        RocketTux.powerUpActive = tmpPwrup;
-    }
-    
-    // Load Inventory
-    RocketTux.inventory = {};
-    var tmpInv = localStorage.getItem('RocketTux-invItem196');
-    if (tmpInv == null || tmpInv == undefined){
-        // Initial first saved data
-        for (i = 0; i < 197; i++){
-            localStorage.setItem('RocketTux-invItem' + i, 0);
-        }
-        // Set initialized condition (Only items 0-195 are used as actual inventory items)
-        localStorage.setItem('RocketTux-invItem196', 999);
-    } else {
-       // Load data into array
-       for (i = 0; i < 197; i++){
-            RocketTux.inventory[i] = parseInt(localStorage.getItem('RocketTux-invItem' + i));
-        }
-    }
+    };
     
     // Loot group values are array positions that represent the icon numbers 0 to 196. 
     // Numbers are used in the atlas.json like so, icon-0, icon-1, etc. to point to the images of the icons.
@@ -194,19 +215,7 @@ RocketTux.Preload.prototype = {
         'Candyland','Candyland','Any Snowy Region','Anywhere near the Beach','Everywhere','Snow Region 2 (Day)','Everywhere','Beach Front Dr. (Day)','Everywhere','Any Forest Region','Everywhere','Candyland','Snow Region 1 (Day)','Any Snowy Region','The Beach (Day)','Candyland','Candyland','Snow Region 1 (Day)','Forest Region 1 (Night)','Everywhere','Snow Region 3 (Sunrise)','Any Snowy Region','Any Snowy Region','Any Forest Region','Everywhere','Everywhere',
         'Snow Region 2 (Night)','Any Forest Region','Everywhere','Any Forest Region','Everywhere','Everywhere','Everywhere','Everywhere','Candyland','Snow Region 3 (Sunset)','Any Forest Region','Forest Region 2 (Day)','Any Snowy Region'
     ];
-    
-    // Cubimal Data
-    var tmpcubCF = localStorage.getItem('RocketTux-cubItemBonus');
-    if (tmpcubCF == null || tmpcubCF == undefined){
-        // Initial first saved data
-        localStorage.setItem('RocketTux-cubItemBonus', '2'); // 3-6 reduce Cubimal item cost
-    }
-    var tmpcubCF = localStorage.getItem('RocketTux-cubCoinBonus');
-    if (tmpcubCF == null || tmpcubCF == undefined){
-        // Initial first saved data
-        localStorage.setItem('RocketTux-cubCoinBonus', '0'); // Percent change Cubimal coin cost
-    }
-    
+        
     RocketTux.cubNames = [
         'Bajorg','Batterfly','Bureaucrat','Butler','Butterfly','Cactus','Chick','Crab','Craftybot','Deimaginator',
         'Dustbunny','Emobear','Energettica','Firebog','Firefly','Fox','Foxranger','Frog','Garden Avenger','Gnome',
