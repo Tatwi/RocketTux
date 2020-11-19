@@ -76,6 +76,6 @@ Next, open the src/preload.js file and scroll way down to the worldObjects funct
 
 If you're fixing an existing section it's easier (and less error prone) to just delete the one in src/preload.js and then paste your replacement back in the same spot (and rename NAME to match the original).  
 
-And that's really all there is to it! This the process I followed when making all 208 map sections and as far as work flows go, I actually really liked this one for it simplicity and speed.  
+And that's really all there is to it! This is the process I followed when making all 208 map sections and as far as work flows go, I actually really liked this one for its simplicity and speed.  
 
 - R. Bassett Jr. (Tatwi)  
