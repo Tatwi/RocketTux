@@ -38,6 +38,10 @@ then
 	cp -uv src/main.js build/src/
 	cp -uv src/mainmenu.js build/src/
 	cp -uv src/preload.js build/src/
+	cp -uv src/help.js build/src/
+	cp -uv src/inventory.js build/src/
+	cp -uv src/settings.js build/src/
+	cp -uv src/friends.js build/src/
 	cp -uv lib/phaser.min.js build/lib/phaser.js
 	cp -ruv data/music build/data/music
 	cp -ruv data/sounds build/data/sounds
@@ -190,6 +194,10 @@ then
 	cp -v src/main.js build/src/
 	cp -v src/mainmenu.js build/src/
 	cp -v src/preload.js build/src/
+	cp -v src/help.js build/src/
+	cp -v src/inventory.js build/src/
+	cp -v src/settings.js build/src/
+	cp -v src/friends.js build/src/
 
 else
 	echo -e "Minify JavaScript with YUICompressor..."
@@ -198,6 +206,10 @@ else
 	java -jar lib/yuicompressor-2.4.8.jar src/main.js -o build/src/main.js
 	java -jar lib/yuicompressor-2.4.8.jar src/mainmenu.js -o build/src/mainmenu.js
 	java -jar lib/yuicompressor-2.4.8.jar src/preload.js -o build/src/preload.js
+	java -jar lib/yuicompressor-2.4.8.jar src/help.js -o build/src/help.js
+	java -jar lib/yuicompressor-2.4.8.jar src/inventory.js -o build/src/inventory.js
+	java -jar lib/yuicompressor-2.4.8.jar src/settings.js -o build/src/settings.js
+	java -jar lib/yuicompressor-2.4.8.jar src/friends.js -o build/src/friends.js
 fi
 
 echo "=================================="
