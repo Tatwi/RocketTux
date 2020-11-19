@@ -4,6 +4,14 @@ var RocketTux = RocketTux || {};
 RocketTux.Preload = function(){};
  
 RocketTux.Preload.prototype = {
+  init: function(){
+	// Initialize constants and variables
+    this.worldObjects(); // Tilemap objects from world texture
+    this.otherVariables(); // Misc objects, variables, settings
+    
+    // Load game save data, overwriting some values loaded in otherVariables()
+    this.loadSavedGame();
+  },
   preload: function() {
   	// Show loading screen 
   	this.splash = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
@@ -41,13 +49,6 @@ RocketTux.Preload.prototype = {
     this.load.audio('explosion', 'data/sounds/explosion.ogg');
     this.load.audio('ticking', 'data/sounds/ticking.ogg');
     this.load.audio('shakeoff', 'data/sounds/shakeoff.ogg');
-    
-    // Initialize constants and variables
-    this.worldObjects(); // Tilemap objects from world texture
-    this.otherVariables(); // Misc objects, variables, settings
-    
-    // Load game save data, overwriting some values loaded in otherVariables()
-    this.loadSavedGame();
   },
   create: function() {
   	this.state.start('MainMenu');
