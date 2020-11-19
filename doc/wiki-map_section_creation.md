@@ -6,7 +6,7 @@ The levels in RocketTux are created by stitching together several random 40x23 t
 	- The same ground height.  
 	- Not block the player from spawning in the first column of the map section.  
 	
-2. Primarily the tiles that are visually intended to be used for a given theme.  
+2. Primarily use the tiles that are visually intended to be used for a given theme.  
 
 The tilemap sections themselves are simply an array of numerical values that correspond to the 32x32 pixel squares on the data/world.png image. In Phaser, the first "tile" is 0 and they count left to right, top to bottom from there. Here is an example of a tilemap section array,  
 
