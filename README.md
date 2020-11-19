@@ -117,9 +117,7 @@ The following are links to documents related to the development of the game. Hop
 ### Project and Programming
 - [Art and release files in my Google Drive](https://drive.google.com/open?id=0By31kDj_eHBcWHdXRlFzdnZIdUU)
 - [File structure and types](doc/wiki-file_structure.md)
-- [Overview of Phaser CE, Pixi, Slick-UI, and JavaScript](doc/wiki-programming_overview.md)
 - [Step by step walk through of the game states](doc/wiki-game_states.md)
-- [Slick-UI usage and limiations](doc/wiki-slick_ui.md)
 - [Data storage and loot tables](doc/wiki-data_loot.md)
 - [How the tilemap works](doc/wiki-tilemap.md)
 - [Explaining the sprite sheet and backgrounds](doc/wiki-sprites.md)
@@ -130,6 +128,9 @@ The following are links to documents related to the development of the game. Hop
 - [Creating sprites with GIMP](doc/wiki-sprite_creation.md)
 - [Adding sprites to the game](doc/wiki-sprites_adding_new.md)
 - [Using the inventory spreadsheet](doc/wiki-inventory_spreadsheet.md)
+
+### Misc
+- [The Prototype of RocketTux](doc/prototype/README.md)  
 
 ## License
 The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information. You may *not* copy or "fork" this repository and sell RocketTux as your own creation, no matter how you've repackaged or re-branded it. 

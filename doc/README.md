@@ -8,9 +8,7 @@ The following are links to documents related to the development of the game. Hop
 
 ### Project and Programming
 - [File structure and types](wiki-file_structure.md)
-- [Overview of Phaser CE, Pixi, Slick-UI, and JavaScript](wiki-programming_overview.md)
 - [Step by step walk through of the game states](wiki-game_states.md)
-- [Slick-UI usage and limiations](wiki-slick_ui.md)
 - [Data storage and loot tables](wiki-data_loot.md)
 - [How the tilemap works](wiki-tilemap.md)
 - [Explaining the sprite sheet and backgrounds](wiki-sprites.md)
