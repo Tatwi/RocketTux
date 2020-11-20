@@ -1834,6 +1834,12 @@
     "frame": {"x":384,"y":672,"w":64,"h":64},
     "rotated": false,
     "trimmed": false
+    },
+    {
+        "filename": "boost-icon",
+        "frame": {"x":320,"y":0,"w":32,"h":32},
+        "rotated": false,
+        "trimmed": false
     }
   ],
   "meta": {

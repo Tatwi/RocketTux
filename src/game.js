@@ -75,11 +75,6 @@ RocketTux.Game.prototype = {
         this.boosts = 1;
     }
     
-    // DEBUG
-    this.myDebugText = this.game.add.text(480, 16, 'score: 0', { fontSize: '16px', fill: '#FFFFFF' });
-    this.myDebugText.fixedToCamera = true;
-    this.myDebugText.text = '';
-    
     this.createTileMap();
     
     // Add the player
@@ -142,7 +137,46 @@ RocketTux.Game.prototype = {
     this.applyPowerUp(false);
     
     // UI
-    this.uiTimer = this.game.time.time + 1000;    
+    this.uiTimer = this.game.time.time + 1000;       
+    this.style = { 
+		font: "24px Verdana", 
+		fill: "#ffffff", align: "left",
+		stroke: '#000000',
+		strokeThickness: 4
+	};
+	
+	// Coin status
+	this.coinIcon = this.game.add.sprite(60, 5, 'atlas');
+    this.coinIcon.fixedToCamera = true;
+    this.coinIcon.frameName = 'ui-coin';
+    this.uiCoinStatus = this.game.add.text(0, 0, "", this.style);
+    this.uiCoinStatus.alignTo(this.coinIcon, Phaser.RIGHT_TOP, 1, 1);
+    this.uiCoinStatus.fixedToCamera = true;
+    this.uiCoinStatus.text = this.coinsCollected + "/" + this.coinsInLevel;
+    
+    // Powerup status
+    this.powerUpIcon = this.game.add.sprite(6, 5, 'atlas');
+    this.powerUpIcon.inputEnabled = true;
+    this.powerUpIcon.events.onInputDown.add(this.removePowerUp, this);
+    this.powerUpIcon.events.onInputOver.add(this.powerUpIconOver, this);
+    this.powerUpIcon.events.onInputOut.add(this.powerUpIconOut, this);
+    this.powerUpIcon.fixedToCamera = true;
+    if (RocketTux.powerUpActive == 'none'){
+		this.powerUpIcon.frameName = 'blk-empty';
+	} else {
+		this.powerUpIcon.frameName = 'pwrup-icon-' + RocketTux.powerUpActive;
+	}
+	this.powerUpIconTip = this.game.add.text(8, 56, "Click to remove powerup!", this.style);
+	this.powerUpIconTip.visible = false;
+	
+	// Boost status
+	this.boostIcon = this.game.add.sprite(175, 5, 'atlas');
+    this.boostIcon.fixedToCamera = true;
+    this.boostIcon.frameName = 'boost-icon';
+    this.uiBoostStatus = this.game.add.text(0, 0, "", this.style);
+    this.uiBoostStatus.alignTo(this.boostIcon, Phaser.RIGHT_TOP, 1, 1);
+    this.uiBoostStatus.fixedToCamera = true;
+    this.uiBoostStatus.text = this.boosts;
   },
   
 //==================GAME LOOP START========================
@@ -312,10 +346,17 @@ RocketTux.Game.prototype = {
     if (this.game.time.time < this.uiTimer){
         return;
     }
-        
-    //this.myDebugText.text = "AirSpeed: " + this.lvlAirSpeed + "   GroundSpeed: " + this.lvlGroundSpeed + "    Gravity: " + this.player.body.gravity.y;
-    
-    this.uiTimer = this.game.time.time + 1000;
+
+	this.uiCoinStatus.text = this.coinsCollected + "/" + this.coinsInLevel;
+	this.uiBoostStatus.text = this.boosts;
+	
+	if (RocketTux.powerUpActive == 'none'){
+		this.powerUpIcon.frameName = 'blk-empty';
+	} else {
+		this.powerUpIcon.frameName = 'pwrup-icon-' + RocketTux.powerUpActive;
+	}
+	
+    this.uiTimer = this.game.time.time + 500;
   },
   aiUpdate: function(sprite, tile){
     // Run per frame for each enemy that is colliding with a tile. Checks true state on sprite.madeUpName variable and does stuff specific to the madeUpName type of enemies.
@@ -494,7 +535,14 @@ RocketTux.Game.prototype = {
 	}
 	return result;
   },
-  
+  powerUpIconOver: function(){
+	if (RocketTux.powerUpActive != 'none'){
+        this.powerUpIconTip.visible = true;
+    }
+  },
+  powerUpIconOut: function(){
+	this.powerUpIconTip.visible = false;
+  },
 //==================LEVEL CREATION========================
 
   addBackground: function(sprite, frame){
