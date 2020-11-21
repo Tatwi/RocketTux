@@ -24,7 +24,7 @@ RocketTux.Preload.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
  
   	// Load game assets
-    this.load.image('ui-bg', 'data/ui/ui-bg.png'); // For use in main menu
+    this.load.image('menu-map', 'data/ui/menu_map.png'); // For use in main menu
     this.load.image('world', 'data/world.png'); // For tilemap
     this.game.load.atlas('atlas', 'data/world.png', 'data/world.json');  // For all other elements
     this.load.spritesheet('skies', 'data/skies.png', 1024, 1024);
@@ -92,6 +92,16 @@ RocketTux.Preload.prototype = {
     if (tmpcubCF == null || tmpcubCF == undefined){
         // Initial first saved data
         localStorage.setItem('RocketTux-cubCoinBonus', '0'); // Percent change Cubimal coin cost
+    }
+    
+     // Main Menu game controller color
+    RocketTux.mainMenuColor = '0xB7B7B7';
+    var tmpMainMenuColor = localStorage.getItem('RocketTux-mainMenuColor');
+    if (tmpMainMenuColor == null || tmpMainMenuColor == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-mainMenuColor', '0xB7B7B7');
+    } else {
+        RocketTux.mainMenuColor = tmpMainMenuColor;
     }
   },
   otherVariables: function(){
