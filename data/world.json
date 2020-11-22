@@ -1843,7 +1843,7 @@
     }
   ],
   "meta": {
-    "app": "http://www.tpot.ca",
+    "app": "https://github.com/Tatwi/RocketTux",
     "version": "1.0",
     "image": "world.png",
     "format": "RGBA8888",

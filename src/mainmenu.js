@@ -67,7 +67,14 @@ RocketTux.MainMenu.prototype = {
 	} else {
 		this.powerUpIcon.frameName = 'pwrup-icon-' + RocketTux.powerUpActive;
 	}
-
+	
+	// Buttons
+	this.btDpadUp = this.game.add.button(202, 288, 'ui-map', this.modeSelectUp, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+	this.btDpadDown = this.game.add.button(202, 406, 'ui-map', this.modeSelectDown, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+	this.btDpadLeft = this.game.add.button(142, 348, 'ui-map', this.levelSelectLeft, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+	this.btDpadRight = this.game.add.button(260, 348, 'ui-map', this.levelSelectRight, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+	this.btSelect = this.game.add.button(422, 574, 'ui-map', this.pickRandomLevel, this, 'glow-rec-over', 'glow-rec-out', 'glow-rec-down');
+	this.btStart = this.game.add.button(710, 574, 'ui-map', this.startGame, this, 'glow-rec-over', 'glow-rec-out', 'glow-rec-down');
   },
     
 //==================GAME LOOP START========================
@@ -78,56 +85,27 @@ RocketTux.MainMenu.prototype = {
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_LEFT, 20)){
 		this.levelSelectLeft();
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.P, 1) || this.pad1.justPressed(9, 20)){ // Gamepad Start button
-		if (RocketTux.gameMode == 'easy'){
-			this.startGameEasy();
-		} else if (RocketTux.gameMode == 'hard'){
-			this.startGameHard();
-		} else {
-			this.startGame();
-		}
+		this.startGame();
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.R, 1) || this.pad1.justPressed(8, 20)){ // Gamepad Select button
-		this.scrns[this.activeScrn].visible = false;
-		
-		this.unlocks = RocketTux.levelUnlocks.split(','); // Update in case they just unlocked a level
-				
-		// Pick a random level and time of day
-		this.activeScrn = parseInt(this.unlocks[this.game.rnd.between(0, this.unlocks.length - 1)]);
-
-		this.scrns[this.activeScrn].visible = true;
-		this.selectedLevel = this.scrNames[this.activeScrn].split('_');
+		this.pickRandomLevel();
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_DOWN, 20)){
-		switch (RocketTux.gameMode){
-			case "easy":
-				RocketTux.gameMode = "normal";
-				break;
-			case "normal":
-				RocketTux.gameMode = "hard";
-				break;
-			case "hard":
-				RocketTux.gameMode = "easy";
-				break;
-		}
-		
-		this.modeText.text = RocketTux.gameMode.charAt(0).toUpperCase() + RocketTux.gameMode.slice(1);
+		this.modeSelectDown();
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.UP, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_UP, 20)){
-		switch (RocketTux.gameMode){
-			case "easy":
-				RocketTux.gameMode = "hard";
-				break;
-			case "normal":
-				RocketTux.gameMode = "easy";
-				break;
-			case "hard":
-				RocketTux.gameMode = "normal";
-				break;
-		}
-		
-		this.modeText.text = RocketTux.gameMode.charAt(0).toUpperCase() + RocketTux.gameMode.slice(1);
+		this.modeSelectUp();
 	}
   },
 //__________________GAME LOOP END___________________________ 
-  
+
   startGame: function () {
+	if (RocketTux.gameMode == 'easy'){
+		this.startGameEasy();
+	} else if (RocketTux.gameMode == 'hard'){
+		this.startGameHard();
+	} else {
+		this.startGameNormal();
+	}
+  },
+  startGameNormal: function () {
     music.destroy();
     RocketTux.gameMode = 'normal';
     this.game.state.start('Game', true, false, this.selectedLevel[0], this.selectedLevel[1]); // 0 = theme, 1 = time of day
@@ -154,7 +132,7 @@ RocketTux.MainMenu.prototype = {
 	this.scrns[this.activeScrn].visible = true;
 	this.selectedLevel = this.scrNames[this.activeScrn].split('_');
   },
-  levelSelectLeft: function(){
+  levelSelectLeft: function (){
 	this.scrns[this.activeScrn].visible = false;
 		
 	this.activeScrn -= 1;
@@ -162,6 +140,47 @@ RocketTux.MainMenu.prototype = {
 		this.activeScrn = 22
 	}
 	
+	this.scrns[this.activeScrn].visible = true;
+	this.selectedLevel = this.scrNames[this.activeScrn].split('_');
+  },
+  modeSelectUp: function () {
+	switch (RocketTux.gameMode){
+		case "easy":
+			RocketTux.gameMode = "hard";
+			break;
+		case "normal":
+			RocketTux.gameMode = "easy";
+			break;
+		case "hard":
+			RocketTux.gameMode = "normal";
+			break;
+	}
+	
+	this.modeText.text = RocketTux.gameMode.charAt(0).toUpperCase() + RocketTux.gameMode.slice(1);
+  },
+  modeSelectDown: function () {
+	switch (RocketTux.gameMode){
+		case "easy":
+			RocketTux.gameMode = "normal";
+			break;
+		case "normal":
+			RocketTux.gameMode = "hard";
+			break;
+		case "hard":
+			RocketTux.gameMode = "easy";
+			break;
+	}
+	
+	this.modeText.text = RocketTux.gameMode.charAt(0).toUpperCase() + RocketTux.gameMode.slice(1);
+  },
+  pickRandomLevel: function (){
+	this.scrns[this.activeScrn].visible = false;
+	
+	this.unlocks = RocketTux.levelUnlocks.split(','); // Update in case they just unlocked a level
+			
+	// Pick a random level and time of day
+	this.activeScrn = parseInt(this.unlocks[this.game.rnd.between(0, this.unlocks.length - 1)]);
+
 	this.scrns[this.activeScrn].visible = true;
 	this.selectedLevel = this.scrNames[this.activeScrn].split('_');
   },
@@ -297,5 +316,7 @@ RocketTux.MainMenu.prototype = {
 	  }
 	  
 	  return aComma;
-  }
+  },
+ 
+//==================BUTTON CALLBACKS========================
 };

@@ -1,0 +1,53 @@
+{"frames": [
+    {
+    "filename": "glow-sqr-over",
+    "frame": {"x":0,"y":191,"w":48,"h":48},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "glow-sqr-out",
+    "frame": {"x":0,"y":352,"w":34,"h":34},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "glow-sqr-down",
+    "frame": {"x":0,"y":191,"w":48,"h":48},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "glow-cir",
+    "frame": {"x":62,"y":193,"w":96,"h":96},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+	"filename": "glow-rec-over",
+	"frame": {"x":0,"y":290,"w":146,"h":44},
+	"rotated": false,
+	"trimmed": false
+    },
+    {
+	"filename": "glow-rec-out",
+	"frame": {"x":0,"y":352,"w":133,"h":34},
+	"rotated": false,
+	"trimmed": false
+    },
+    {
+	"filename": "glow-rec-down",
+	"frame": {"x":0,"y":290,"w":146,"h":44},
+	"rotated": false,
+	"trimmed": false
+    }
+  ],
+  "meta": {
+    "app": "https://github.com/Tatwi/RocketTux",
+    "version": "1.0",
+    "image": "menu_map.png",
+    "format": "RGBA8888",
+    "size": {"w":512,"h":512},
+    "scale": "1"
+  }
+}

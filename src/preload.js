@@ -26,6 +26,7 @@ RocketTux.Preload.prototype = {
   	// Load game assets
     this.load.image('menu-map', 'data/ui/menu_map.png'); // For use in main menu
     this.game.load.atlas('screens', 'data/ui/screens.png', 'data/ui/screens.json'); // For use in main menu
+    this.game.load.atlas('ui-map', 'data/ui/menu_map.png', 'data/ui/ui.json');  // Remaining UI elements
     this.load.image('world', 'data/world.png'); // For tilemap
     this.game.load.atlas('atlas', 'data/world.png', 'data/world.json');  // For all other elements
     this.load.spritesheet('skies', 'data/skies.png', 1024, 1024);
