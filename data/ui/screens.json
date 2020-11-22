@@ -1,0 +1,125 @@
+{
+"frames": {
+	"beach_day": {
+		"frame": {"x":385, "y":1285, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"beachfront_day": {
+		"frame": {"x":1155, "y":771, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"candyland_day": {
+		"frame": {"x":1155, "y":514, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"forest1_day": {
+		"frame": {"x":1155, "y":257, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"forest1_night": {
+		"frame": {"x":1155, "y":0, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"forest1_sunrise": {
+		"frame": {"x":770, "y":1285, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"forest1_sunset": {
+		"frame": {"x":770, "y":1028, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"forest2_day": {
+		"frame": {"x":770, "y":771, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"forest2_night": {
+		"frame": {"x":770, "y":514, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"forest2_sunrise": {
+		"frame": {"x":770, "y":257, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"forest2_sunset": {
+		"frame": {"x":770, "y":0, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow1_day": {
+		"frame": {"x":1155, "y":1028, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow1_night": {
+		"frame": {"x":385, "y":1028, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow1_sunrise": {
+		"frame": {"x":385, "y":771, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow1_sunset": {
+		"frame": {"x":385, "y":514, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow2_day": {
+		"frame": {"x":385, "y":257, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow2_night": {
+		"frame": {"x":385, "y":0, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow2_sunrise": {
+		"frame": {"x":0, "y":1285, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow2_sunset": {
+		"frame": {"x":0, "y":1028, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow3_day": {
+		"frame": {"x":0, "y":771, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow3_night": {
+		"frame": {"x":0, "y":514, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow3_sunrise": {
+		"frame": {"x":0, "y":257, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	},
+	"snow3_sunset": {
+		"frame": {"x":0, "y":0, "w":384, "h":256},
+		"spriteSourceSize": {"x":0,"y":0,"w":384,"h":256},
+		"sourceSize": {"w":384,"h":256}
+	}
+
+},
+"meta": {
+	"image": "screens.png",
+	"size": {"w": 1540, "h": 1542},
+	"scale": "1"
+}
+}

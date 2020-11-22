@@ -1,6 +1,11 @@
 RocketTux.MainMenu = function(){};
  
 RocketTux.MainMenu.prototype = {
+  init: function() {
+	// Start gamepad input
+    this.game.input.gamepad.start(); // Tested with Super Nintendo style USB
+    this.pad1 = this.game.input.gamepad.pad1;
+  },
   create: function() {
   	// Add background
     this.activeBG = this.game.add.sprite(0, 0, 'skies');
@@ -22,8 +27,13 @@ RocketTux.MainMenu.prototype = {
     music.play();
     this.mouseoverSnd = this.game.add.audio('mouseover');
     
-    // Load menu tilemaps
+    // Load menu tilemaps and draw game device
     this.makeMenu();
+    
+    // Add screens for game device
+    this.makeScreens();
+    this.activeScrn = 1;
+    this.scrns[this.activeScrn].visible = true;
   },
   
 //==================GAME LOOP START========================
@@ -35,6 +45,27 @@ RocketTux.MainMenu.prototype = {
 		this.startGameEasy();
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.THREE, 1)){
 		this.startGameHard();
+	} 
+	
+	// Level selection with keyboard / gamepad
+	if (this.game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_RIGHT, 20)){
+		this.scrns[this.activeScrn].visible = false;
+		
+		this.activeScrn += 1;
+		if (this.activeScrn > 22){
+			this.activeScrn = 0
+		}
+		
+		this.scrns[this.activeScrn].visible = true;
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_LEFT, 20)){
+		this.scrns[this.activeScrn].visible = false;
+		
+		this.activeScrn -= 1;
+		if (this.activeScrn < 0){
+			this.activeScrn = 22
+		}
+		
+		this.scrns[this.activeScrn].visible = true;
 	}
   },
 //__________________GAME LOOP END___________________________ 
@@ -142,5 +173,22 @@ RocketTux.MainMenu.prototype = {
 	this.menuMapFG.addTilesetImage('menu-map', 'menu-map', 32, 32);
 	this.menuFG = this.menuMapFG.createLayer(0);
 	this.menuFG.resizeWorld();
+  },
+  makeScreens: function(){
+	this.scrNames = [
+		'snow1_sunrise', 'snow1_day', 'snow1_sunset', 'snow1_night',
+		'snow2_sunrise', 'snow2_day', 'snow2_sunset', 'snow2_night',
+		'snow3_sunrise', 'snow3_day', 'snow3_sunset', 'snow3_night',
+		'forest1_sunrise', 'forest1_day', 'forest1_sunset', 'forest1_night',
+		'forest2_sunrise', 'forest2_day', 'forest2_sunset', 'forest2_night',
+		 'beachfront_day', 'beach_day', 'candyland_day'
+	];
+	this.scrns = {};
+	
+	for (i = 0; i < 23; i++){
+		this.scrns[i] = this.game.add.sprite(448,256, 'screens');
+		this.scrns[i].frameName = this.scrNames[i];
+		this.scrns[i].visible = false;
+	}
   }
 };
