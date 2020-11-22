@@ -3,6 +3,10 @@ var RocketTux = RocketTux || {};
 RocketTux.Game = function(){};
  
 RocketTux.Game.prototype = {
+  init: function(theme, timeOfDay){
+	this.theme = theme;
+	this.timeOfDay = timeOfDay;
+  },
   create: function() {
     this.game.clearBeforeRender = false; // Every scene always has an opaque background image that gets repainted every frame
     
@@ -20,10 +24,10 @@ RocketTux.Game.prototype = {
     this.game.world.setBounds(0, 0, this.levelLength, 720);
     
     // Pick theme and time of day
-    this.themeOptions = RocketTux.unlocks.themes.split(',');
-    this.theme = this.rollGame(this.themeOptions, RocketTux.favortieTheme); // returns string    
-    this.timeOptions = RocketTux.unlocks.timesOfDay.split(',');
-    this.timeOfDay = this.rollGame(this.timeOptions, RocketTux.favortieTime); // returns string
+    //this.themeOptions = RocketTux.unlocks.themes.split(',');
+    //this.theme = this.rollGame(this.themeOptions, RocketTux.favortieTheme); // returns string    
+    //this.timeOptions = RocketTux.unlocks.timesOfDay.split(',');
+    //this.timeOfDay = this.rollGame(this.timeOptions, RocketTux.favortieTime); // returns string
     
     // Add background for special themes or based on the time of day
     if (this.theme == 'candyland'){

@@ -34,6 +34,9 @@ RocketTux.MainMenu.prototype = {
     this.makeScreens();
     this.activeScrn = 1;
     this.scrns[this.activeScrn].visible = true;
+    
+    // Chosen level
+    this.selectedLevel = this.scrNames[this.activeScrn].split('_');
   },
   
 //==================GAME LOOP START========================
@@ -57,6 +60,7 @@ RocketTux.MainMenu.prototype = {
 		}
 		
 		this.scrns[this.activeScrn].visible = true;
+		this.selectedLevel = this.scrNames[this.activeScrn].split('_');
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_LEFT, 20)){
 		this.scrns[this.activeScrn].visible = false;
 		
@@ -66,6 +70,7 @@ RocketTux.MainMenu.prototype = {
 		}
 		
 		this.scrns[this.activeScrn].visible = true;
+		this.selectedLevel = this.scrNames[this.activeScrn].split('_');
 	}
   },
 //__________________GAME LOOP END___________________________ 
@@ -73,18 +78,18 @@ RocketTux.MainMenu.prototype = {
   startGame: function () {
     music.destroy();
     RocketTux.gameMode = 'normal';
-    this.game.state.start('Game');
+    this.game.state.start('Game', true, false, this.selectedLevel[0], this.selectedLevel[1]); // 0 = theme, 1 = time of day
   },
   startGameEasy: function () {
     music.destroy();
     //RocketTux.bonusBoosts = 50;
     RocketTux.gameMode = 'easy';
-    this.game.state.start('Game');
+    this.game.state.start('Game', true, false, this.selectedLevel[0], this.selectedLevel[1]); // 0 = theme, 1 = time of day
   },
   startGameHard: function () {
     music.destroy();
     RocketTux.gameMode = 'hard';
-    this.game.state.start('Game');
+    this.game.state.start('Game', true, false, this.selectedLevel[0], this.selectedLevel[1]); // 0 = theme, 1 = time of day
   },
   makeMenu: function (){
 	// Tilemap data
