@@ -23,12 +23,6 @@ RocketTux.Game.prototype = {
     this.levelLength = 32 * 40 * this.mapSections; // Tile width * Tiles per section * sections
     this.game.world.setBounds(0, 0, this.levelLength, 720);
     
-    // Pick theme and time of day
-    //this.themeOptions = RocketTux.unlocks.themes.split(',');
-    //this.theme = this.rollGame(this.themeOptions, RocketTux.favortieTheme); // returns string    
-    //this.timeOptions = RocketTux.unlocks.timesOfDay.split(',');
-    //this.timeOfDay = this.rollGame(this.timeOptions, RocketTux.favortieTime); // returns string
-    
     // Add background for special themes or based on the time of day
     if (this.theme == 'candyland'){
         this.addBackground('skies-special', 2);
@@ -336,7 +330,7 @@ RocketTux.Game.prototype = {
         }
         
         this.globalCooldownStart(1);
-    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1) || this.pad1.justPressed(9)){ // Gamepad Start
+    } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1) || this.pad1.justPressed(9, 20)){ // Gamepad Start
 		this.quit();
 	}
     

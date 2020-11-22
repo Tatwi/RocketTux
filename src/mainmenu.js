@@ -37,41 +37,35 @@ RocketTux.MainMenu.prototype = {
     
     // Chosen level
     this.selectedLevel = this.scrNames[this.activeScrn].split('_');
+    this.unlocks = RocketTux.levelUnlocks.split(','); // These are index values corresponding to the level names in this.scrNames[]
   },
   
 //==================GAME LOOP START========================
   update: function() {
-	// Keyboard input
-	if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ONE, 1)){
-		this.startGame();
-	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.TWO, 1)){
-		this.startGameEasy();
-	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.THREE, 1)){
-		this.startGameHard();
-	} 
-	
 	// Level selection with keyboard / gamepad
 	if (this.game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_RIGHT, 20)){
-		this.scrns[this.activeScrn].visible = false;
-		
-		this.activeScrn += 1;
-		if (this.activeScrn > 22){
-			this.activeScrn = 0
-		}
-		
-		this.scrns[this.activeScrn].visible = true;
-		this.selectedLevel = this.scrNames[this.activeScrn].split('_');
+		this.levelSelectRight();
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_LEFT, 20)){
+		this.levelSelectLeft();
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.P, 1) || this.pad1.justPressed(9, 20)){ // Gamepad Start button
+		 if (RocketTux.gameMode == 'easy'){
+			this.startGameEasy();
+		} else if (RocketTux.gameMode == 'hard'){
+			this.startGameHard();
+		} else {
+			this.startGame();
+		}
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.R, 1) || this.pad1.justPressed(8, 20)){ // Gamepad Select button
 		this.scrns[this.activeScrn].visible = false;
 		
-		this.activeScrn -= 1;
-		if (this.activeScrn < 0){
-			this.activeScrn = 22
-		}
-		
+		this.unlocks = RocketTux.levelUnlocks.split(','); // Update in case they just unlocked a level
+				
+		// Pick a random level and time of day
+		this.activeScrn = parseInt(this.unlocks[this.game.rnd.between(0, this.unlocks.length - 1)]);
+
 		this.scrns[this.activeScrn].visible = true;
 		this.selectedLevel = this.scrNames[this.activeScrn].split('_');
-	}
+	} 
   },
 //__________________GAME LOOP END___________________________ 
   
@@ -90,6 +84,28 @@ RocketTux.MainMenu.prototype = {
     music.destroy();
     RocketTux.gameMode = 'hard';
     this.game.state.start('Game', true, false, this.selectedLevel[0], this.selectedLevel[1]); // 0 = theme, 1 = time of day
+  },
+  levelSelectRight: function(){
+	this.scrns[this.activeScrn].visible = false;
+		
+	this.activeScrn += 1;
+	if (this.activeScrn > 22){
+		this.activeScrn = 0
+	}
+	
+	this.scrns[this.activeScrn].visible = true;
+	this.selectedLevel = this.scrNames[this.activeScrn].split('_');
+  },
+  levelSelectLeft: function(){
+	this.scrns[this.activeScrn].visible = false;
+		
+	this.activeScrn -= 1;
+	if (this.activeScrn < 0){
+		this.activeScrn = 22
+	}
+	
+	this.scrns[this.activeScrn].visible = true;
+	this.selectedLevel = this.scrNames[this.activeScrn].split('_');
   },
   makeMenu: function (){
 	// Tilemap data

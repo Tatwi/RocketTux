@@ -104,6 +104,17 @@ RocketTux.Preload.prototype = {
     } else {
         RocketTux.mainMenuColor = tmpMainMenuColor;
     }
+    
+    // Level unlocks 
+    // These are index values corresponding to the level names in mainmenu.js: this.scrNames[]
+    RocketTux.levelUnlocks = '0,1,2';
+    var tmpUnlocks = localStorage.getItem('RocketTux-levelUnlocks');
+    if (tmpUnlocks == null || tmpUnlocks == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-levelUnlocks', '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22'); // All unlocked for testing
+    } else {
+        RocketTux.levelUnlocks = tmpUnlocks;
+    }
   },
   otherVariables: function(){
     // Variables that are over-written by values from "game save" data (local storage) or during game play
@@ -113,8 +124,6 @@ RocketTux.Preload.prototype = {
     RocketTux.favortiePowerUp = 'none'; // Star, Fire, Water, Air, Earth
     
     RocketTux.unlocks = {
-        themes:'snow1,snow2,forest1,candyland,forest2,beach,beachfront,snow3', // Unlocks: snow3, forest2, candyland, beach, beachfront
-        timesOfDay: 'sunrise,day,sunset,night', // Unlocks: supertuxDay, supertuxNight
         levelSectionsMin: 5, // Unlocks: Upto +5
         levelSectionsMax: 12, // Unlocks: Upto +3
     };
