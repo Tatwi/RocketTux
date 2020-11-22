@@ -4,7 +4,7 @@ A penguin with a rocket pack? Sure, why not!
 RocketTux is an easygoing side-scroller game about collecting coins and items. Help Tux navigate his way through the randomly pieced together levels, managing his boosts, earning Cubimals for bonuses, and avoiding the ever mischievous Nolok's walking bombs and other "hilarious machines"...
 
 ## Download
-- Latest Working Version: 0.4.3 (2018.12.17)
+- Latest Release Version: 0.4.3 (2018.12.17)
 - **Windows:** [7/8/10 64Bit](https://drive.google.com/open?id=1cPh6nHXv2BINCHQCf4hkMBSbqZwogfcI), [7/8/10 32Bit](https://drive.google.com/open?id=1N7hpHihpHhqDWuDJJyq30eRu--3v3Gy8)
 - **Linux:** [AMD64](https://drive.google.com/open?id=1CxWSmGFCafJP1mbnsVHUh1IHvjvhn-fH), [x86](https://drive.google.com/open?id=1u9zUUZrFrAFiLNuKlKe1ggBJ4YOW3oFk)
 - Previous Versions: [Directory of all releases](https://drive.google.com/open?id=1HIeXdRdk2E9728L978p4-uPapfudT1VS)
@@ -19,7 +19,8 @@ I can verify the game works fine using the following specs, but it will likely r
 - **RAM:** 24GB
 
 ## About Development
-- **Current Version:** 0.4.4 (Nov 2020)
+- **Current Version:** 0.4.8 (Nov 2020)
+- **Playable Version Tag:** v0.4.8
 - **Expected Completion Date:** When I get there! Maybe sometime 2021...
 - Programmed from scratch using [Phaser CE](https://github.com/photonstorm/phaser-ce).
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
@@ -45,6 +46,7 @@ I can verify the game works fine using the following specs, but it will likely r
 - Vesion 0.3: Block spawning (Quest, Powerup, Loot, Dangerous Loot) mechanic, functional powerups, implemented the 196 quest item icons, in-level item collection tracking, quest window.
 - Version 0.3.5: Enemy spawning, 3 functional enemies, player interaction with enemies, several performance improvements.
 - Version 0.4.0: All maps have level sections, functional item collection and inventory, ui window for Cubimals, game packaged to make it easy to play on Linux and Windows.
+- Version 0.4.8: Completely [new UI](screenshots/Screenshot_2020-11-22_03_12-01.png), most level sections complete, major bugs fixed, quality of life adjustments, some new level art.  
 
 ## Target Audience
 RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn about programming.
