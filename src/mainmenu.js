@@ -38,8 +38,38 @@ RocketTux.MainMenu.prototype = {
     // Chosen level
     this.selectedLevel = this.scrNames[this.activeScrn].split('_');
     this.unlocks = RocketTux.levelUnlocks.split(','); // These are index values corresponding to the level names in this.scrNames[]
+       
+    // Coin status
+	this.coinIcon = this.game.add.sprite(454, 144, 'atlas');
+    this.coinIcon.fixedToCamera = true;
+    this.coinIcon.frameName = 'ui-coin';
+    this.coinStyle = { 
+		font: "24px Verdana", 
+		fill: "#ffffff", align: "left",
+	};
+    this.uiCoinStatus = this.game.add.text(0, 0, "", this.coinStyle);
+    this.uiCoinStatus.alignTo(this.coinIcon, Phaser.RIGHT_TOP, 10, -2);
+    this.uiCoinStatus.fixedToCamera = true;
+    this.uiCoinStatus.text = this.addComma(localStorage.getItem('RocketTux-myWallet'), 3);
+	
+	// Game mode status
+	this.modeStyle = { 
+		font: "24px Verdana", 
+		fill: "#ffffff", align: "left",
+	};
+	this.modeText = this.game.add.text(690, 146, "", this.modeStyle);
+	this.modeText.text = RocketTux.gameMode.charAt(0).toUpperCase() + RocketTux.gameMode.slice(1);
+	
+	// Powerup status
+	this.powerUpIcon = this.game.add.sprite(790, 144, 'atlas');
+	if (RocketTux.powerUpActive == 'none'){
+		this.powerUpIcon.frameName = 'blk-empty';
+	} else {
+		this.powerUpIcon.frameName = 'pwrup-icon-' + RocketTux.powerUpActive;
+	}
+
   },
-  
+    
 //==================GAME LOOP START========================
   update: function() {
 	// Level selection with keyboard / gamepad
@@ -48,7 +78,7 @@ RocketTux.MainMenu.prototype = {
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.LEFT, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_LEFT, 20)){
 		this.levelSelectLeft();
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.P, 1) || this.pad1.justPressed(9, 20)){ // Gamepad Start button
-		 if (RocketTux.gameMode == 'easy'){
+		if (RocketTux.gameMode == 'easy'){
 			this.startGameEasy();
 		} else if (RocketTux.gameMode == 'hard'){
 			this.startGameHard();
@@ -65,7 +95,35 @@ RocketTux.MainMenu.prototype = {
 
 		this.scrns[this.activeScrn].visible = true;
 		this.selectedLevel = this.scrNames[this.activeScrn].split('_');
-	} 
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.DOWN, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_DOWN, 20)){
+		switch (RocketTux.gameMode){
+			case "easy":
+				RocketTux.gameMode = "normal";
+				break;
+			case "normal":
+				RocketTux.gameMode = "hard";
+				break;
+			case "hard":
+				RocketTux.gameMode = "easy";
+				break;
+		}
+		
+		this.modeText.text = RocketTux.gameMode.charAt(0).toUpperCase() + RocketTux.gameMode.slice(1);
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.UP, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_UP, 20)){
+		switch (RocketTux.gameMode){
+			case "easy":
+				RocketTux.gameMode = "hard";
+				break;
+			case "normal":
+				RocketTux.gameMode = "easy";
+				break;
+			case "hard":
+				RocketTux.gameMode = "normal";
+				break;
+		}
+		
+		this.modeText.text = RocketTux.gameMode.charAt(0).toUpperCase() + RocketTux.gameMode.slice(1);
+	}
   },
 //__________________GAME LOOP END___________________________ 
   
@@ -211,5 +269,33 @@ RocketTux.MainMenu.prototype = {
 		this.scrns[i].frameName = this.scrNames[i];
 		this.scrns[i].visible = false;
 	}
+  }, 
+  addComma: function (num, per) {
+	// W.S. Toh: https://code-boxx.com/format-numbers-javascript/
+	// addComma() : add commas to seperate given number
+	// PARAM num : original number
+	//       per : add comma per X digits
+
+	  var cString = num.toString(),
+		  aComma = "";
+
+	  if (cString.length > per) {
+		var j = 0;
+		for (let i=(cString.length-1); i>=0; i--) {
+		  // Add last character
+		  aComma = cString.charAt(i) + aComma;
+
+		  // Add comma?
+		  j++;
+		  if (j == per && i!=0) { 
+			aComma = "," + aComma; 
+			j = 0;
+		  }
+		}
+	  } else {
+		aComma = cString;
+	  }
+	  
+	  return aComma;
   }
 };

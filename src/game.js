@@ -1073,9 +1073,9 @@ RocketTux.Game.prototype = {
 
     // Save data
     var newWalletValue = savedCoins + totalCoins;
-    // Cap saved coins at 9,999,999
-    if (newWalletValue > 9999998){
-        newWalletValue = 9999998;
+    // Cap saved coins at 1,000,000,000
+    if (newWalletValue > 999999999){
+        newWalletValue = 1000000000;
     } 
     localStorage.setItem('RocketTux-myWallet', newWalletValue);
     
