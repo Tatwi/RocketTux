@@ -75,6 +75,10 @@ RocketTux.MainMenu.prototype = {
 	this.btDpadRight = this.game.add.button(260, 348, 'ui-map', this.levelSelectRight, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
 	this.btSelect = this.game.add.button(422, 574, 'ui-map', this.pickRandomLevel, this, 'glow-rec-over', 'glow-rec-out', 'glow-rec-down');
 	this.btStart = this.game.add.button(710, 574, 'ui-map', this.startGame, this, 'glow-rec-over', 'glow-rec-out', 'glow-rec-down');
+	this.btF = this.game.add.button(927, 385, 'ui-map', this.goFriends, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+	this.btI = this.game.add.button(1055, 353, 'ui-map', this.goInventory, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+	this.btS = this.game.add.button(927, 257, 'ui-map', this.goSettings, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+	this.btH = this.game.add.button(1055, 225, 'ui-map', this.goHelp, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
   },
     
 //==================GAME LOOP START========================
@@ -92,6 +96,14 @@ RocketTux.MainMenu.prototype = {
 		this.modeSelectDown();
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.UP, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_UP, 20)){
 		this.modeSelectUp();
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.F, 1)){
+		this.goFriends();
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.I, 1)){
+		this.goInventory();
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.S, 1)){
+		this.goSettings();
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.H, 1)){
+		this.goHelp();
 	}
   },
 //__________________GAME LOOP END___________________________ 
@@ -183,6 +195,22 @@ RocketTux.MainMenu.prototype = {
 
 	this.scrns[this.activeScrn].visible = true;
 	this.selectedLevel = this.scrNames[this.activeScrn].split('_');
+  },
+  goFriends: function (){
+	music.destroy();
+    this.game.state.start('Friends', true, false);
+  },
+  goInventory: function (){
+	music.destroy();
+    this.game.state.start('Inventory', true, false);
+  },
+  goSettings: function (){
+	music.destroy();
+    this.game.state.start('Settings', true, false);
+  },
+  goHelp: function (){
+	music.destroy();
+    this.game.state.start('Help', true, false);
   },
   makeMenu: function (){
 	// Tilemap data

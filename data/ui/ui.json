@@ -19,13 +19,13 @@
     },
     {
     "filename": "glow-cir-over",
-    "frame": {"x":0,"y":352,"w":87,"h":87},
+    "frame": {"x":62,"y":193,"w":96,"h":96},
     "rotated": false,
     "trimmed": false
     },
     {
     "filename": "glow-cir-out",
-    "frame": {"x":62,"y":193,"w":96,"h":96},
+    "frame": {"x":0,"y":352,"w":87,"h":87},
     "rotated": false,
     "trimmed": false
     },
