@@ -221,7 +221,11 @@ RocketTux.MainMenu.prototype = {
 	
 	this.unlocks = RocketTux.levelUnlocks.split(','); // Update in case they just unlocked a level
 			
-	// Pick a random level and time of day
+	// Exclude the currently selected level
+	var tmpUnlocks = this.unlocks;
+	tmpUnlocks.splice(tmpUnlocks.indexOf(String(this.activeScrn)),1);
+	
+	// Pick a random index value that will be used to reference a level theme and time of day
 	this.activeScrn = parseInt(this.unlocks[this.game.rnd.between(0, this.unlocks.length - 1)]);
 
 	this.scrns[this.activeScrn].visible = true;
