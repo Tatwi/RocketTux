@@ -175,6 +175,27 @@ RocketTux.Game.prototype = {
     this.uiBoostStatus.alignTo(this.boostIcon, Phaser.RIGHT_TOP, 1, 1);
     this.uiBoostStatus.fixedToCamera = true;
     this.uiBoostStatus.text = this.boosts;
+    
+    // Temporary startup message
+    var bar = this.game.add.graphics();
+    bar.beginFill(0x072756, 0.4);
+    bar.drawRect(0, this.game.height/2-30, this.game.width, 60);
+    bar.fixedToCamera = true;
+    bar.lifespan = 3400;
+    this.style = { 
+		font: "24px Verdana", 
+		fill: "#ffffff", align: "center",
+		boundsAlignH: "center", boundsAlignV: "middle",
+		stroke: '#000000',
+		strokeThickness: 4
+	};
+    var tmpMsg = this.game.add.text(0, 0, "Press ESC or Start to Pause/Exit", this.style);
+    tmpMsg.setTextBounds(0, 0, this.game.width, this.game.height);
+    tmpMsg.fixedToCamera = true;
+    tmpMsg.lifespan = 3000;
+    
+    // Pause Window
+    this.makePauseScreen();
   },
   
 //==================GAME LOOP START========================
@@ -331,7 +352,11 @@ RocketTux.Game.prototype = {
         
         this.globalCooldownStart(1);
     } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1) || this.pad1.justPressed(9, 20)){ // Gamepad Start
-		this.quit();
+		if (this.gameOver){
+			this.quit();
+		} else {
+			this.game.paused = !this.game.paused;
+		}
 	}
     
     /* Debug
@@ -929,6 +954,12 @@ RocketTux.Game.prototype = {
     this.coinsCollected += 1;
     this.coinSound.play();
     
+    // End level
+    if (this.coinsCollected == this.coinsInLevel){
+		this.gameOver = true;
+		this.game.paused = true;
+	}
+    
     if (RocketTux.powerUpActive == 'fire'){
         if (this.boosts > 4){
             return;
@@ -1037,10 +1068,202 @@ RocketTux.Game.prototype = {
     if (tmpInvVal > 999){tmpInvVal = 999;}
     localStorage.setItem('RocketTux-invItem' + itemNumber, tmpInvVal + 1);
   },
+ 
+//==================PAUSE RELATED========================
+  makePauseScreen: function (){
+	// Full screen darken
+	this.pwBgSdw = this.game.add.graphics();
+    this.pwBgSdw.beginFill(0x292929, 0.8);
+    this.pwBgSdw.drawRect(0, 0, this.game.width, this.game.height);
+    this.pwBgSdw.fixedToCamera = true;
+    this.pwBgSdw.visible = false;
+    
+    // Pause menu window
+    var pwX = this.game.width/2-300;
+    var pwY = this.game.height/2-300;
+    this.pwBg = this.game.add.graphics();
+    this.pwBg.beginFill(0xB3B3B3, 1);
+    this.pwBg.drawRoundedRect(pwX, pwY, 600, 600, 8);
+    this.pwBg.fixedToCamera = true;
+    this.pwBg.visible = false;
+    this.pwBgScreenBg = this.game.add.graphics();
+    this.pwBgScreenBg.beginFill(0x000000, 1);
+    this.pwBgScreenBg.drawRoundedRect(pwX+310, pwY+80, 280, 410, 8);
+    this.pwBgScreenBg.fixedToCamera = true;
+    this.pwBgScreenBg.visible = false;
+	
+	// Buttons
+	this.pwBtBoost = this.game.add.graphics();
+	this.pwBtBoost.beginFill(0x858585, 0.5);
+	this.pwBtBoost.drawRoundedRect(pwX+10, pwY+80, 280, 60, 6);
+	this.pwBtBoost.inputEnabled = true;
+	this.pwBtBoost.events.onInputDown.add(this.quit, this);
+	this.pwBtBoost.fixedToCamera = true;
+	this.pwBtBoost.visible = false;
+	
+	this.pwBtStar = this.game.add.graphics();
+	this.pwBtStar.beginFill(0x858585, 0.5);
+	this.pwBtStar.drawRoundedRect(pwX+10, pwY+150, 280, 60, 6);
+	this.pwBtStar.inputEnabled = true;
+	this.pwBtStar.events.onInputDown.add(this.quit, this);
+	this.pwBtStar.fixedToCamera = true;
+	this.pwBtStar.visible = false;
+	
+	this.pwBtWater = this.game.add.graphics();
+	this.pwBtWater.beginFill(0x858585, 0.5);
+	this.pwBtWater.drawRoundedRect(pwX+10, pwY+220, 280, 60, 6);
+	this.pwBtWater.inputEnabled = true;
+	this.pwBtWater.events.onInputDown.add(this.quit, this);
+	this.pwBtWater.fixedToCamera = true;
+	this.pwBtWater.visible = false;
+	
+	this.pwBEarth = this.game.add.graphics();
+	this.pwBEarth.beginFill(0x858585, 0.5);
+	this.pwBEarth.drawRoundedRect(pwX+10, pwY+290, 280, 60, 6);
+	this.pwBEarth.inputEnabled = true;
+	this.pwBEarth.events.onInputDown.add(this.quit, this);
+	this.pwBEarth.fixedToCamera = true;
+	this.pwBEarth.visible = false;
+	
+	this.pwBtAir = this.game.add.graphics();
+	this.pwBtAir.beginFill(0x858585, 0.5);
+	this.pwBtAir.drawRoundedRect(pwX+10, pwY+360, 280, 60, 6);
+	this.pwBtAir.inputEnabled = true;
+	this.pwBtAir.events.onInputDown.add(this.quit, this);
+	this.pwBtAir.fixedToCamera = true;
+	this.pwBtAir.visible = false;
+	
+	this.pwBtFire = this.game.add.graphics();
+	this.pwBtFire.beginFill(0x858585, 0.5);
+	this.pwBtFire.drawRoundedRect(pwX+10, pwY+430, 280, 60, 6);
+	this.pwBtFire.inputEnabled = true;
+	this.pwBtFire.events.onInputDown.add(this.quit, this);
+	this.pwBtFire.fixedToCamera = true;
+	this.pwBtFire.visible = false;
+	
+	this.pwBtExit = this.game.add.graphics();
+	this.pwBtExit.beginFill(0xE00000, 1);
+	this.pwBtExit.drawRoundedRect(pwX+30, pwY+540, 100, 50, 6);
+	this.pwBtExit.inputEnabled = true;
+	this.pwBtExit.events.onInputDown.add(this.quit, this);
+	this.pwBtExit.fixedToCamera = true;
+	this.pwBtExit.visible = false;
+	
+	this.pwBtResume = this.game.add.graphics();
+	this.pwBtResume.beginFill(0xE00000, 1);
+	this.pwBtResume.drawRoundedRect(pwX+380, pwY+510, 140, 70, 6);
+	this.pwBtResume.inputEnabled = true;
+	this.pwBtResume.events.onInputDown.add(this.resumeBt, this);
+	this.pwBtResume.fixedToCamera = true;
+	this.pwBtResume.visible = false;
+	
+	// Text styles
+	var titleStyle = { 
+		font: "32px Verdana", 
+		fill: "#FFFFFF", align: "left",
+		stroke: '#000000',
+		strokeThickness: 4
+	};
+	var resumeStyle = { 
+		font: "28px Verdana", 
+		fill: "#B80000", align: "left",
+		stroke: '#8D0000',
+		strokeThickness: 4
+	};
+	var exitStyle = { 
+		font: "24px Verdana", 
+		fill: "#B80000", align: "left",
+		stroke: '#8D0000',
+		strokeThickness: 3
+	};
+	var screenStyle = { 
+		font: "24px Verdana", 
+		fill: "#B80000", align: "left",
+		stroke: '#8D0000',
+		strokeThickness: 3
+	};
+	
+	// Title text
+	this.pwTitleText = this.game.add.text(pwX+380, pwY+10, "PAUSED", titleStyle);
+	this.pwTitleText.fixedToCamera = true;
+	this.pwTitleText.visible = false;
+	
+	// Grats (game over only)
+	this.pwGratsText = this.game.add.text(pwX+120, pwY+10, "CONGRATULATIONS!", titleStyle);
+	this.pwGratsText.fixedToCamera = true;
+	this.pwGratsText.visible = false;
+	
+	// Buy button icons and text
+	
+	// Exit and Resume text
+	this.pwExitText = this.game.add.text(pwX+56, pwY+548, "Exit", exitStyle);
+	this.pwExitText.fixedToCamera = true;
+	this.pwExitText.visible = false;
+	this.pwReumeText = this.game.add.text(pwX+394, pwY+524, "Resume", resumeStyle);
+	this.pwReumeText.fixedToCamera = true;
+	this.pwReumeText.visible = false;
+	
+	// Coin summary
+	
+	// Collected item icons
+  },
+  paused: function() {
+	this.pwBgSdw.visible = true;
+	this.pwBg.visible = true;
+	this.pwBgScreenBg.visible = true;
+	this.pwBtBoost.visible = true;
+	this.pwBtStar.visible = true;
+	this.pwBtWater.visible = true;
+	this.pwBEarth.visible = true;
+	this.pwBtAir.visible = true;
+	this.pwBtFire.visible = true;
+	this.pwBtExit.visible = true;
+	this.pwBtExit.visible = true;
+	this.pwExitText.visible = true;
+	
+	if (!this.gameOver){
+		this.pwTitleText.visible = true;
+		this.pwBtResume.visible = true;
+		this.pwReumeText.visible = true;
+	} else {
+		this.pwGratsText.visible = true;
+		this.blkPowerupSnd.play();
+	}
+  },
+  pauseUpdate: function() {	
+	if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1) || this.pad1.justPressed(9, 20)){ // Gamepad Start
+		if (this.gameOver){
+			this.quit();
+		} else {
+			this.game.paused = !this.game.paused;
+		}
+	}
+  },
+  resumeBt: function (){
+	this.game.paused = !this.game.paused;
+  },
+  resumed: function() {
+	this.pwBgSdw.visible = false;
+	this.pwBg.visible = false;
+	this.pwBgScreenBg.visible = false;
+	this.pwBtBoost.visible = false;
+	this.pwBtStar.visible = false;
+	this.pwBtWater.visible = false;
+	this.pwBEarth.visible = false;
+	this.pwBtAir.visible = false;
+	this.pwBtFire.visible = false;
+	this.pwBtExit.visible = false;
+	this.pwBtExit.visible = false;
+	this.pwBtResume.visible = false;
+	this.pwTitleText.visible = false;
+	this.pwExitText.visible = false;
+	this.pwReumeText.visible = false;
+  },
 
 //==================END OF LEVEL RELATED========================
 
   quit: function(){
+	this.game.paused = !this.game.paused;
     this.gameOver = true; // Prevent crash caused by running game loop after destroying the following objects
     this.player.destroy();
     this.theLevel.destroy();
