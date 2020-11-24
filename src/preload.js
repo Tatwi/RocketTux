@@ -112,7 +112,7 @@ RocketTux.Preload.prototype = {
     var tmpUnlocks = localStorage.getItem('RocketTux-levelUnlocks');
     if (tmpUnlocks == null || tmpUnlocks == undefined){
         // Initial first saved data
-        localStorage.setItem('RocketTux-levelUnlocks', '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22'); // All unlocked for testing
+        localStorage.setItem('RocketTux-levelUnlocks', '0,1');
     } else {
         RocketTux.levelUnlocks = tmpUnlocks;
     }
@@ -128,6 +128,23 @@ RocketTux.Preload.prototype = {
         levelSectionsMin: 5, // Unlocks: Upto +5
         levelSectionsMax: 12, // Unlocks: Upto +3
     };
+    
+    // Cost in coins to unlock levels
+    // These index values correspond to the level names in mainmenu.js: this.scrNames[]
+	//	'snow1_sunrise', 'snow1_day', 'snow1_sunset', 'snow1_night',
+	//	'snow2_sunrise', 'snow2_day', 'snow2_sunset', 'snow2_night',
+	//	'snow3_sunrise', 'snow3_day', 'snow3_sunset', 'snow3_night',
+	//	'forest1_sunrise', 'forest1_day', 'forest1_sunset', 'forest1_night',
+	//	'forest2_sunrise', 'forest2_day', 'forest2_sunset', 'forest2_night',
+	//	 'beachfront_day', 'beach_day', 'candyland_day'
+    RocketTux.unlockCost = [
+		0,0,500,700,
+		1000,500,1000,2000,
+		5000,2000,5000,9000,
+		1000,150,1000,2000,
+		400,200,800,1200,
+		5000,5000,5000
+    ];
     
     // All values below this line are constants
         	

@@ -79,10 +79,18 @@ RocketTux.MainMenu.prototype = {
 	this.btI = this.game.add.button(1055, 353, 'ui-map', this.goInventory, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
 	this.btS = this.game.add.button(927, 257, 'ui-map', this.goSettings, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
 	this.btH = this.game.add.button(1055, 225, 'ui-map', this.goHelp, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+	
+	this.unlockStyle = { 
+		font: "28px Verdana", 
+		fill: "#FFFF00", align: "center",
+	};
+	this.unlockText = this.game.add.text(490, 280, "", this.unlockStyle);
+	this.unlockText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+	this.unlockText.visible = false;
   },
     
 //==================GAME LOOP START========================
-  update: function() {
+  update: function() { 
 	// Level selection with keyboard / gamepad
 	if (this.game.input.keyboard.downDuration(Phaser.Keyboard.RIGHT, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_RIGHT, 20)){
 		this.levelSelectRight();
@@ -105,10 +113,33 @@ RocketTux.MainMenu.prototype = {
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.H, 1)){
 		this.goHelp();
 	}
+	
+	// Display for locked levels
+	if (!this.unlocks.includes(String(this.activeScrn))){
+		this.scrns[this.activeScrn].tint = 0x4E4E4E;
+		
+		var myCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
+		
+		if (myCoins >= RocketTux.unlockCost[this.activeScrn]){
+			this.unlockText.text = "Press Play to Unlock!\n\n\n\n" + this.addComma(RocketTux.unlockCost[this.activeScrn], 3) + " Coins";
+		} else {
+			var coinsRequired = RocketTux.unlockCost[this.activeScrn] - myCoins;
+			this.unlockText.text = "I need " + coinsRequired + " Coins\n\n\n\nto unlock this level...";
+		}
+		
+		this.unlockText.visible = true;
+	} else {
+		this.unlockText.text = "";
+		this.unlockText.visible = false;
+	}
   },
 //__________________GAME LOOP END___________________________ 
 
   startGame: function () {
+	if (this.levelIsLocked()){
+		return;
+	}  
+	  
 	if (RocketTux.gameMode == 'easy'){
 		this.startGameEasy();
 	} else if (RocketTux.gameMode == 'hard'){
@@ -211,6 +242,27 @@ RocketTux.MainMenu.prototype = {
   goHelp: function (){
 	music.destroy();
     this.game.state.start('Help', true, false);
+  },
+  levelIsLocked: function(){
+	// if level is locked, prevent the startGame function from completing
+	if (!this.unlocks.includes(String(this.activeScrn))){
+		var myCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
+		
+		if (myCoins >= RocketTux.unlockCost[this.activeScrn]){
+			// Update wallet
+			myCoins = myCoins - RocketTux.unlockCost[this.activeScrn];
+			localStorage.setItem('RocketTux-myWallet', myCoins);
+			
+			// Update unlocks
+			var tmpUnlocks = localStorage.getItem('RocketTux-levelUnlocks'); // Get stored
+			localStorage.setItem('RocketTux-levelUnlocks', tmpUnlocks + "," + this.activeScrn); // Update stored
+			RocketTux.levelUnlocks = localStorage.getItem('RocketTux-levelUnlocks'); // Update RAM reference
+		} else {
+			return true; // Level is locked
+		}
+	}
+	
+	return false; // Level is or has just been unlocked
   },
   makeMenu: function (){
 	// Tilemap data
