@@ -116,6 +116,12 @@ RocketTux.Preload.prototype = {
     } else {
         RocketTux.levelUnlocks = tmpUnlocks;
     }
+    
+    // Init or fix potentially bugged coins
+    var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
+    if (isNaN(savedCoins)){
+        localStorage.setItem('RocketTux-myWallet', '1');
+    }
   },
   otherVariables: function(){
     // Variables that are over-written by values from "game save" data (local storage) or during game play
@@ -147,6 +153,13 @@ RocketTux.Preload.prototype = {
 		400,200,800,1200,
 		5000,5000,5000
     ];
+    
+    // Must collect at least 10 coins. Bump up one reward tier for collecting all the coins.
+    RocketTux.bonusCoins = {
+		easy: [0,1,2,3,4,5,6,7,8,9,10,11,12],
+		normal: [0,2,5,10,15,20,30,40,55,70,85,100,115],
+		hard: [0,4,15,30,45,60,80,100,125,150,175,200,225],
+	};
         	
     RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
     RocketTux.groundSpeed = 180; // Preference up to 200. Star +75.
@@ -155,14 +168,6 @@ RocketTux.Preload.prototype = {
     RocketTux.bonusBoosts = 0; // Preference up to 3
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
     RocketTux.luck = 0, // Increases chance to get rare loot
-    
-    // Pause menu store prices
-    // Boost, Star, Water, Earth, Air, Fire 
-    RocketTux.prices = {
-		easy:[10, 100, 250, 250, 500, 500],
-		normal:[50, 200, 300, 300, 500, 500],
-		hard:[200, 500, 500, 500, 1000, 1000]
-	};
     
     // Data used for spawning enemies
     RocketTux.badguyConfig = {
