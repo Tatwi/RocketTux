@@ -64,11 +64,11 @@ RocketTux.Game.prototype = {
     this.enemies = this.game.add.group();
     
     // Add boosts
-    this.boosts = Math.max(2, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 2 + bonus
+    this.boosts = Math.max(3, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 3 + bonus
     
     // Easy and Hard mode adjustments
     if (RocketTux.gameMode == 'easy'){
-        this.boosts = 100;
+        this.boosts += 20;
     } else if (RocketTux.gameMode == 'hard'){
         this.boosts = 1;
     }
@@ -1091,15 +1091,30 @@ RocketTux.Game.prototype = {
     this.pwBgScreenBg.drawRoundedRect(pwX+310, pwY+80, 280, 410, 8);
     this.pwBgScreenBg.fixedToCamera = true;
     this.pwBgScreenBg.visible = false;
+    
+    var buyStyle = { 
+		font: "20px Verdana", 
+		fill: "#FFFFFF", align: "left",
+		stroke: '#000000',
+		strokeThickness: 2
+	};
 	
-	// Buttons
+	// Buy item buttons
 	this.pwBtBoost = this.game.add.graphics();
 	this.pwBtBoost.beginFill(0x858585, 0.5);
 	this.pwBtBoost.drawRoundedRect(pwX+10, pwY+80, 280, 60, 6);
 	this.pwBtBoost.inputEnabled = true;
-	this.pwBtBoost.events.onInputDown.add(this.quit, this);
+	this.pwBtBoost.events.onInputUp.add(this.buyBoost, this);
 	this.pwBtBoost.fixedToCamera = true;
 	this.pwBtBoost.visible = false;
+	this.pwBtBoostIcon = this.game.add.sprite(pwX+20, pwY+94, 'atlas');
+    this.pwBtBoostIcon.fixedToCamera = true;
+    this.pwBtBoostIcon.frameName = 'boost-icon';
+    this.pwBtBoostIcon.visible = false;
+    this.pwBtBoostText = this.game.add.text(pwX+60, pwY+94, "Boost: " + RocketTux.prices[RocketTux.gameMode][0] + " Coins", buyStyle);
+	this.pwBtBoostText.fixedToCamera = true;
+	this.pwBtBoostText.visible = false;
+	this.boostBought = 0;
 	
 	this.pwBtStar = this.game.add.graphics();
 	this.pwBtStar.beginFill(0x858585, 0.5);
@@ -1141,6 +1156,7 @@ RocketTux.Game.prototype = {
 	this.pwBtFire.fixedToCamera = true;
 	this.pwBtFire.visible = false;
 	
+	// Other buttons
 	this.pwBtExit = this.game.add.graphics();
 	this.pwBtExit.beginFill(0xE00000, 1);
 	this.pwBtExit.drawRoundedRect(pwX+30, pwY+540, 100, 50, 6);
@@ -1181,7 +1197,7 @@ RocketTux.Game.prototype = {
 		fill: "#B80000", align: "left",
 		stroke: '#8D0000',
 		strokeThickness: 3
-	};
+	};	
 	
 	// Title text
 	this.pwTitleText = this.game.add.text(pwX+380, pwY+10, "PAUSED", titleStyle);
@@ -1192,8 +1208,6 @@ RocketTux.Game.prototype = {
 	this.pwGratsText = this.game.add.text(pwX+120, pwY+10, "CONGRATULATIONS!", titleStyle);
 	this.pwGratsText.fixedToCamera = true;
 	this.pwGratsText.visible = false;
-	
-	// Buy button icons and text
 	
 	// Exit and Resume text
 	this.pwExitText = this.game.add.text(pwX+56, pwY+548, "Exit", exitStyle);
@@ -1211,7 +1225,15 @@ RocketTux.Game.prototype = {
 	this.pwBgSdw.visible = true;
 	this.pwBg.visible = true;
 	this.pwBgScreenBg.visible = true;
-	this.pwBtBoost.visible = true;
+	
+	if (RocketTux.gameMode === 'hard' && this.boostBought > 2) {
+		// Max out at 3
+	} else {
+		this.pwBtBoost.visible = true;
+		this.pwBtBoostIcon.visible = true;
+		this.pwBtBoostText.visible = true;
+	}
+	
 	this.pwBtStar.visible = true;
 	this.pwBtWater.visible = true;
 	this.pwBEarth.visible = true;
@@ -1247,6 +1269,8 @@ RocketTux.Game.prototype = {
 	this.pwBg.visible = false;
 	this.pwBgScreenBg.visible = false;
 	this.pwBtBoost.visible = false;
+	this.pwBtBoostIcon.visible = false;
+	this.pwBtBoostText.visible = false;
 	this.pwBtStar.visible = false;
 	this.pwBtWater.visible = false;
 	this.pwBEarth.visible = false;
@@ -1258,6 +1282,18 @@ RocketTux.Game.prototype = {
 	this.pwTitleText.visible = false;
 	this.pwExitText.visible = false;
 	this.pwReumeText.visible = false;
+  },
+  buyBoost: function (){
+	var savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
+	
+	if (savedCoins >= 20){
+		localStorage.setItem('RocketTux-myWallet', savedCoins - 20);
+		this.boosts += 1;
+		this.boostBought += 1;
+		this.pwBtBoost.visible = false;
+		this.pwBtBoostIcon.visible = false;
+		this.pwBtBoostText.visible = false;
+	}
   },
 
 //==================END OF LEVEL RELATED========================

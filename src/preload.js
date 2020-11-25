@@ -129,6 +129,8 @@ RocketTux.Preload.prototype = {
         levelSectionsMax: 12, // Unlocks: Upto +3
     };
     
+    // All values below this line are constants
+    
     // Cost in coins to unlock levels
     // These index values correspond to the level names in mainmenu.js: this.scrNames[]
 	//	'snow1_sunrise', 'snow1_day', 'snow1_sunset', 'snow1_night',
@@ -145,8 +147,6 @@ RocketTux.Preload.prototype = {
 		400,200,800,1200,
 		5000,5000,5000
     ];
-    
-    // All values below this line are constants
         	
     RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
     RocketTux.groundSpeed = 180; // Preference up to 200. Star +75.
@@ -155,6 +155,14 @@ RocketTux.Preload.prototype = {
     RocketTux.bonusBoosts = 0; // Preference up to 3
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
     RocketTux.luck = 0, // Increases chance to get rare loot
+    
+    // Pause menu store prices
+    // Boost, Star, Water, Earth, Air, Fire 
+    RocketTux.prices = {
+		easy:[10, 100, 250, 250, 500, 500],
+		normal:[50, 200, 300, 300, 500, 500],
+		hard:[200, 500, 500, 500, 1000, 1000]
+	};
     
     // Data used for spawning enemies
     RocketTux.badguyConfig = {
