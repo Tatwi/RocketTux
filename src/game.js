@@ -1142,6 +1142,26 @@ RocketTux.Game.prototype = {
 	this.pwScrnText.visible = false;
 	
 	// Collected item icons
+	this.pwItemIcons = this.game.add.group();
+	var tmpIcon;
+	var i = 0;
+	var z = 0;
+	var nwln = 0;
+
+    for (i = 0; i < 20; i++){
+		tmpIcon = this.pwItemIcons.create(pwX+60 + 50*z, pwY+394 + nwln, 'atlas');
+		tmpIcon.frameName = 'blank-icon';
+		tmpIcon.fixedToCamera = true;
+		
+		z++;
+		
+		if (i === 9){
+			nwln = 50;
+			z = 0;
+		}
+	}
+	this.pwItemIcons.visible = false;
+	
   },
   paused: function() {
 	this.pwBgSdw.visible = true;
@@ -1169,6 +1189,16 @@ RocketTux.Game.prototype = {
 	
 	this.pwScrnText.text = scrnMsg;
 	this.pwScrnText.visible = true;
+	
+	// Item icons
+	var i = 0;
+	var numIcons = Math.min(20, this.itemsCollected.length); // There are only 20 display locations to use.
+	
+	for (i = 0; i < numIcons; i++){	
+		this.pwItemIcons.getChildAt(i).frameName =  'icon-' + this.itemsCollected[i];
+	}
+	
+	this.pwItemIcons.visible = true;
   },
   pauseUpdate: function() {	
 	if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1) || this.pad1.justPressed(9, 20)){ // Gamepad Start
@@ -1191,6 +1221,7 @@ RocketTux.Game.prototype = {
 	this.pwExitText.visible = false;
 	this.pwReumeText.visible = false;
 	this.pwScrnText.visible = false;
+	this.pwItemIcons.visible = false;
   },
 
 //==================END OF LEVEL RELATED========================
