@@ -50,6 +50,42 @@ RocketTux.Inventory.prototype = {
 		};
 		this.pagerText = this.game.add.text(0, 0, "1 / 25", this.pagerStyle);
 		this.pagerText.setTextBounds(960, 608, 160, 64);
+		
+		// Item quantities
+		this.haveQ = {};
+		this.sellQ = {};
+		var i = 0;
+		
+		for (i = 0; i < 8; i++){
+			this.haveQ[i] = this.game.add.text(190, 150 + i*64, "0", this.colStyle);
+			this.sellQ[i] = this.game.add.text(750, 150+ i*64, "0", this.colStyle);
+		}
+		
+		// Item icons
+		this.showPage = 1;
+		this.itemIcons = this.game.add.group();
+		var tmpIcon;
+		
+
+		for (i = 0; i < 8; i++){
+			tmpIcon = this.itemIcons.create(288, 150 + i*64, 'atlas');
+			tmpIcon.frameName = 'icon-' + i;
+			tmpIcon.fixedToCamera = true;
+		}
+		
+		// Item descriptions and hints
+		this.descStyle = { 
+			font: "15px Verdana", 
+			fill: "#01BB01", 
+			boundsAlignH: "left", boundsAlignV: "top"
+		};
+		this.desc = {};
+		var i = 0;
+		
+		for (i = 0; i < 8; i++){
+			this.desc[i] = this.game.add.text(334, 142 + i*64, "", this.descStyle);
+			this.desc[i].text = RocketTux.lootNames[i] + "\nHint: " + RocketTux.lootDesc[i];
+		}
 	}, 
 	update: function() {
 		if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
