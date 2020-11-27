@@ -12,11 +12,13 @@ RocketTux is an easygoing side-scroller game about collecting coins and items. H
 - Android/iOS: Not supported.
 
 ## System Requirements
-I can verify the game works fine using the following specs, but it will likely run fine on a system with less RAM and a modest graphics accelerator.  
+I can verify the game works fine using the following specs:
 
-- **CPU:** AMD FX 8320
-- **Graphics:** Nvidia Geforce 1660
-- **RAM:** 24GB
+- **CPU:** AMD FX 8320, Intel Core2 Q8200, Intel Celeron N3450
+- **Graphics:** Nvidia Geforce 1660, AMD R9 270, Intel HD Graphics 500 
+- **RAM:** 4GB
+
+The game _should_ run fine on even the oldest Chromebooks, but with the ever changing nature of web browsers, I simply can't guarantee that to always be true. That said, the packaged desktop app will always run well using the above specs.  
 
 ## About Development
 - **Current Version:** 0.4.8 (Nov 2020)
@@ -24,18 +26,21 @@ I can verify the game works fine using the following specs, but it will likely r
 - **Expected Completion Date:** When I get there! Maybe sometime 2021...
 - Programmed from scratch using [Phaser CE](https://github.com/photonstorm/phaser-ce).
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
-- RocketTux is its own unique game, rather than a clone of Supertux.
+- RocketTux is its own unique game, not a clone of Supertux or other platformers.
 - Created with Linux Mint 17 and Windows 10 64Bit on an AMD FX-8320 based desktop PC. 
 - Originally intended to be a Chrome App and optimized for low end Chromebooks, but it's now intended to be run on a desktop PC. 
-- Packaged as a native application for Windows and Linux using [NW.js](https://github.com/nwjs/nw.js), which is based on [Node.js](https://nodejs.org/en/about/) and the [Chromium](https://www.chromium.org/Home)  web browser.
+- Packaged as a native application for Windows and Linux using [NW.js](https://github.com/nwjs/nw.js), which is based on [Node.js](https://nodejs.org/en/about/) and the [Chromium](https://www.chromium.org/Home) web browser.
 - **No advertisements, no subscriptions, no micro-transaction, and no purchase fees.** Just free, open source fun!
 
 ### Milestones to Release
+- Version 0.4.9: New UI has all functionality either completed or ready for use.
 - Version 0.5: All map sections completed.
+- Version 0.5.1: Settings page implemented.
+- Version 0.5.2: Help page implemented.
 - Version 0.6: All entities are fully functional.
-- Version 0.7: Quest system completed.
+- Version 0.7: Friends quest system completed.
 - Version 0.8: Cubimal bonus system completed.
-- Version 0.9: Music, sounds, and art finalized. Settings/preferences menu implemented.
+- Version 0.9: Music, sounds, and art finalized.
 - Version 1.0: All known issues fixed and content is as polished as it will get.
 
 ### Milestones Reached
@@ -57,41 +62,50 @@ That naughty Nolok has been up to no good, again! This time he and his minions d
 ## Gameplay
 When the game is finished, the following game play will be available.  
 
-- Boost and fly around collecting coins and items to spend on customizations to the game and to complete quests.
-- "Coin-Bounce" or use a boost to puzzle your way around obstacles to collect all the coins and quest items.
-- Open various blocks (by simply passing over them) that grant items, quests, and powerups.
+- Boost and fly around collecting coins (to unlock levels and purchase Cubimals) and items to complete quests.
+- "Coin Jump" or use boosts to puzzle your way around obstacles.
+- Open various blocks (by simply passing over them) that grant items, unlocks, and powerups.
 - Use one of 5 types of powerups to customize your game play experience.
-- Unlock new areas, get bonuses, and set perferences by purchasing Cubimals with your coins. Up to six Cubimals can be active at a time, in any combination.
-- Randomly generated levels with at least 26 different map sections per theme and 8 total themes.
-- Use Cumbimals to influence the time and place of your adventures, as many items can only be found in certain places at specific times of the day.
+- Get bonuses and set preferences by purchasing Cubimals with your coins. If you're really lucky, you might even find one inside a block! Up to four Cubimals can be active at a time, in any combination.
+- Randomly generated levels with 26 different map sections per theme and 8 total themes. 
 - No death mechanic. If Tux collides with an enemy or an explosion, he gets knocked back and loses some coins from his wallet (unless he is invincible at the time). Easy mode loses fewer coins, where hard mode loses more coins.
 - No "murder hobo" lifestyle; Nolok's minions are obstacles to be avoided (you can't kill them, though the bomb guys do explode).
 - No time limits. Stop and smell the Fire Flowers!
 - No forced movement through levels.
-- No need to reach the end of a level to "beat it". In fact, you'll probably go back and forth a few times to collect everything. The level ends when you feel like leaving it. You get a bonus for collecting all the coins, but you don't have to collect them all.
+- No need to reach the end of a level to "beat it". In fact, you'll probably go back and forth several times to collect everything. The level ends when you feel like leaving it. You get a bonus for collecting all the coins, but you don't have to collect them all.
 - No "secret areas" or other potentially annoying mechanics that you'll need to look up on the Internet just to understand!
 
 ### Controls
-- RocketTux is designed to be used with keyboard and mouse. I might add game controller, but I will not be adding touch screen support.
-- The idea is to collect as many coins as you can. You have a limited amount of boosts and "coins jumps" to reach the high ones.
-- Left/Right Arrows: Move left and right.
-- Spacebar: Boost into the air. Provided he doesn't run into anything along the way, a boost will move Tux to the top of the screen.
-- Control: Small jump that will move Tux up two "blocks". Only works when standing or running.
-- Up Arrow: Gain altitude when collecting coins ("coin jump"). Hover when in the air. A small amount of altitude is lost over time.
-- Down Arrow: Hover when in the air. Do NOT gain altitude when collecting coins (handy for collecting a row of coins). Duck when on the ground.
-- Music Controls: M for mute, Comma for quieter, Period for louder.
-- B: Toggles the display of the Adventure Bag, which shows the items Tux found in a level.
-- Mouse: Used for clicking menu buttons.
+RocketTux is designed to be used with keyboard and mouse, but you can also use a gamepad to navigate the main menu and play the levels. SNES style is the default gamepad layout, with XBOX360 being the other supported layout. The only difference in the controller selection is that the ABXY buttons are swapped to maintain the thumb positions one would use with the SNES style controller.  
+
+#### Keyboard:  
+- **Left/Right Arrows:** Move left and right.
+- **Spacebar:** Boost into the air. Provided he doesn't run into anything along the way, a boost will move Tux to the top of the screen.
+- **Control:** Small jump that will move Tux up two or three "blocks" (depending on powerups). Only works when standing or running.
+- **Up Arrow:** Gain altitude when collecting coins ("coin jump"). Hover when in the air. A small amount of altitude is lost over time.
+- **Down Arrow:** Hover when in the air. Do NOT gain altitude when collecting coins (handy for collecting a row of coins). Duck when on the ground.
+- **ESC Key:** Exit levels, and the inventory, friends, and help screens.
+- **F1:** Toggle tool tips on the main menu, inventory, and friends screens. 
+- **Music Controls:** M for mute, Comma for quieter, Period for louder.
+- **Mouse:** Used for clicking menu buttons and removing the powerup by clicking its icon (which is the only way to remove it).
+
+#### Gamepad:  
+- **DPAD:** Left/Right move Tux left/right. Also used in the main menu, where Up/Down selects difficulty and Left/Right selects the levels. Up/Down are not used when playing in a level.
+- **A:** Boost.
+- **B:** Small jump.
+- **Y:** Maintain height, allowing coin jumps. _Tip: You're meant to hold this with the end of your thumb, thereby making it easy to tab a small jump on the B button with the base of your thumb._
+- **X:** Maintain height, but do not allow coin jumps.
+- **Start:** Play in main menu, pause/resume in levels.
+- **Select:** Choose random level in main menu, exit level on the pause screen.
 
 ### Powerups
-- Powerups are found in purple blocks and are awarded by some quests. Purple blocks are not found when playing in hard mode, though certains events may spawn them if Tux is lucky.
-- Star: Makes Tux fly a bit faster and makes him run at super speed!
-- Fire Flower: Tux flies even faster than with the Star and he has a chance to gain a boost when collecting coins (to a max of 5 active boosts).
-- Water Flower: Makes Tux invincible and very lucky, but the powerup is consumed after the first time Tux collides with an enemy or an explosion.
-- Earth Flower: Makes Tux completely invincible at the cost of also making him very, very heavy. Tux can only jump 1 block, he will not boost all the way to the top of the level, and he will lose altitude much more quickly.
-- Air Flower: Makes Tux much lighter, improving his jumps (3 blocks), coin-jumps, and boosts, while also causing him to lose altitude at a slower rate.
-- All powerups, with the exception of the Earth Flower, are lost on contact with an enemy or an explosion.
-- Powerups can be removed by clicking the icon in the toolbar when playing a level.
+Powerups are found in purple blocks throughout the world. They persist through level changes and can be seen on the main menu. All powerups, with the exception of the Earth Flower, are lost on contact with an enemy or an explosion.  
+
+- **Star:** Makes Tux fly a bit faster and makes him run at super speed!
+- **Fire Flower:** Tux flies even faster than with the Star and he has a chance to gain a boost when collecting coins (to a max of 5 active boosts).
+- **Water Flower:** Makes Tux invincible and very lucky, but the powerup is consumed after the first time Tux collides with an enemy or an explosion. Luck affects the outcome of opening boxes, making them more likely to generate positive results.
+- **Earth Flower:** Makes Tux completely invincible at the cost of also making him very, very heavy. Tux can only jump 1 block, he will not boost all the way to the top of the level, and he will lose altitude much more quickly.
+- **Air Flower:** Makes Tux much lighter, improving his jumps (3 blocks), coin-jumps, and boosts, while also causing him to lose altitude at a slower rate.
 
 ### Enemies
 - Mr. Bomb: Walks around, preferably on the ground. He is programmed to run, tick, and explode when Tux gets near him. Large blast radius.
@@ -103,13 +117,14 @@ When the game is finished, the following game play will be available.
 - Fightly Fish: These giant fish love to eat penguins. Normally that's the other way around... best to avoid these bad guys if possible!
 
 ### Gameplay Tips
-- Each map is a puzzle, where the idea is to collect as many coins as possible. However, you only have so many boosts and "coin jumps" to get up to the high coins and to get over obstacles. So the biggest tip is to get up to the top of the screen and go back and forth, collecting highest coins first, then work your way down. 
-- If you have run out of boosts and you're stuck between obstacles, unable to small-jump out, then that's it for you on that level! Hit the "Quit" buton and play again.
-- Don't sweat it if you weren't able to collect all the coins in a level.
+- Each map is a puzzle, where the idea is to collect as many coins and items as possible. However, you only have so many boosts and "coin jumps" to get up to the high coins and to get over obstacles. So the biggest tip is to get up to the top of the screen and go back and forth, collecting highest stuff first, then work your way down.
+- If you have run out of boosts and you're stuck between obstacles, unable to small-jump out, then that's it for you on that level!
+- Don't sweat it if you weren't able to collect all the coins in a level. Yeah, collecting them all kicks you up one tier in bonus coins, but in the grand scheme of things it doesn't matter _that_ much.
+- Every 10 coins you collect bumps you up 1 tier in bonus coin rewards. On normal and hard mode, the higher tier bonuses (for longer levels that have higher coin amounts) are much more generous than the lower tier bonuses.
 
 
 ## Wiki
-The following are links to documents related to the development of the game. Hopefully there is enough information here to help students and hobbyists make sense of how the project is laid out, how to develop for it, and how to use the included tools.
+The following are links to documents related to the development and use of the game. Hopefully there is enough information here to help students and hobbyists make sense of how the project is laid out, how to develop for it, and how to use the included tools.
 
 ### Running and Building
 - [Using a web server in Linux or Windows to host the game](docs/wiki-using_a_webserver.md)
@@ -151,7 +166,7 @@ This is an open source project that stands on the backs of many others, which is
 ### Software
 - Game Engine: [Phaser CE 2.8.0](http://phaser.io/download/stable).
 - Level Building: [Tiled](http://www.mapeditor.org/) by Thorbjørn Lindeijer.
-- User Interface: Versions 0.40 and older used SlickUI/Kenny, while more recent versions I created myself (Tatwi).
+- User Interface: Versions 0.4.0 and older used SlickUI/Kenny, while more recent versions I created myself (Tatwi).
 - Operating System: [Debian](http://www.debian.org/), [Linux Mint](https://linuxmint.com/), [XFCE](https://xfce.org/).
 - Graphics: [GIMP](https://www.gimp.org/) with some brushes by [Bill Scott](http://www.texturemate.com/content/about).
 - Sound: [Audacity](http://www.audacityteam.org/), [Sunvox](http://www.warmplace.ru/soft/sunvox/) by Alexander Zolotov.
@@ -172,6 +187,5 @@ This is an open source project that stands on the backs of many others, which is
 - Neillia Bassett, Baylea Bassett, Abby Bassett.
 
 ### Special Thanks
-- My family. You guys rock!
-- The [Phaser](http://phaser.io) and [HTML5 Game Devs](http://www.html5gamedevs.com) communities for sharing their knowledge!
-
+- My family. You ladies rock!
+- The [Phaser](http://phaser.io) and [HTML5 Game Devs](http://www.html5gamedevs.com) communities for sharing their knowledge.
