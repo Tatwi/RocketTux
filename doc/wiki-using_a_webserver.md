@@ -1,8 +1,26 @@
-### Hosting with a Web Server  
-RocketTux is, at its core, just a bunch of JavaScript that does all of its work client side. As such, it only needs a basic HTTP server to host it. Here are my notes regarding hosting the game on my LAN for use in our home.  
+## Hosting with a Web Server  
+RocketTux is, at its core, just a bunch of JavaScript that does all of its work client side. As such, it only needs a basic HTTP server to host its files in a way that a web browser will allow them to run properly. Here is how to do that in the most simple manner possible!    
 
-#### Linux
-- The following instructions are for using the Python web server in Debian/Mint/Ubuntu 64Bit Linux with the Google Chrome browser.
+### Windows
+The following instructions are for using the Python web server that's built into Python 3. This was tested in Windows 10 using both the Google Chrome and Microsoft Edge (Chrome-based) browsers.  
+
+1. Download and install Google Chrome.
+2. In Chrome go to Settings > Advanced: Enable Hardware Acceleration. Restart Chrome when prompted.
+3. Download and install [Python 3 for Windows](https://www.python.org/downloads/windows/).
+4. Download RocketTux to your computer and extract the zip file. This will make a new folder called RocketTux-master. Double click on it.
+5. Double click on **runserver-windows.py** and the server will run in a new window. 
+ - If that doesn't work for some reason then follow these steps:
+ - Right click on runserver-windows.py and choose "Open with IDLE".
+ - Press F5 or click Run > Run Module from the menu to start the web server.
+7. Open a new tab in Chrome and go to 127.0.0.1:8000 and it will automatically start the game (index.html).
+8. When you're finished playing, close the browser tab and the Python window.  
+
+**Modifying game save data in Windows:**  
+<a href="../screenshots/using_a_web_server_2020.png"><img src="../screenshots/using_a_web_server_2020.png" width="960" height="540" title="Antarctica - Sunrise"/></a> 
+
+### Linux
+The following instructions are for using the Python web server in Debian/Mint/Ubuntu 64Bit Linux with the Google Chrome browser. The last time I tested this was with Debian 8 / Linux Mint 17.3 / Ubuntu 12.04 LTS, but the instructions will likely work fine in current Debian based distributions.  
+
 - Install Python: sudo apt-get install python
 - Download and install Google Chrome: 
     - Open a terminal window and issue the following commands
@@ -30,23 +48,7 @@ Now that you have the game running, you can add a link for it on your desktop an
     - Right click the icon and select Properties. 
     - In the properties window, click on the plain looking icon and a window will open that will allow you to choose a different icon.
     - To use the icon included with RocketTux, choose "Image Files" in the "Select icon from:" drop down menu, then navigate to the folder where RocketTux lives. You will find the icon in the RocketTux-main/data/icons/ folder.
-    
-#### Windows
-- The following instructions are for using the Python web server in Python 3 for Windows 10 with the Google Chrome browser.
-- Download and install Google Chrome.
-- In Chrome go to Settings > Advanced: Enable Hardware Acceleration. Restart Chrome when prompted.
-- Download and install [Python 3 for Windows](https://www.python.org/downloads/windows/).
-- Download RocketTux to your computer and extract the zip file. This will make a new folder called rockettux-master. Double click on it.
-- Right click on runserver-windows.py and choose "Open with IDLE".
-- Press F5 or click Run > Run Module from the menu to start the web server.
-- Open a new tab in Chrome and go to 127.0.0.1:8000 and it will automatically start the game (index.html).
-- When you're finished playing, close the browser tab and the two Python windows.
+ 
 
-
-#### Mac
-- Untested, unsupported.
-- Please search the web on how to install and run a web server in MacOS. I don't have access to a Mac, but I would imagine that the rest of steps are pretty much the same as for Linux. Alternatively you could use VirtualBox to run a small Linux web server, but that's a fair amount of "Googling" just to play this game!
-
-#### iPhone, Android and other devices
-- Unsupported.
-- The game loads fine in the browser, but there aren't any touch controls, so it can't be played. I don't have any intention of adding touch controls for this game.
+### Unsupported Devices
+Anything that isn't a Windows or Linux PC with a keyboard, mouse, and (optional) gamepad, is not supported. That's not to say the game _can't_ work on other devices, just that I don't care if it does or does not. :)
