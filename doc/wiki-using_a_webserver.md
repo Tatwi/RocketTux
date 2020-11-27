@@ -18,9 +18,9 @@ RocketTux is, at its core, just a bunch of JavaScript that does all of its work 
     - Alternately you can use the Python script (which conveniently displays the ip address of the computer) that I have included by typing the command:
     - python runserver.py
 - Play the game:
-    - Open Chrome and go to the following "website" (that is hosted on your computer and only accessible to computers on your home network): 127.0.0.1:8000/window.html
+    - Open Chrome and go to the following "website" (that is hosted on your computer and only accessible to computers on your home network): 127.0.0.1:8000/index.html
 
-The web address 127.0.0.1 mean "localhost", aka the computer you're sitting. The :8000 is the port that the Python web server is listing for requests on. And window.html is the page that loads the game. The Python Simple Web Server only allows a single user at a time per port, so run the command again in another terminal using 8001 to accommodate another user. Alternately, you can install a web server such as [Apache](http://httpd.apache.org/docs/2.4/getting-started.html), which can host many concurrent users and can run automatically in the background, once configured.
+The web address 127.0.0.1 mean "localhost", aka the computer you're sitting. The :8000 is the port that the Python web server is listing for requests on. And index.html is the page that loads the game. The Python Simple Web Server only allows a single user at a time per port, so run the command again in another terminal using 8001 to accommodate another user. Alternately, you can install a web server such as [Apache](http://httpd.apache.org/docs/2.4/getting-started.html), which can host many concurrent users and can run automatically in the background, once configured.
 
 Now that you have the game running, you can add a link for it on your desktop and have it open in its own window (rather than a browser tab) by doing the following:
 - Click the menu icon in Chrome (right side of the window) and go to More Tools > Add to Desktop...
@@ -32,15 +32,14 @@ Now that you have the game running, you can add a link for it on your desktop an
     - To use the icon included with RocketTux, choose "Image Files" in the "Select icon from:" drop down menu, then navigate to the folder where RocketTux lives. You will find the icon in the RocketTux-main/data/icons/ folder.
     
 #### Windows
-- The following instructions are for using the Python web server in Python 3.7 for Windows 10 with the Google Chrome browser.
+- The following instructions are for using the Python web server in Python 3 for Windows 10 with the Google Chrome browser.
 - Download and install Google Chrome.
 - In Chrome go to Settings > Advanced: Enable Hardware Acceleration. Restart Chrome when prompted.
-- Download and install [Python 3.7 for Windows](https://www.python.org/downloads/windows/).
+- Download and install [Python 3 for Windows](https://www.python.org/downloads/windows/).
 - Download RocketTux to your computer and extract the zip file. This will make a new folder called rockettux-master. Double click on it.
 - Right click on runserver-windows.py and choose "Open with IDLE".
 - Press F5 or click Run > Run Module from the menu to start the web server.
-- Open a new tab in Chrome and go to 127.0.0.1:8000
-- Click on window.html to play the game!
+- Open a new tab in Chrome and go to 127.0.0.1:8000 and it will automatically start the game (index.html).
 - When you're finished playing, close the browser tab and the two Python windows.
 
 

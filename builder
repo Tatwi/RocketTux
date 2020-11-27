@@ -43,6 +43,7 @@ then
 	cp -uv src/settings.js build/src/
 	cp -uv src/friends.js build/src/
 	cp -uv lib/phaser.min.js build/lib/phaser.js
+	cp -uv lib/phaser.map build/lib/phaser.map
 	cp -ruv data/music build/data/music
 	cp -ruv data/sounds build/data/sounds
 	cp -ruv data/ui build/data/ui
@@ -179,6 +180,7 @@ cp -v package.json build/
 cp -v favicon.ico build/
 cp -v data/icons/icon-128.png build/
 cp -v lib/phaser.min.js build/lib/phaser.js
+cp -v lib/phaser.map build/lib/phaser.map
 cp -rv data/music build/data/music
 cp -rv data/sounds build/data/sounds
 cp -rv data/ui build/data/ui
