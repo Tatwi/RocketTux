@@ -112,27 +112,35 @@ When the game is finished, the following game play will be available.
 The following are links to documents related to the development of the game. Hopefully there is enough information here to help students and hobbyists make sense of how the project is laid out, how to develop for it, and how to use the included tools.
 
 ### Running and Building
-- [Running the game on a Chromebook](doc/wiki-chromebooks.md)
-- [Using a web server in Linux or Windows to host the game](doc/wiki-using_a_webserver.md)
-- [Building an executable using NW.js](doc/wiki-building.md)
+- [Using a web server in Linux or Windows to host the game](docs/wiki-using_a_webserver.md)
+- [Building an executable using NW.js](docs/wiki-building.md)
+- [Running the game on a Chromebook](docs/wiki-chromebooks.md)
 
 ### Project and Programming
 - [Art and release files in my Google Drive](https://drive.google.com/open?id=0By31kDj_eHBcWHdXRlFzdnZIdUU)
-- [File structure and types](doc/wiki-file_structure.md)
-- [Step by step walk through of the game states](doc/wiki-game_states.md)
-- [Data storage and loot tables](doc/wiki-data_loot.md)
-- [How the tilemap works](doc/wiki-tilemap.md)
-- [Explaining the sprite sheet and backgrounds](doc/wiki-sprites.md)
+- [File structure and types](docs/wiki-file_structure.md)
+- [Step by step walk through of the game states](docs/wiki-game_states.md)
+- [Data storage and loot tables](docs/wiki-data_loot.md)
+- [How the tilemap works](docs/wiki-tilemap.md)
+- [Explaining the sprite sheet and backgrounds](docs/wiki-sprites.md)
 
 ### Tools
-- [Creating map sections using Tiled](doc/wiki-map_section_creation.md)
-- [Adding/modifying map sections](doc/wiki-map_section_tools.md)
-- [Creating sprites with GIMP](doc/wiki-sprite_creation.md)
-- [Adding sprites to the game](doc/wiki-sprites_adding_new.md)
-- [Using the inventory spreadsheet](doc/wiki-inventory_spreadsheet.md)
+- [Creating map sections using Tiled](docs/wiki-map_section_creation.md)
+- [Adding/modifying map sections](docs/wiki-map_section_tools.md)
+- [Creating sprites with GIMP](docs/wiki-sprite_creation.md)
+- [Adding sprites to the game](docs/wiki-sprites_adding_new.md)
+- [Using the inventory spreadsheet](docs/wiki-inventory_spreadsheet.md)
 
 ### Misc
-- [The Prototype of RocketTux](doc/prototype/README.md)  
+- [The Prototype of RocketTux](docs/prototype/README.md)  
+
+### Screenshots and Google Drive
+- [Screenshots](screenshots): Some fun and helpful screenshots of the game that are located in this repository.
+- [Dev Blog Screenshots](https://drive.google.com/open?id=0By31kDj_eHBceXgtS3hvdnJvT0U): My Google Drive folder filled hundreds of screenshots taken during development. Potentially entertaining and informative.
+- [My Design Book](https://drive.google.com/drive/folders/0By31kDj_eHBcTjJuNllrdm1wVk0?usp=sharing): Pictures of the my paper notebook (and possibly other misc papers) that I used for most of my design/thinking.
+- [GIMP Source Files](https://drive.google.com/drive/folders/0By31kDj_eHBcSmFudlJUcWd3UUU?usp=sharing): The huge, Git-unfriendly GIMP art files that I used to create all of tilemaps, sprites, and other graphics.
+- [Google Drive Cache](https://drive.google.com/drive/folders/0By31kDj_eHBcYnlpQjEzZHY4SUU?usp=sharing): All of the folders, including the two above, for files related to _all of my open source projects_ that weren't really appropriate to put in their repositories. There's some other misc RocketTux stuff in here as well.
+
 
 ## License
 The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information. You may *not* copy or "fork" this repository and sell RocketTux as your own creation, no matter how you've repackaged or re-branded it. 

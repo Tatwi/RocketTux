@@ -44,7 +44,7 @@ The great part about Tiled is that it works very well RocketTux, even though the
 
 I should mention that there is a plug in for Phaser that can directly read the Tiled file format, but I didn't use it because it was inefficient and ineffective for creating the randomized levels. Due to the fact that all I used were the tile arrays themselves, it made way more sense to put all of the arrays for the map sections together in the src/preload.js file, where they can be loaded into RAM once and used repeatedly for the duration of the program (rather than loaded from the disk/server over and over from many separate files). After all, computers these days have more than enough RAM to store the data.  
 
-The conversion tool is doc/tiled_value_converter.html and it's very simple to use; Copy, paste, click button, copy, paste, rename NAME, done.  
+The conversion tool is tools/tiled_value_converter.html and it's very simple to use; Copy, paste, click button, copy, paste, rename NAME, done.  
 
 
 ### Creating a Map Section
@@ -70,7 +70,7 @@ And save it in the data/tilemap_sections/ directory with an appropriate name. Re
 
 After creating the map section, you will need to open it in your favorite text editor (I used Geany to make the game) and copy only the comma separated numbers that we'll use for the game. I always clicked to the left of the first number and then drag selected down to the line below, to the left of the data tag. Do not select any of XML tags, etc.  
 
-Next, open doc/tiled_value_converter.html in your web browser, paste the values into the Input Values: text box, and then press the For RocketTux button. Select/copy all the output text. (Press F5 to refresh later if you want to do another conversion).  
+Next, open tools/tiled_value_converter.html in your web browser, paste the values into the Input Values: text box, and then press the For RocketTux button. Select/copy all the output text. (Press F5 to refresh later if you want to do another conversion).  
 
 Next, open the src/preload.js file and scroll way down to the worldObjects function and locate the theme you'd like to add the section to. Scroll to the bottom of that section, make sure there is a comma after the last entry, enter a new line, paste your new level section data, change NAME to something appropriate, and fix the tab spacing.  
 
