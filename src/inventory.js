@@ -1,15 +1,15 @@
 var RocketTux = RocketTux || {};
  
-RocketTux.Inventory = function(){};
+RocketTux.Inventory = function (){};
  
 RocketTux.Inventory.prototype = {
 	init: function(){
 		// console.log("Inventory state loaded");
 	},
-	preload: function() {
+	preload: function () {
 		
 	},
-	create: function() {
+	create: function () {
 		// Background image
 		this.bgImage = this.game.add.sprite(0, 0, 'skies-special');
 		this.bgImage.animations.add('stand', [3], 1, true);
@@ -54,6 +54,7 @@ RocketTux.Inventory.prototype = {
 		// Item quantities
 		this.haveQ = {};
 		this.sellQ = {};
+		this.showPage = 0;
 		var i = 0;
 		
 		for (i = 0; i < 8; i++){
@@ -62,7 +63,7 @@ RocketTux.Inventory.prototype = {
 		}
 		
 		// Item icons
-		this.showPage = 1;
+		this.showPage = 0; // Index 0/24 gets displayed as user friendly 1/25
 		this.itemIcons = this.game.add.group();
 		var tmpIcon;
 		
@@ -86,13 +87,57 @@ RocketTux.Inventory.prototype = {
 			this.desc[i] = this.game.add.text(334, 142 + i*64, "", this.descStyle);
 			this.desc[i].text = RocketTux.lootNames[i] + "\nHint: " + RocketTux.lootDesc[i];
 		}
+		
+		// Buttons
+		this.btPageDown = this.game.add.button(934, 543, 'ui-map', this.pageDown, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
+		this.btPageUp = this.game.add.button(1062, 543, 'ui-map', this.pageUp, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 	}, 
-	update: function() {
+	update: function () {
 		if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
 			this.game.state.start('MainMenu');
 		}
 	},
-	shutdown: function(){
+	pageUp: function () {
+		this.showPage++
+		
+		if (this.showPage > 24){
+			this.showPage = 0; // Wrap around
+		}
+		
+		this.pageAdvance();
+	},
+	pageDown: function () {
+		this.showPage--
+		
+		if (this.showPage < 0){
+			this.showPage = 24; // Wrap around
+		}
+		
+		this.pageAdvance();
+	},
+	pageAdvance: function () {
+		// Advance 8 items each page
+		var currentPage = this.showPage * 8;
+		
+		for (i = 0; i < 8; i++){
+			if (currentPage + i < 196){
+				 // 8*25 = 200, but we only have 196 icons/items (and I am all out of sprite map to add 4 more!)
+				this.itemIcons.getChildAt(i).frameName =  'icon-' + (currentPage + i);
+				this.desc[i].text = RocketTux.lootNames[currentPage + i] + "\nHint: " + RocketTux.lootDesc[currentPage + i];
+				this.haveQ[i].text = currentPage + i; // debug
+				this.sellQ[i].text = this.showPage; // debug
+			} else {
+				// Blank spaces
+				this.itemIcons.getChildAt(i).frameName =  'blank-icon';
+				this.desc[i].text = "";
+				this.haveQ[i].text = "";
+				this.sellQ[i].text = "";
+			}
+		}
+		
+		this.pagerText.text = (this.showPage + 1) + " / 25";
+	},
+	shutdown: function (){
 		// console.log("Inventory state exited");
 	},
 	makeMenu: function (){

@@ -43,13 +43,31 @@
     },
     {
 	"filename": "glow-rec-out",
-	"frame": {"x":0,"y":352,"w":133,"h":34},
+	"frame": {"x":0,"y":352,"w":133,"h":44},
 	"rotated": false,
 	"trimmed": false
     },
     {
 	"filename": "glow-rec-down",
 	"frame": {"x":0,"y":290,"w":146,"h":44},
+	"rotated": false,
+	"trimmed": false
+    },
+    {
+	"filename": "glow-recsml-over",
+	"frame": {"x":160,"y":352,"w":81,"h":44},
+	"rotated": false,
+	"trimmed": false
+    },
+    {
+	"filename": "glow-recsml-out",
+	"frame": {"x":0,"y":352,"w":81,"h":44},
+	"rotated": false,
+	"trimmed": false
+    },
+    {
+	"filename": "glow-recsml-down",
+	"frame": {"x":160,"y":352,"w":81,"h":44},
 	"rotated": false,
 	"trimmed": false
     },
