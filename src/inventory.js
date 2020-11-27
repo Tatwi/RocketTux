@@ -58,8 +58,9 @@ RocketTux.Inventory.prototype = {
 		var i = 0;
 		
 		for (i = 0; i < 8; i++){
-			this.haveQ[i] = this.game.add.text(190, 150 + i*64, "0", this.colStyle);
-			this.sellQ[i] = this.game.add.text(750, 150+ i*64, "0", this.colStyle);
+			this.haveQ[i] = this.game.add.text(190, 150 + i*64, "", this.colStyle);
+			this.haveQ[i].text = localStorage.getItem('RocketTux-invItem' + i);
+			this.sellQ[i] = this.game.add.text(750, 150+ i*64, "", this.colStyle);
 		}
 		
 		// Item icons
@@ -124,8 +125,8 @@ RocketTux.Inventory.prototype = {
 				 // 8*25 = 200, but we only have 196 icons/items (and I am all out of sprite map to add 4 more!)
 				this.itemIcons.getChildAt(i).frameName =  'icon-' + (currentPage + i);
 				this.desc[i].text = RocketTux.lootNames[currentPage + i] + "\nHint: " + RocketTux.lootDesc[currentPage + i];
-				this.haveQ[i].text = currentPage + i; // debug
-				this.sellQ[i].text = this.showPage; // debug
+				this.haveQ[i].text = localStorage.getItem('RocketTux-invItem' + (currentPage + i));
+				this.sellQ[i].text = "";
 			} else {
 				// Blank spaces
 				this.itemIcons.getChildAt(i).frameName =  'blank-icon';
