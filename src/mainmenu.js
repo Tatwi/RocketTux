@@ -104,13 +104,13 @@ RocketTux.MainMenu.prototype = {
 		this.modeSelectDown();
 	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.UP, 1) || this.pad1.justReleased(Phaser.Gamepad.XBOX360_DPAD_UP, 20)){
 		this.modeSelectUp();
-	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.F, 1)){
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.F, 1) || this.pad1.justPressed(Phaser.Gamepad.XBOX360_A)){ // SNES B
 		this.goFriends();
-	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.I, 1)){
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.I, 1) || this.pad1.justPressed(Phaser.Gamepad.XBOX360_B)){ // SNES A
 		this.goInventory();
-	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.S, 1)){
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.S, 1) || this.pad1.justPressed(Phaser.Gamepad.XBOX360_X)){ // SNES Y
 		this.goSettings();
-	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.H, 1)){
+	} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.H, 1) || this.pad1.justPressed(Phaser.Gamepad.XBOX360_Y)){ // SNES X
 		this.goHelp();
 	}
 	

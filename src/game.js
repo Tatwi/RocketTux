@@ -1203,10 +1203,12 @@ RocketTux.Game.prototype = {
   pauseUpdate: function() {	
 	if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1) || this.pad1.justPressed(9, 20)){ // Gamepad Start
 		if (this.gameOver){
-			this.quit();
+			this.quit(); // Prevents a bad state where the main update function while the level exits
 		} else {
 			this.game.paused = !this.game.paused;
 		}
+	} else if (this.pad1.justPressed(8, 20)){ // Gamepad Select button
+		this.quit();
 	}
   },
   resumeBt: function (){
