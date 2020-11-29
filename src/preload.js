@@ -106,6 +106,18 @@ RocketTux.Preload.prototype = {
         RocketTux.mainMenuColor = tmpMainMenuColor;
     }
     
+    // Game controller screen text color
+    // When used for text it gets prefixed with #, but for graphics it needs a 0x prefix
+    // Green 01BB01, Amber FFBF00, White FFFFFF, Red FF0000, Ice Blue 66FFFF, Deep Blue 3333FF, Purple DD33FF, Pink FF0080
+    RocketTux.scrnTextColor = '01BB01';
+    var tmpScrnTextColor = localStorage.getItem('RocketTux-scrnTextColor');
+    if (tmpScrnTextColor == null || tmpScrnTextColor == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-scrnTextColor', '01BB01');
+    } else {
+        RocketTux.scrnTextColor = tmpScrnTextColor;
+    }
+    
     // Level unlocks 
     // These are index values corresponding to the level names in mainmenu.js: this.scrNames[]
     RocketTux.levelUnlocks = '0,1,2';
