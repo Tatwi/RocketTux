@@ -1123,7 +1123,7 @@ RocketTux.Game.prototype = {
 	};
 	var screenStyle = { 
 		font: "24px Verdana", 
-		fill: "#01BB01", align: "center",
+		fill: "#" + RocketTux.scrnTextColor, align: "center",
 		boundsAlignH: "center", boundsAlignV: "top",
 	};	
 	

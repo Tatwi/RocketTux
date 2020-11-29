@@ -45,7 +45,7 @@ RocketTux.MainMenu.prototype = {
     this.coinIcon.frameName = 'ui-coin';
     this.coinStyle = { 
 		font: "24px Verdana", 
-		fill: "#ffffff", align: "left",
+		fill: "#" + RocketTux.scrnTextColor, align: "left",
 	};
     this.uiCoinStatus = this.game.add.text(0, 0, "", this.coinStyle);
     this.uiCoinStatus.alignTo(this.coinIcon, Phaser.RIGHT_TOP, 10, -2);
@@ -55,7 +55,7 @@ RocketTux.MainMenu.prototype = {
 	// Game mode status
 	this.modeStyle = { 
 		font: "24px Verdana", 
-		fill: "#ffffff", align: "left",
+		fill: "#" + RocketTux.scrnTextColor, align: "left",
 	};
 	this.modeText = this.game.add.text(690, 146, "", this.modeStyle);
 	this.modeText.text = RocketTux.gameMode.charAt(0).toUpperCase() + RocketTux.gameMode.slice(1);
