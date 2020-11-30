@@ -465,7 +465,7 @@ RocketTux.Game.prototype = {
     this.boostBlast.animations.add('blast', ['explosion-0', 'explosion-1', 'explosion-0', 'explosion-2', 'explosion-3'], 10, true);
     this.boostBlast.anchor.setTo(0.4,0);
     this.boostBlast.animations.play('blast');
-    this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.douseFlames, this);
+    this.boostBlast.lifespan = 800;
   },
   douseFlames: function(){
     this.boostBlast.destroy();
