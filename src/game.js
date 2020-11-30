@@ -416,16 +416,16 @@ RocketTux.Game.prototype = {
   abilityReset: function(){
       this.abilityCooldown = false;
   },
-  doPlayerAbilities: function(){
-    if (this.abilityCooldown){
-        return;
-    }
+  doPlayerAbilities: function(){ 
+    if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5) || this.pad1.justPressed(Phaser.Gamepad.XBOX360_B) ){ // A/B swapped on XBOX360 vs. Super Nintendo
+        // Boost (1 second cooldown)
+        if (this.abilityCooldown){
+			return;
+		}
         
-    if (this.game.input.keyboard.downDuration(Phaser.Keyboard.SPACEBAR, 5) || this.pad1.justPressed(Phaser.Gamepad.XBOX360_B)){ // A/B swapped on XBOX360 vs. Super Nintendo
-        // Spacebar Boost (5 second cooldown)
-         if (this.boosts < 1){
+        if (this.boosts < 1){
             this.sndRocketBoostFail.play();
-            this.abilityCooldownStart(5);
+            this.abilityCooldownStart(1);
             
             return;
         }
@@ -436,9 +436,9 @@ RocketTux.Game.prototype = {
         
         this.sndRocketWindup.play();
         this.game.time.events.add(Phaser.Timer.SECOND * 0.5, this.doBoost, this);
-        this.abilityCooldownStart(5);
+        this.abilityCooldownStart(1);
     } else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.CONTROL, 1) || this.pad1.justPressed(Phaser.Gamepad.XBOX360_A)){
-        // Small, single tile jump (1 second cooldown)
+        // Small, single tile jump
         if (!this.player.body.blocked.down){
             return;
         }
@@ -466,9 +466,6 @@ RocketTux.Game.prototype = {
     this.boostBlast.anchor.setTo(0.4,0);
     this.boostBlast.animations.play('blast');
     this.boostBlast.lifespan = 800;
-  },
-  douseFlames: function(){
-    this.boostBlast.destroy();
   },
   doParticleExplosion: function(dur, num, fn, onPlayer, x, y, size){
     // Add special effect
@@ -949,8 +946,11 @@ RocketTux.Game.prototype = {
     coin.kill();
 
     // Give boost (prevented by pressing down arrow)
-    if (!this.cursors.down.isDown && !this.pad1.isDown(Phaser.Gamepad.XBOX360_Y) && !this.abilityCooldown){
-        this.player.body.velocity.y = -160;
+    if (!this.cursors.down.isDown && !this.pad1.isDown(Phaser.Gamepad.XBOX360_Y)){
+		// Don't interrupt a boost with a coin jump
+		if (this.player.body.velocity.y > -159){
+			this.player.body.velocity.y = -160;
+		}
 	}
 	
     //  Add and update the score
