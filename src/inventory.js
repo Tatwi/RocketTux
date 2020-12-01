@@ -112,7 +112,7 @@ RocketTux.Inventory.prototype = {
 	}, 
 	update: function () {
 		if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
-			this.game.state.start('MainMenu');
+			this.game.state.start('MainMenu', true, false);
 		}
 	},
 	pageUp: function () {
