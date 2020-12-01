@@ -58,6 +58,21 @@ RocketTux.Settings.prototype = {
 			}
 		}
 		
+		// Game screen color buttons
+		var scrnColors = ['01BB01','FFBF00','FFFFFF','FF0000','66FFFF','3333FF','DD33FF','FF0080'];
+		this.btSC = this.game.add.group();
+		var scrnBtn;
+		for (i = 0; i < 8; i++){
+			scrnBtn = this.game.add.button(this.game.width/2+16 + i*40, 96, 'ui-map', this.setScrnColor, this, 'check-over', 'check-out', 'check-down');
+			scrnBtn.tint = "0x" + scrnColors[i];
+			this.btSC.add(scrnBtn);
+			
+			// Set current as selected
+			if (scrnColors[i] === RocketTux.scrnTextColor){
+				scrnBtn.setFrames('check-selected', 'check-selected', 'check-selected');
+			}
+		}
+		
 	}, 
 	update: function() {
 		if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
@@ -79,5 +94,19 @@ RocketTux.Settings.prototype = {
 		// Update color
 		localStorage.setItem('RocketTux-mainMenuColor', btn.tint);
 		RocketTux.mainMenuColor = btn.tint;
+	},
+	setScrnColor: function (btn) {
+		// Reset all to unselected 
+		this.btSC.forEach(function(scrnBtn) {
+			scrnBtn.setFrames('check-over', 'check-out', 'check-down');
+		}, this, true);
+		
+		// Set selected
+		btn.setFrames('check-selected', 'check-selected', 'check-selected');
+		
+		// Update color
+		var justTheColor = btn.tint.slice(2,8);
+		localStorage.setItem('RocketTux-scrnTextColor', justTheColor);
+		RocketTux.scrnTextColor = justTheColor;
 	}
 };
