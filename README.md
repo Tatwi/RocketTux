@@ -135,18 +135,8 @@ The following are links to documents related to the development and use of the g
 - [Art and release files in my Google Drive](https://drive.google.com/open?id=0By31kDj_eHBcWHdXRlFzdnZIdUU)
 - [File structure and types](docs/wiki-file_structure.md)
 - [Step by step walk through of the game states](docs/wiki-game_states.md)
-- [Data storage and loot tables](docs/wiki-data_loot.md)
-- [How the tilemap works](docs/wiki-tilemap.md)
 - [Explaining the sprite sheet and backgrounds](docs/wiki-sprites.md)
-
-### Tools
 - [Creating map sections using Tiled](docs/wiki-map_section_creation.md)
-- [Adding/modifying map sections](docs/wiki-map_section_tools.md)
-- [Creating sprites with GIMP](docs/wiki-sprite_creation.md)
-- [Adding sprites to the game](docs/wiki-sprites_adding_new.md)
-- [Using the inventory spreadsheet](docs/wiki-inventory_spreadsheet.md)
-
-### Misc
 - [The Prototype of RocketTux](docs/prototype/README.md)  
 
 ### Screenshots and Google Drive
