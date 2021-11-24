@@ -93,6 +93,14 @@ RocketTux.Inventory.prototype = {
 		this.btPageDown = this.game.add.button(934, 543, 'ui-map', this.pageDown, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 		this.btPageUp = this.game.add.button(1062, 543, 'ui-map', this.pageUp, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 		
+		this.btDpadUp = this.game.add.button(1002, 128, 'ui-map', this.rowSelectUp, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+		this.btDpadDown = this.game.add.button(1002, 248, 'ui-map', this.rowSelectDown, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+		this.btDpadLeft = this.game.add.button(940, 188, 'ui-map', this.decrease, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+		this.btDpadRight = this.game.add.button(1064, 188, 'ui-map', this.increase, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+		
+		this.btS = this.game.add.button(927, 385, 'ui-map', this.sell, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+		this.btD = this.game.add.button(1055, 321, 'ui-map', this.donate, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+		
 		// Screen lines
 		var scrLines;
 		//Horizontal
@@ -154,6 +162,24 @@ RocketTux.Inventory.prototype = {
 		}
 		
 		this.pagerText.text = (this.showPage + 1) + " / 25";
+	},
+	rowSelectUp: function () {
+	
+	},
+	rowSelectUp: function () {
+	
+	},
+	decrease: function () {
+	
+	},
+	increase: function () {
+	
+	},
+	sell: function () {
+	
+	},
+	donate: function () {
+	
 	},
 	shutdown: function (){
 		// console.log("Inventory state exited");
