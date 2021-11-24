@@ -3,7 +3,7 @@
 # Windows or Linux. When using on Windows in Git Bash, wget.exe 
 # must be added to C:\Program Files\Git\mingw64\
 #
-# NW.js 0.49.2 runs the game using Node.js 15.0.1 and Chromium 86.
+# NW.js 0.58.0 runs the game using Node.js 16.10.0 and Chromium 95.
 # JavaScript minified using YUICompressor 2.4.8.
 # 
 # Note that you can reuse a NW.js zip file that you have already
@@ -93,16 +93,16 @@ if [ $NWJS == 0 ]; then
 
 	if [[ $VER == 1 ]]
 	then
-		wget -q --show-progress --progress=bar:force:noscroll "https://dl.nwjs.io/v0.49.2/nwjs-v0.49.2-win-x64.zip"
+		wget -q --show-progress --progress=bar:force:noscroll "https://dl.nwjs.io/v0.58.0/nwjs-v0.58.0-win-x64.zip"
 	elif [[ $VER == 2 ]]
 	then
-		wget -q --show-progress --progress=bar:force:noscroll "https://dl.nwjs.io/v0.49.2/nwjs-v0.49.2-win-ia32.zip"
+		wget -q --show-progress --progress=bar:force:noscroll "https://dl.nwjs.io/v0.58.0/nwjs-v0.58.0-win-ia32.zip"
 	elif [[ $VER == 3 ]]
 	then
-		wget -q --show-progress --progress=bar:force:noscroll "https://dl.nwjs.io/v0.49.2/nwjs-v0.49.2-linux-x64.tar.gz"
+		wget -q --show-progress --progress=bar:force:noscroll "https://dl.nwjs.io/v0.58.0/nwjs-v0.58.0-linux-x64.tar.gz"
 	elif [[ $VER == 4 ]]
 	then
-		wget -q --show-progress --progress=bar:force:noscroll "https://dl.nwjs.io/v0.49.2/nwjs-v0.49.2-linux-ia32.tar.gz"
+		wget -q --show-progress --progress=bar:force:noscroll "https://dl.nwjs.io/v0.58.0/nwjs-v0.58.0-linux-ia32.tar.gz"
 	fi	
 	
 	NWJS=1
