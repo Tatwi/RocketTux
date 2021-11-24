@@ -117,6 +117,11 @@ RocketTux.Inventory.prototype = {
 		scrLines.beginFill("0x" + RocketTux.scrnTextColor, 0.6);
 		scrLines.drawRect(718, 135, 4, 508);
 		
+		// Highlight rectangle
+		this.highlight;
+		this.highlight = this.game.add.graphics();
+		this.highlight.beginFill("0x" + RocketTux.scrnTextColor, 0.2);
+		this.highlight.drawRect(168, 135, 656, 64);	
 	}, 
 	update: function () {
 		if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
@@ -164,10 +169,14 @@ RocketTux.Inventory.prototype = {
 		this.pagerText.text = (this.showPage + 1) + " / 25";
 	},
 	rowSelectUp: function () {
-	
+		if (this.highlight.y > 0){
+			this.highlight.y -= 64;
+		}
 	},
-	rowSelectUp: function () {
-	
+	rowSelectDown: function () {
+		if (this.highlight.y < 448){
+			this.highlight.y += 64;
+		}
 	},
 	decrease: function () {
 	
