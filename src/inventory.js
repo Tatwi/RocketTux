@@ -61,6 +61,7 @@ RocketTux.Inventory.prototype = {
 			this.haveQ[i] = this.game.add.text(190, 150 + i*64, "", this.colStyle);
 			this.haveQ[i].text = localStorage.getItem('RocketTux-invItem' + i);
 			this.sellQ[i] = this.game.add.text(750, 150+ i*64, "", this.colStyle);
+			this.sellQ[i].text = "0";
 		}
 		
 		// Item icons
@@ -95,8 +96,8 @@ RocketTux.Inventory.prototype = {
 		
 		this.btDpadUp = this.game.add.button(1002, 128, 'ui-map', this.rowSelectUp, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
 		this.btDpadDown = this.game.add.button(1002, 248, 'ui-map', this.rowSelectDown, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
-		this.btDpadLeft = this.game.add.button(940, 188, 'ui-map', this.decrease, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
-		this.btDpadRight = this.game.add.button(1064, 188, 'ui-map', this.increase, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+		this.btDpadLeft = this.game.add.button(940, 188, 'ui-map', this.sellLess, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+		this.btDpadRight = this.game.add.button(1064, 188, 'ui-map', this.sellMore, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
 		
 		this.btS = this.game.add.button(927, 385, 'ui-map', this.sell, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
 		this.btD = this.game.add.button(1055, 321, 'ui-map', this.donate, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
@@ -156,7 +157,7 @@ RocketTux.Inventory.prototype = {
 				this.itemIcons.getChildAt(i).frameName =  'icon-' + (currentPage + i);
 				this.desc[i].text = RocketTux.lootNames[currentPage + i] + "\nHint: " + RocketTux.lootDesc[currentPage + i];
 				this.haveQ[i].text = localStorage.getItem('RocketTux-invItem' + (currentPage + i));
-				this.sellQ[i].text = "";
+				this.sellQ[i].text = "0";
 			} else {
 				// Blank spaces
 				this.itemIcons.getChildAt(i).frameName =  'blank-icon';
@@ -178,11 +179,21 @@ RocketTux.Inventory.prototype = {
 			this.highlight.y += 64;
 		}
 	},
-	decrease: function () {
-	
+	sellLess: function () {
+		var highlightedItem = this.highlight.y / 64;
+		
+		if (parseInt(this.sellQ[highlightedItem].text) > 0){
+			this.haveQ[highlightedItem].text = parseInt(this.haveQ[highlightedItem].text) + 1;
+			this.sellQ[highlightedItem].text = parseInt(this.sellQ[highlightedItem].text) - 1;
+		}
 	},
-	increase: function () {
-	
+	sellMore: function () {
+		var highlightedItem = this.highlight.y / 64;
+		
+		if (parseInt(this.haveQ[highlightedItem].text) > 0){
+			this.haveQ[highlightedItem].text = parseInt(this.haveQ[highlightedItem].text) - 1;
+			this.sellQ[highlightedItem].text = parseInt(this.sellQ[highlightedItem].text) + 1;
+		}
 	},
 	sell: function () {
 	
