@@ -210,6 +210,7 @@ RocketTux.Inventory.prototype = {
 		var savedCoins = 0;
 		var newWalletValue = 0;
 		var nameLength = 0;
+		var accumulator = 0;
 		
 		// Verify, remove, reward
 		for (i = 0; i < 8; i++){
@@ -217,12 +218,16 @@ RocketTux.Inventory.prototype = {
 				if (parseInt(localStorage.getItem('RocketTux-invItem' + (currentPage + i))) >= parseInt(this.sellQ[i].text)){
 					toSave = parseInt(localStorage.getItem('RocketTux-invItem' + (currentPage + i))) - parseInt(this.sellQ[i].text);
 					localStorage.setItem('RocketTux-invItem' + (currentPage + i), toSave);
-					this.sellQ[i].text = 0;
 					
 					savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
 					nameLength = RocketTux.lootNames[currentPage + i].length;
 					
-					newWalletValue = savedCoins + nameLength + Math.floor(Math.random() * nameLength);
+					for (a= 0; a < parseInt(this.sellQ[i].text); a++){
+						accumulator += nameLength + Math.floor(Math.random() * nameLength);
+					}
+					this.sellQ[i].text = 0;
+					
+					newWalletValue = savedCoins + accumulator;
 					
 					// Cap saved coins at 1,000,000,000
 					if (newWalletValue > 999999999){
