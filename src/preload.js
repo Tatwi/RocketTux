@@ -35,8 +35,16 @@ RocketTux.Preload.prototype = {
     this.load.audio('mouseover', 'data/sounds/mouseover.ogg');
     this.load.audio('warp', 'data/sounds/warp.ogg');
     this.load.audio('menu', 'data/music/menu.ogg');
-    this.load.audio('song1', 'data/music/song1.ogg');
-    this.load.audio('song2', 'data/music/song2.ogg');
+    this.load.audio('friends', 'data/music/song2.ogg');
+    this.load.audio('snow1', 'data/music/song1.ogg');
+    this.load.audio('snow2', 'data/music/snow2.ogg');
+    this.load.audio('snow3', 'data/music/snow3.ogg');
+    this.load.audio('forest1', 'data/music/forest1.ogg');
+    this.load.audio('forest2', 'data/music/forest2.ogg');
+    this.load.audio('candyland', 'data/music/candyland.ogg');
+    this.load.audio('beach', 'data/music/beach.ogg');
+    this.load.audio('beachfront', 'data/music/beachfront.ogg');
+    this.load.audio('help', 'data/music/help.ogg');
     this.load.audio('rocketpack-start', 'data/sounds/rocketpack-start.ogg');
     this.load.audio('rocketpack-windup', 'data/sounds/rocketpack-windup.ogg');
     this.load.audio('rocketpack-boost', 'data/sounds/rocketpack-boost.ogg');
@@ -172,8 +180,7 @@ RocketTux.Preload.prototype = {
 		normal: [0,2,5,10,15,20,30,40,55,70,85,100,115],
 		hard: [0,4,15,30,45,60,80,100,125,150,175,200,225],
 	};
-        	
-    RocketTux.songs = ['song1', 'song2', 'song1', 'song2', 'song1', 'song2', 'song1']; // More songs will be added later
+    
     RocketTux.groundSpeed = 180; // Preference up to 200. Star +75.
     RocketTux.airSpeed = 300; // Preference up to 340. Star + 20, Fire Flower + 40.
     RocketTux.boostSpeed = 325; // Preference up to 340.

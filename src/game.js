@@ -12,8 +12,7 @@ RocketTux.Game.prototype = {
     
     this.gameOver = false;
     
-    var pickSong = Math.floor(Math.random() * RocketTux.songs.length);
-    music = this.game.add.audio(RocketTux.songs[pickSong]);
+    music = this.game.add.audio(this.theme);
     music.loop = true;
     music.volume = 0.5;
     music.play();

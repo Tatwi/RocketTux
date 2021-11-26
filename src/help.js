@@ -22,7 +22,10 @@ RocketTux.Help.prototype = {
 		this.titleText.setTextBounds(0, 0, this.game.width, 30);
 	},
 	create: function() {
-	  
+		music = this.game.add.audio("help");
+    music.loop = true;
+    music.volume = 0.5;
+    music.play();  
 	}, 
 	update: function() {
 		if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
@@ -30,6 +33,7 @@ RocketTux.Help.prototype = {
 		}
 	},
 	shutdown: function(){
+		music.destroy();
 		// console.log("Help state exited");
 	}
 };

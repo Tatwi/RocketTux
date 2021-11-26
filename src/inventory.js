@@ -10,6 +10,11 @@ RocketTux.Inventory.prototype = {
 		
 	},
 	create: function () {
+		music = this.game.add.audio("friends");
+    music.loop = true;
+    music.volume = 0.5;
+    music.play();
+		
 		// Background image
 		this.bgImage = this.game.add.sprite(0, 0, 'skies-special');
 		this.bgImage.animations.add('stand', [3], 1, true);
@@ -247,6 +252,7 @@ RocketTux.Inventory.prototype = {
 		this.isSelling = false;
 	},
 	shutdown: function (){
+		music.destroy();
 		// console.log("Inventory state exited");
 	},
 	makeMenu: function (){

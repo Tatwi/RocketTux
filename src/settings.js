@@ -10,6 +10,11 @@ RocketTux.Settings.prototype = {
 		
 	},
 	create: function() {
+		music = this.game.add.audio("help");
+    music.loop = true;
+    music.volume = 0.5;
+    music.play();
+    
 	  // Background image
 		this.bgImage = this.game.add.sprite(0, 0, 'skies-special');
 		this.bgImage.animations.add('stand', [3], 1, true);
@@ -80,6 +85,7 @@ RocketTux.Settings.prototype = {
 		}
 	},
 	shutdown: function(){
+		music.destroy();
 		// console.log("Settings state exited");
 	},
 	setGDColor: function (btn) {

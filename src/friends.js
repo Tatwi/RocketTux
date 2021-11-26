@@ -10,6 +10,11 @@ RocketTux.Friends.prototype = {
 		
 	},
 	create: function() {
+		music = this.game.add.audio("friends");
+    music.loop = true;
+    music.volume = 0.5;
+    music.play();
+		
 		this.style = { 
 			font: "11px Verdana", 
 			fill: "#ffffff", align: "left"
@@ -30,6 +35,7 @@ RocketTux.Friends.prototype = {
 		}
 	},
 	shutdown: function(){
-		// console.log("Friends state exited");
+		music.destroy();
+		//console.log("Friends state exited");
 	}
 };

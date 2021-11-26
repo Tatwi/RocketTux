@@ -168,7 +168,7 @@ This is an open source project that stands on the backs of many others, which is
 
 ### Sound and Music
 - Sounds: [SuperTux](https://supertuxproject.org/) and contributors for some sound effects, [Richard Boulanger](http://www.csounds.com/boulanger/) for some intruments in some songs, [Mike Koenig](https://soundcloud.com/koenig) some portions of sound effects.
-- Music: [R. Bassett Jr.](http://github.com/tatwi) aka Tatwi.
+- Music:[Kevin MacLeod](data/music/credits.md), [R. Bassett Jr.](http://github.com/tatwi) aka Tatwi.
 
 ### QA Testers
 - Neillia Bassett, Baylea Bassett, Abby Bassett. 
