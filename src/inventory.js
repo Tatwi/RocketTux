@@ -92,15 +92,16 @@ RocketTux.Inventory.prototype = {
 		
 		// Buttons
 		this.btPageDown = this.game.add.button(934, 543, 'ui-map', this.pageDown, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
-		this.btPageUp = this.game.add.button(1062, 543, 'ui-map', this.pageUp, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
-		
+		this.btPageUp = this.game.add.button(1062, 543, 'ui-map', this.pageUp, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');	
 		this.btDpadUp = this.game.add.button(1002, 128, 'ui-map', this.rowSelectUp, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
 		this.btDpadDown = this.game.add.button(1002, 248, 'ui-map', this.rowSelectDown, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
 		this.btDpadLeft = this.game.add.button(940, 188, 'ui-map', this.sellLess, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
 		this.btDpadRight = this.game.add.button(1064, 188, 'ui-map', this.sellMore, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
-		
 		this.btS = this.game.add.button(927, 385, 'ui-map', this.sell, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
 		this.btD = this.game.add.button(1055, 321, 'ui-map', this.donate, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+		
+		// Button timing anti-cheat
+		this.isSelling = false;
 		
 		// Screen lines
 		var scrLines;
@@ -180,6 +181,9 @@ RocketTux.Inventory.prototype = {
 		}
 	},
 	sellLess: function () {
+		if (this.isSelling)
+			return;
+		
 		var highlightedItem = this.highlight.y / 64;
 		
 		if (parseInt(this.sellQ[highlightedItem].text) > 0){
@@ -188,6 +192,9 @@ RocketTux.Inventory.prototype = {
 		}
 	},
 	sellMore: function () {
+		if (this.isSelling)
+			return;
+		
 		var highlightedItem = this.highlight.y / 64;
 		
 		if (parseInt(this.haveQ[highlightedItem].text) > 0){
@@ -196,10 +203,14 @@ RocketTux.Inventory.prototype = {
 		}
 	},
 	sell: function () {
-	
+		this.isSelling = true;
+		// Do work...
+		this.isSelling = false;
 	},
 	donate: function () {
-	
+		this.isSelling = true;
+		// Do work...
+		this.isSelling = false;
 	},
 	shutdown: function (){
 		// console.log("Inventory state exited");
