@@ -204,7 +204,36 @@ RocketTux.Inventory.prototype = {
 	},
 	sell: function () {
 		this.isSelling = true;
-		// Do work...
+		
+		var currentPage = this.showPage * 8;
+		var toSave = 0;
+		var savedCoins = 0;
+		var newWalletValue = 0;
+		var nameLength = 0;
+		
+		// Verify, remove, reward
+		for (i = 0; i < 8; i++){
+			if (parseInt(this.sellQ[i].text) > 0){
+				if (parseInt(localStorage.getItem('RocketTux-invItem' + (currentPage + i))) >= parseInt(this.sellQ[i].text)){
+					toSave = parseInt(localStorage.getItem('RocketTux-invItem' + (currentPage + i))) - parseInt(this.sellQ[i].text);
+					localStorage.setItem('RocketTux-invItem' + (currentPage + i), toSave);
+					this.sellQ[i].text = 0;
+					
+					savedCoins = parseInt(localStorage.getItem('RocketTux-myWallet'));
+					nameLength = RocketTux.lootNames[currentPage + i].length;
+					
+					newWalletValue = savedCoins + nameLength + Math.floor(Math.random() * nameLength);
+					
+					// Cap saved coins at 1,000,000,000
+					if (newWalletValue > 999999999){
+						newWalletValue = 1000000000;
+					}
+					 
+					localStorage.setItem('RocketTux-myWallet', newWalletValue);
+				}
+			}
+		}
+					
 		this.isSelling = false;
 	},
 	donate: function () {
