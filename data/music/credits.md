@@ -17,5 +17,5 @@ http://creativecommons.org/licenses/by/4.0/
 - "Piano Thing", song2.ogg
 - menu.ogg
 
-Licensed under Creative Commons: Attribution 3.0 Unported (CC BY 3.0)
+Licensed under Creative Commons: Attribution 3.0 Unported (CC BY 3.0)  
 https://creativecommons.org/licenses/by/3.0/

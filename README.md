@@ -21,9 +21,10 @@ I can verify the game works fine using the following specs:
 The game _should_ run fine on even the oldest Chromebooks, but with the ever changing nature of web browsers, I simply can't guarantee that to always be true. That said, the packaged desktop app will always run well using the above specs.  
 
 ## About Development
-- **Current Version:** 0.4.8 (Nov 2020)
-- **Playable Version Tag:** v0.4.8
-- **Expected Completion Date:** When I get there! Maybe sometime 2021...
+The game is quite playable and nearly complete at this stage. See the Development Checklist below for details on what it is currently implemented.  
+
+- **Status:** Playable, just missing some features
+- **Expected Completion Date:** Summer 2022
 - Programmed from scratch using [Phaser CE](https://github.com/photonstorm/phaser-ce).
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
 - RocketTux is its own unique game, not a clone of Supertux or other platformers.
@@ -31,27 +32,6 @@ The game _should_ run fine on even the oldest Chromebooks, but with the ever cha
 - Originally intended to be a Chrome App and optimized for low end Chromebooks, but it's now intended to be run on a desktop PC. 
 - Packaged as a native application for Windows and Linux using [NW.js](https://github.com/nwjs/nw.js), which is based on [Node.js](https://nodejs.org/en/about/) and the [Chromium](https://www.chromium.org/Home) web browser.
 - **No advertisements, no subscriptions, no micro-transaction, and no purchase fees.** Just free, open source fun!
-
-### Milestones to Release
-- Version 0.4.9: New UI has all functionality either completed or ready for use.
-- Version 0.5: All map sections completed.
-- Version 0.5.1: Settings page implemented.
-- Version 0.5.2: Help page implemented.
-- Version 0.6: All entities are fully functional.
-- Version 0.7: Friends quest system completed.
-- Version 0.8: Cubimal bonus system completed.
-- Version 0.9: Music, sounds, and art finalized.
-- Version 1.0: All known issues fixed and content is as polished as it will get.
-
-### Milestones Reached
-- Vesion 0.0: Prototype converted into a real project.
-- Vesion 0.1: Basic world generation and player movement, and day/night art.
-- Vesion 0.2: Complete player, level generation, and entity spawning mechanics.
-- Vesion 0.2.5: Playable basic game with usable UI.
-- Vesion 0.3: Block spawning (Quest, Powerup, Loot, Dangerous Loot) mechanic, functional powerups, implemented the 196 quest item icons, in-level item collection tracking, quest window.
-- Version 0.3.5: Enemy spawning, 3 functional enemies, player interaction with enemies, several performance improvements.
-- Version 0.4.0: All maps have level sections, functional item collection and inventory, ui window for Cubimals, game packaged to make it easy to play on Linux and Windows.
-- Version 0.4.8: Completely [new UI](screenshots/Screenshot_2020-11-22_03_12-01.png), most level sections complete, major bugs fixed, quality of life adjustments, some new level art.  
 
 ## Target Audience
 RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn about programming.
@@ -122,7 +102,6 @@ Powerups are found in purple blocks throughout the world. They persist through l
 - Don't sweat it if you weren't able to collect all the coins in a level. Yeah, collecting them all kicks you up one tier in bonus coins, but in the grand scheme of things it doesn't matter _that_ much.
 - Every 10 coins you collect bumps you up 1 tier in bonus coin rewards. On normal and hard mode, the higher tier bonuses (for longer levels that have higher coin amounts) are much more generous than the lower tier bonuses.
 
-
 ## Wiki
 The following are links to documents related to the development and use of the game. Hopefully there is enough information here to help students and hobbyists make sense of how the project is laid out, how to develop for it, and how to use the included tools.
 
@@ -146,6 +125,143 @@ The following are links to documents related to the development and use of the g
 - [GIMP Source Files](https://drive.google.com/drive/folders/0By31kDj_eHBcSmFudlJUcWd3UUU?usp=sharing): The huge, Git-unfriendly GIMP art files that I used to create all of tilemaps, sprites, and other graphics.
 - [Google Drive Cache](https://drive.google.com/drive/folders/0By31kDj_eHBcYnlpQjEzZHY4SUU?usp=sharing): All of the folders, including the two above, for files related to _all of my open source projects_ that weren't really appropriate to put in their repositories. There's some other misc RocketTux stuff in here as well.
 
+## Development Checklist
+*Last Updated: 2021.11.28*  
+This list contains all of the bits and pieces that make up the game. The most current release may not include all of the items that have been checked off. To get the most up to date version, download the Git repository and build it using the builder script (requires BASH in Linux and Windows).  
+
+### Main Menu
+- [x] Layout and button art
+- [x] Level preview art
+- [x] Button highlighting
+- [x] Level loading
+- [x] Random level selection
+- [x] Difficulty setting
+- [x] Powerup and coin display
+- [x] Replace SlickUI with a custom UI
+- [ ] Tooltips
+
+### Friends Menu
+- [ ] Layout and button art
+- [ ] Button highlighting
+- [ ] Friend paging
+- [ ] Friend quest item requirements
+- [ ] Friend quest completion
+- [ ] Cubimal paging
+- [ ] Cubimal unlock costs
+- [ ] Cubimal selection
+- [ ] Tooltips
+
+### Inventory Menu
+- [x] Layout and button art
+- [x] button highlighting
+- [x] Inventory paging
+- [x] Item selection
+- [x] Item selling
+- [ ] Item donating
+- [ ] Tooltips
+
+### Help Menu
+- [ ] Table of contents
+- [ ] Content selection
+- [ ] General purpose and how to play
+- [ ] Movement keys
+- [ ] Gamepad defaults
+- [ ] Powerups
+- [ ] Cubimal bonuses
+- [ ] Friend quests
+- [ ] Selling and donating items
+- [ ] Credits
+
+### Settings Menu
+- [x] Game machine colour selection
+- [x] Text and highlight colour selection
+- [ ] Music volume
+- [ ] Disable rocket pack exhaust sound
+- [ ] Gamepad selection
+- [ ] Gamepad button remapping
+
+### Level Themes
+- [x] Candyland Tilemap art
+- [x] Candyland Map/level sections
+- [x] Snow1 Tilemap art
+- [x] Snow1 Map/level sections
+- [x] Snow2 Tilemap art
+- [ ] Snow2 Map/level sections 16/26
+- [x] Snow3 Tilemap art
+- [x] Snow3 Map/level sections
+- [x] Forest1 Tilemap art
+- [X] Forest1 Map/level sections
+- [x] Forest2 Tilemap art
+- [ ] Forest2 Map/level sections 16/26
+- [x] Beach Tilemap art
+- [x] Beach Map/level sections
+- [x] Beachfront Tilemap art
+- [ ] Beachfront Map/level sections 7/26
+
+### Art
+- [x] UI icons
+- [x] Item icons
+- [x] Cubimals
+- [x] Tux animations
+- [x] Friend characters
+- [x] Nolok ship
+- [x] Rescue Girlies helicopter
+- [x] Tilemap art
+- [x] Background screens
+
+### Music
+- [x] Main menu
+- [x] Settings and help menus
+- [x] Inventory and friends menus
+- [x] Level themes
+
+### Game Level
+- [x] Prototype converted into a real project
+- [x] Level generation
+- [x] Player movement
+- [x] Player sound effects
+- [x] Coin spawning
+- [x] Item block spawning
+- [x] Enemy spawning
+- [x] UI: Coin display
+- [x] UI: Powerup display
+- [ ] Fix stationary enemies spawning under coins and item boxes
+- [x] Coin collection
+- [x] Item collection
+- [x] Powerup application
+- [x] Powerup removal
+- [x] End of level coin, inventory, and bonus granting
+- [x] Enemy: Jumpy
+- [x] Enemy: Woody
+- [x] Enemy: Mr. Bomb
+- [x] Enemy: Mr. Short-fuse
+- [x] Enemy: Rocketboots
+- [ ] Enemy: Proppy
+- [ ] Enemy: Fightly Fish
+- [ ] Improve Rocketboots AI
+- [ ] Make Mr. Bomb turn towards Tux when while ticking
+- [ ] Move enemies and their AI into a custom class
+- [x] Enemy sound effects
+- [x] Player loses money when bumping into an enemy
+- [x] Visual and sound effects when player loses money
+- [x] Music selection
+- [x] Time of day selection
+- [x] UI: Pause screen
+- [x] UI: Coin and item status on the pause screen
+- [x] UI: Notification that all coins have been collected
+- [x] UI: Replace SlickUI with a custom UI
+- [ ] UI: Tooltips
+- [ ] UI: Pause menu Tooltips
+- [ ] Green ! blocks unlock friend quests
+- [ ] Green ! blocks cause Rescue Girlies to fly by
+- [ ] RG grant a powerup if player doesn't have one
+- [ ] RG destroy all enemies on the screen
+- [ ] RG drop a rare item box
+- [ ] Orange ? blocks cause Nolock to drop Proppy enemies
+- [ ] Cubimal bonuses are applied
+- [ ] Water interaction with player
+- [ ] Water interaction with enemies
+- [ ] Fuel usage in hard mode
 
 ## License
 The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information. You may *not* copy or "fork" this repository and sell RocketTux as your own creation, no matter how you've repackaged or re-branded it. 
@@ -168,7 +284,7 @@ This is an open source project that stands on the backs of many others, which is
 
 ### Sound and Music
 - Sounds: [SuperTux](https://supertuxproject.org/) and contributors for some sound effects, [Richard Boulanger](http://www.csounds.com/boulanger/) for some intruments in some songs, [Mike Koenig](https://soundcloud.com/koenig) some portions of sound effects.
-- Music:[Kevin MacLeod](data/music/credits.md), [R. Bassett Jr.](http://github.com/tatwi) aka Tatwi.
+- Music: [Kevin MacLeod](data/music/credits.md), [R. Bassett Jr.](http://github.com/tatwi) aka Tatwi.
 
 ### QA Testers
 - Neillia Bassett, Baylea Bassett, Abby Bassett. 
