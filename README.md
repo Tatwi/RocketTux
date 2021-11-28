@@ -11,6 +11,13 @@ RocketTux is an easygoing side-scroller game about collecting coins and items. H
 - MacOS: Not supported.
 - Android/iOS: Not supported.
 
+<a href="https://drive.google.com/file/d/1Ij7XfgNKVXS-uZkfsL7gxVVHSatFu6Kq/view?usp=sharing" target="_blank">
+  <img src="screenshots/levels/candyland_day.png" width="480" height="270" title="Click to watch a demo video!"/>
+</a>
+
+**Click the image above to watch a demo video**  
+*Sorry the quality sucks, it's the best I could do*
+
 ## System Requirements
 I can verify the game works fine using the following specs:
 
