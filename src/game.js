@@ -192,7 +192,6 @@ RocketTux.Game.prototype = {
     
     // Collide with the tilemap
     this.game.physics.arcade.collide(this.player, this.theLevel);
-    this.game.physics.arcade.collide(this.coins, this.theLevel);
     this.game.physics.arcade.collide(this.enemies, this.theLevel, this.aiUpdate, null, this);
     
     // Interact with the player
