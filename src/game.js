@@ -61,6 +61,8 @@ RocketTux.Game.prototype = {
     
     // Add group for enemies
     this.enemies = this.game.add.group();
+    this.rbLiftFreq = 4000; // 4 seconds
+    this.rbLiftTimer = this.game.time.time + this.rbLiftFreq; // How often Rocketboots increases altitude
     
     // Add boosts
     this.boosts = Math.max(3, (Math.floor(this.mapSections / 4))) + RocketTux.bonusBoosts; // At least 3 + bonus
@@ -382,13 +384,15 @@ RocketTux.Game.prototype = {
 			} else if (enemy.flyer){
 				this.turnAround(enemy, 190);
         
-				if (this.game.time.time > this.uiTimer){
+				if (this.game.time.time > this.rbLiftTimer){
 					var rng = this.roll();
 					enemy.body.velocity.y = -3 * rng; // Lift off
             
 					if (rng > 98){
 						this.blowupBadguy(enemy, 96); // Ooops!
           }
+          
+          this.rbLiftTimer = this.game.time.time + this.rbLiftFreq;
         }
 			}
 		}, this);
