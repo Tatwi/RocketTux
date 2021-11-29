@@ -383,8 +383,21 @@ RocketTux.Game.prototype = {
 					this.hop(enemy);
 			} else if (enemy.flyer){
 				this.turnAround(enemy, 190);
-        
-				if (this.game.time.time > this.rbLiftTimer){
+				
+				var xTo = this.player.body.x - enemy.body.x;
+				var yTo = this.player.body.y - enemy.body.y;
+
+				if (Math.abs(xTo) < 260 && Math.abs(yTo) < 180 ){
+					// Chase the player
+					this.game.physics.arcade.moveToObject(enemy, this.player, 30, 800); // enemy, player, fps, milliseconds to reach player
+					
+					// Face correct direction
+					if (xTo > 1){
+						enemy.scale.x = -1;
+					} else {
+						enemy.scale.x = 1;
+					}
+				} else if (this.game.time.time > this.rbLiftTimer){
 					var rng = this.roll();
 					enemy.body.velocity.y = -3 * rng; // Lift off
             

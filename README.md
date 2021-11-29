@@ -133,7 +133,7 @@ The following are links to documents related to the development and use of the g
 - [Google Drive Cache](https://drive.google.com/drive/folders/0By31kDj_eHBcYnlpQjEzZHY4SUU?usp=sharing): All of the folders, including the two above, for files related to _all of my open source projects_ that weren't really appropriate to put in their repositories. There's some other misc RocketTux stuff in here as well.
 
 ## Development Checklist
-*Last Updated: 2021.11.28*  
+*Last Updated: 2021.11.29*  
 This list contains all of the bits and pieces that make up the game. The most current release may not include all of the items that have been checked off. To get the most up to date version, download the Git repository and build it using the builder script (requires BASH in Linux and Windows).  
 
 ### Main Menu
@@ -245,9 +245,8 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Enemy: Rocketboots
 - [ ] Enemy: Proppy
 - [ ] Enemy: Fightly Fish
-- [ ] Improve Rocketboots AI
+- [x] Improve Rocketboots AI
 - [ ] Make Mr. Bomb turn towards Tux when while ticking
-- [ ] Move enemies and their AI into a custom class
 - [x] Enemy sound effects
 - [x] Player loses money when bumping into an enemy
 - [x] Visual and sound effects when player loses money
