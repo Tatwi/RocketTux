@@ -192,7 +192,7 @@ RocketTux.Game.prototype = {
     
     // Collide with the tilemap
     this.game.physics.arcade.collide(this.player, this.theLevel);
-    this.game.physics.arcade.collide(this.enemies, this.theLevel, this.aiUpdate, null, this);
+    this.game.physics.arcade.collide(this.enemies, this.theLevel);
     
     // Interact with the player
     this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
@@ -201,6 +201,9 @@ RocketTux.Game.prototype = {
     
     // Player Movement
     this.movePlayer();
+    
+    // Update enemies
+    this.aiUpdate();
     
     // Update engine sound
     if (this.player.body.blocked.down){ // Stop on landing
@@ -365,29 +368,30 @@ RocketTux.Game.prototype = {
 
 		this.uiTimer = this.game.time.time + 500;
 	},
-	aiUpdate: function(sprite, tile){
-    // Run per frame for each enemy that is colliding with a tile. Checks true state on sprite.madeUpName variable and does stuff specific to the madeUpName type of enemies.
-    if (sprite.walker){
-        this.turnAround(sprite, 90);
+	aiUpdate: function(){
+    this.enemies.forEachAlive(function(enemy) {
+			if (enemy.walker){
+				this.turnAround(enemy, 90);
         
-        // Speed up again after changing directions
-        if (sprite.ticking && Math.abs(sprite.body.velocity.x) < 150){
-            sprite.body.velocity.x *= 1.75;
-        }
-    } else if (sprite.hopper){
-        this.hop(sprite, tile);
-    } else if (sprite.flyer){
-        this.turnAround(sprite, 190);
+				// Speed up again after changing directions
+				if (enemy.ticking && Math.abs(enemy.body.velocity.x) < 150){
+            enemy.body.velocity.x *= 1.75;
+				}
+			} else if (enemy.hopper){
+					this.hop(enemy);
+			} else if (enemy.flyer){
+				this.turnAround(enemy, 190);
         
-        if (this.game.time.time > this.uiTimer){
-            var rng = this.roll();
-            sprite.body.velocity.y = -3 * rng; // Lift off
+				if (this.game.time.time > this.uiTimer){
+					var rng = this.roll();
+					enemy.body.velocity.y = -3 * rng; // Lift off
             
-            if (rng > 98){
-                this.blowupBadguy(sprite, 96); // Ooops!
-            }
+					if (rng > 98){
+						this.blowupBadguy(enemy, 96); // Ooops!
+          }
         }
-    }
+			}
+		}, this);
 	},
 // --- AI Actions -------
 	turnAround: function(sprite, walkSpeed){
@@ -404,9 +408,11 @@ RocketTux.Game.prototype = {
 			sprite.scale.x = 1;
 		}
 	},
-	hop: function(sprite, tile){
-		sprite.y -= 2; // move up to avoid re-triggering blocked.down next frame
-		sprite.body.velocity.y = -160;
+	hop: function(sprite){
+		if (sprite.body.blocked.down){
+			sprite.y -= 2; // move up to avoid re-triggering blocked.down next frame
+			sprite.body.velocity.y = -160;
+		}
 	},
 	abilityCooldownStart: function(seconds){
 		this.abilityCooldown = true;
