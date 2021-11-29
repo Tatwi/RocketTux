@@ -164,7 +164,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Inventory paging
 - [x] Item selection
 - [x] Item selling
-- [ ] Item donating
+- [x] Item donating
 - [ ] Tooltips
 
 ### Help Menu

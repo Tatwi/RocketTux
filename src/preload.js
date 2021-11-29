@@ -142,6 +142,22 @@ RocketTux.Preload.prototype = {
     if (isNaN(savedCoins)){
         localStorage.setItem('RocketTux-myWallet', '1');
     }
+    
+    // Karma, used when determining donation rewards
+    var tmpKarma = localStorage.getItem('RocketTux-myKarma');
+    if (tmpKarma == null || tmpKarma == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-myKarma', '0');
+    }
+    
+    // Luck, used when determining various bonuses and rewards
+    // 66 Max: 42 from donations, 12 from powerups, and 12 from Cubimals (6+4+2)
+    var tmpLuck = localStorage.getItem('RocketTux-myLuck');
+    if (tmpLuck == null || tmpLuck == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-myLuck', '0');
+    }
+    RocketTux.luck = parseInt(localStorage.getItem('RocketTux-myLuck'));
   },
   otherVariables: function(){
     // Variables that are over-written by values from "game save" data (local storage) or during game play
@@ -186,7 +202,6 @@ RocketTux.Preload.prototype = {
     RocketTux.boostSpeed = 325; // Preference up to 340.
     RocketTux.bonusBoosts = 0; // Preference up to 3
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
-    RocketTux.luck = 0, // Increases chance to get rare loot
     
     // Data used for spawning enemies
     RocketTux.badguyConfig = {

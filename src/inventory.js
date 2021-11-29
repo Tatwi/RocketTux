@@ -248,7 +248,74 @@ RocketTux.Inventory.prototype = {
 	},
 	donate: function () {
 		this.isSelling = true;
-		// Do work...
+		var currentPage = this.showPage * 8;
+		var toSave = 0;
+		var nameLength = 0;
+		var accumulator = 0;
+		var rng = 0;
+		var itemNumber = 0;
+		var tmpInvVal = 0;
+		var pwrupNames = ['star', 'fire', 'water', 'air', 'earth'];
+		var pup = localStorage.getItem('RocketTux-powerUpActive');
+		
+		// Verify, remove, reward
+		for (i = 0; i < 8; i++){
+			if (parseInt(this.sellQ[i].text) > 0){
+				if (parseInt(localStorage.getItem('RocketTux-invItem' + (currentPage + i))) >= parseInt(this.sellQ[i].text)){
+					toSave = parseInt(localStorage.getItem('RocketTux-invItem' + (currentPage + i))) - parseInt(this.sellQ[i].text);
+					localStorage.setItem('RocketTux-invItem' + (currentPage + i), toSave);
+					
+					nameLength = RocketTux.lootNames[currentPage + i].length;
+					
+					for (a= 0; a < parseInt(this.sellQ[i].text); a++){
+						accumulator += nameLength + Math.floor(Math.random() * nameLength);
+					}
+					this.sellQ[i].text = 0;
+					
+					// Reuse toSave variable
+					toSave = parseInt(localStorage.getItem('RocketTux-myKarma')) + accumulator;
+					
+					if (toSave > 1000){
+						toSave -= 1000;
+						
+						// Grant a reward
+						rng = this.game.rnd.between(0, 100) + RocketTux.luck;
+						
+						if (rng > 90){
+							// Rare item
+							itemNumber = RocketTux.lootgroups.rares[Math.floor(Math.random() * RocketTux.lootgroups.rares.length)];	
+							tmpInvVal = parseInt(localStorage.getItem('RocketTux-invItem' + itemNumber));
+							if (tmpInvVal > 999){
+								tmpInvVal = 998;
+							}
+							localStorage.setItem('RocketTux-invItem' + itemNumber, tmpInvVal + 1);
+						} else if (rng > 70){
+							// Powerup
+							if (pup == 'none'){
+								pup = pwrupNames[this.game.rnd.between(0, 4)];
+								RocketTux.powerUpActive = pup;
+								localStorage.setItem('RocketTux-powerUpActive', pup);
+							} else {
+								// Karma instead
+								toSave += this.game.rnd.between(150, 250);
+							}				
+						} else {
+							// Karma
+							toSave += this.game.rnd.between(50, 100);
+							
+							// Luck
+							if (RocketTux.luck < 42){
+								RocketTux.luck += 1;
+								localStorage.setItem('RocketTux-myLuck', RocketTux.luck);
+							}
+						}	
+					}
+					 
+					localStorage.setItem('RocketTux-myKarma', toSave);
+				}
+			}
+		}
+		
 		this.isSelling = false;
 	},
 	shutdown: function (){

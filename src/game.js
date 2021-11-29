@@ -96,6 +96,7 @@ RocketTux.Game.prototype = {
     this.lvlAirSpeed = RocketTux.airSpeed;
     this.lvlGroundSpeed = RocketTux.groundSpeed;
     this.lvlGravity = RocketTux.tuxGravity;
+    RocketTux.luck = parseInt(localStorage.getItem('RocketTux-myLuck'));
     this.lvlLuck = RocketTux.luck;
 
     // Rocketpack sounds
@@ -1090,7 +1091,7 @@ RocketTux.Game.prototype = {
 		// Save item to player's inventory
 		var tmpInvVal = parseInt(localStorage.getItem('RocketTux-invItem' + itemNumber));
 		if (tmpInvVal > 999){
-			tmpInvVal = 999;
+			tmpInvVal = 998;
 		}
 		localStorage.setItem('RocketTux-invItem' + itemNumber, tmpInvVal + 1);
 	},
