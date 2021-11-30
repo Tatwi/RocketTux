@@ -39,11 +39,50 @@ RocketTux.Friends.prototype = {
 		};
 		this.titleText = this.game.add.text(0, 0, "Friends", this.titleStyle);
 		this.titleText.setTextBounds(0, 0, this.game.width, 30);
+		
+		// Buttons
+		this.btFL = this.game.add.button(102, 606, 'ui-map', this.pageFL, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
+		this.btFR = this.game.add.button(422, 606, 'ui-map', this.pageFR, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
+		this.btH = this.game.add.button(255, 609, 'ui-map', this.helpF, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+		
+		this.btCL = this.game.add.button(774, 606, 'ui-map', this.pageCL, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
+		this.btCR = this.game.add.button(1094, 606, 'ui-map', this.pageCR, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
+		this.btS = this.game.add.button(927, 609, 'ui-map', this.setC, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+		
+		// Show first friend and cubimal pages
+		this.fPage = 0;
+		this.showF;
+		this.cPage = 0;
+		this.showC;
 	}, 
 	update: function() {
 		if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
 			this.game.state.start('MainMenu', true, false);
 		}
+	},
+	pageFL: function() {
+	
+	},
+	pageFR: function() {
+	
+	},
+	helpF: function() {
+	
+	},
+	pageCL: function() {
+	
+	},
+	pageCR: function() {
+	
+	},
+	setC: function() {
+	
+	},
+	showF: function() {
+
+	},
+	showC: function() {
+	
 	},
 	shutdown: function(){
 		music.destroy();

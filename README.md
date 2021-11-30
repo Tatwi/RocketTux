@@ -133,7 +133,7 @@ The following are links to documents related to the development and use of the g
 - [Google Drive Cache](https://drive.google.com/drive/folders/0By31kDj_eHBcYnlpQjEzZHY4SUU?usp=sharing): All of the folders, including the two above, for files related to _all of my open source projects_ that weren't really appropriate to put in their repositories. There's some other misc RocketTux stuff in here as well.
 
 ## Development Checklist
-*Last Updated: 2021.11.29*  
+*Last Updated: 2021.11.30*  
 This list contains all of the bits and pieces that make up the game. The most current release may not include all of the items that have been checked off. To get the most up to date version, download the Git repository and build it using the builder script (requires BASH in Linux and Windows).  
 
 ### Main Menu
@@ -148,8 +148,8 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [ ] Tooltips
 
 ### Friends Menu
-- [ ] Layout and button art
-- [ ] Button highlighting
+- [x] Layout and button art
+- [x] Button highlighting
 - [ ] Friend paging
 - [ ] Friend quest item requirements
 - [ ] Friend quest completion
@@ -258,7 +258,6 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] UI: Replace SlickUI with a custom UI
 - [ ] UI: Tooltips
 - [ ] UI: Pause menu Tooltips
-- [ ] Green ! blocks unlock friend quests
 - [ ] Green ! blocks cause Rescue Girlies to fly by
 - [ ] RG grant a powerup if player doesn't have one
 - [ ] RG destroy all enemies on the screen
