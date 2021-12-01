@@ -338,6 +338,32 @@ RocketTux.Preload.prototype = {
         [150,12,89,89],[4,145,56,74],[45,14,2,3],[40,31,2,3],[0,61,42,3],[10,19,29,39],[4,15,6,7],[0,1,2,3],[0,1,2,3],[0,1,2,3],
         [170,17,39,69],[4,185,26,76],[92,17,2,0],[50,71,2,1],[90,81,62,2]
     ];
+    
+    RocketTux.frndName = [
+				'Rescue Girlies','Ariel','Wynifred','Dora','Barney','Toopy','Haticus Caticus','Penny','Bayleawick',
+				'Sophia','Ed the Foreman','Arthur','Lloyd','Hook','Kirk','Picard','Dave','Yeti'
+    ],
+    
+    RocketTux.frndDesc = [
+			'Traveling to the Funorris Forest\none winter by way of some magic,\nNeillia, Baylea, and Abby found\nthemselves on an adventure to\nsave their parents and their hero,\nTux. Since then they are known\nas the Rescue Girlies, heroes to\nmany throughout the lands.',
+			'Princess of the undersea world,\nAriel and her family first met Tux\nwhen they were traveling to the\nChristmas Kingdom for a visit.\nSince then Ariel has spent so much\ntime playing with surface dwellers\nthat her father built them a cabin\non the shores of Snowberg Flows.',
+			'A caring, if not a bit crusty, old\nschoolmarm, Wynifred enjoys\nspending her days crocheting in\nher home on the Funorris Flats.\nOne mention of Nolok and her fist\nwill be a\'shakin towards the sky as\nshe curses the time he blew up the\nlocal dam, flooding her home.',
+			'Ever the explorer of all the magical\nrealms, Dora loves to collect and\ndry loaves of bread baked by\nfamous bakers. Her most prized\npossession is a vintage cash\nregister that once rang up sales for\na stylish man from Hoboken. Sadly,\nit has recently gone missing.',
+			'Captain of an undersea vessel,\nproponent of Penguin rights for all,\nBarney often hosts Tux during his\nadventures. Born and raised in\nCandyland, the Captain leads his\ntalented crew with saccharin joy.\nSteady keeled, he is known to\ngreet chaos with a stern bow.',
+			'One could say that something is\nnot quite right about this man and\nit would be a fair assessment, but\nToopy is beloved by his friends and\nfamily none the less. Good natured\nand entertaining, he would be the\nlast to complain about losing his\nbelongings, especially his pants.',
+			'Mr. Caticus is a confusing fellow,\nneither feline nor mellow, yet\nlike waves on a turbulent sea, he\nbounds with a waddle truncated by\nglee. His hat a beacon for those in\na storm. His smile a lamp shade\nover a heart well worn. That cat,\nin his hat, knows all about that.',
+			'A lovely woman, Penny has been\nwith Tux for what seems like an\neternity. Born mid-southernly\nnorthern folk, Penny and her family\nmigrated to Antarctica after the\nhorrific eruption of Mount Tann\ndestroyed their village. She enjoys\nK-pop and collecting shiny stones.',
+			'Bayleawick',
+			'Sophia',
+			'Ed the Foreman',
+			'Arthur',
+			'Lloyd',
+			'Hook',
+			'Kirk',
+			'Picard',
+			'Dave',
+			'Yeti'
+    ]
   },
   worldObjects: function(){
     // Each of these are 10 tile wide sections of maps. 

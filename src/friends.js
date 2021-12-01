@@ -33,12 +33,16 @@ RocketTux.Friends.prototype = {
 		this.escText = this.game.add.text(4, 2, "Press ESC to exit", this.style);
 		
 		this.titleStyle = { 
-			font: "30px Verdana", 
-			fill: "#ffffff", 
-			boundsAlignH: "center", boundsAlignV: "top"
+			font: "24px Verdana", 
+			fill: "#" + RocketTux.scrnTextColor, 
+			boundsAlignH: "left", boundsAlignV: "top"
 		};
-		this.titleText = this.game.add.text(0, 0, "Friends", this.titleStyle);
-		this.titleText.setTextBounds(0, 0, this.game.width, 30);
+			
+		this.descStyle = { 
+			font: "18px Verdana", 
+			fill: "#" + RocketTux.scrnTextColor, 
+			boundsAlignH: "left", boundsAlignV: "top"
+		};
 		
 		// Buttons
 		this.btFL = this.game.add.button(102, 606, 'ui-map', this.pageFL, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
@@ -48,12 +52,24 @@ RocketTux.Friends.prototype = {
 		this.btCL = this.game.add.button(774, 606, 'ui-map', this.pageCL, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 		this.btCR = this.game.add.button(1094, 606, 'ui-map', this.pageCR, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 		this.btS = this.game.add.button(927, 609, 'ui-map', this.setC, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+				
+		// Screen lines
+		var scrLines = this.game.add.graphics();
+		scrLines.beginFill("0x" + RocketTux.scrnTextColor, 0.6);
+		// Friends screen
+		scrLines.drawRect(68, 140, 472, 4);
+		scrLines.drawRect(68, 388, 472, 4);
+		
+		// Friend text
+		this.fTitle = this.game.add.text(118, 100, "", this.titleStyle);		
+		this.fDesc = this.game.add.text(218, 160, "", this.descStyle);	
+		this.fMissing = this.game.add.text(108, 406, "Missing Items:", this.descStyle);
 		
 		// Show first friend and cubimal pages
 		this.fPage = 0;
-		this.showF;
+		this.showF();
 		this.cPage = 0;
-		this.showC;
+		this.showC();
 	}, 
 	update: function() {
 		if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
@@ -61,10 +77,22 @@ RocketTux.Friends.prototype = {
 		}
 	},
 	pageFL: function() {
-	
+		this.fPage--;
+		
+		if (this.fPage < 0){
+			this.fPage = 17;
+		}
+		
+		this.showF();
 	},
 	pageFR: function() {
-	
+		this.fPage++;
+		
+		if (this.fPage > 17){
+			this.fPage = 0;
+		}
+		
+		this.showF();
 	},
 	helpF: function() {
 	
@@ -79,7 +107,8 @@ RocketTux.Friends.prototype = {
 	
 	},
 	showF: function() {
-
+		this.fTitle.text = RocketTux.frndName[this.fPage];
+		this.fDesc.text = RocketTux.frndDesc[this.fPage];	
 	},
 	showC: function() {
 	
