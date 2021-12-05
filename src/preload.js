@@ -353,16 +353,16 @@ RocketTux.Preload.prototype = {
 			'One could say that something is\nnot quite right about this man and\nit would be a fair assessment, but\nToopy is beloved by his friends and\nfamily none the less. Good natured\nand entertaining, he would be the\nlast to complain about losing his\nbelongings, especially his pants.',
 			'Mr. Caticus is a confusing fellow,\nneither feline nor mellow, yet\nlike waves on a turbulent sea, he\nbounds with a waddle truncated by\nglee. His hat a beacon for those in\na storm. His smile a lamp shade\nover a heart well worn. That cat,\nin his hat, knows all about that.',
 			'A lovely woman, Penny has been\nwith Tux for what seems like an\neternity. Born mid-southernly\nnorthern folk, Penny and her family\nmigrated to Antarctica after the\nhorrific eruption of Mount Tann\ndestroyed their village. She enjoys\nK-pop and collecting shiny stones.',
-			'Once a humble butler, twice an\ninternational spy, Bayleawick has\nlong since settled down to raise a\nfamily. He and his daughter Sophia\nmaintain a greenhouse on the\noutskirts of the big city where they\nprovided flowers, seedlings, and a\nvariety of rainbow butterflies.',
+			'Once a humble butler, twice an\ninternational spy, Bayleawick has\nlong since settled down to raise a\nfamily. He and his daughter Sophia\nmaintain a greenhouse on the\noutskirts of the big city where they\nprovide flowers, seedlings, and a\nvariety of rainbow butterflies.',
 			'Sophia, the first little Penguin to go\nto the market every Sunday\nmorning, loves to play in the\nforest and listen to the rain. At the\nmarket she sells her favorite\nbutterflies to other little children\nfor a song and a smile. She also\ntrades stuffies with her friends.',
 			'Ed is the Foreman at the Funorris\nFlows Hydroelectric Dam, but his\noccupation doesn\'t define him as a\nPenguin. Rather, Ed is renown for\nthe delightful miniatures he carves\nfrom flint and beechwood. Indeed,\neveryone in the fire brigade knows\nthe way to Ed\'s house!',
-			'Arthur',
-			'Lloyd',
-			'Hook',
-			'Kirk',
-			'Picard',
-			'Dave',
-			'Yeti'
+			'Arthur and his father, Lloyd, are\nnature tour guides who love skiing\nand dog sled racing. Every year\nthey compete in the Christmas\nKingdom Pengcathlon, where\nArthur has lead their dogs to six\nstraight wins in the tri-mountain\nendurance leg of the journey.',		
+			'With a banjo, two spoons, and a\nsmile, Lloyd can rouse jubilation\nwithin the toughest crowd gathered\naround a warming camp fire on a\ndreary day. The memory of his late\nwife Mildred comforts and inspires\nhim when he rests thoughtfully\nin the light of their Lamp-O-Gems.',	
+			'Another Captain of a majestic ship,\nHook and his crew sail the wild\nseas aboard the S.S. Bonjour in\nsearch of adventure and treasure,\nof course. By no means a pirate,\nthe Captain is known for enduring\npersonal suffering and great peril\nto bring aid to those in need.',
+			'Once the... owner of.. a star, truck,\nKirk has... retired. He spends most\nof his days shooting the breeze\ndown at the truck stop with Picard,\nLarry, Josephine, and the other\nregulars. Never married, he wishes\nhe had settled down on Idorma\nPrime with his lost love Femee.',
+			'Space Trucker Extraordinaire, First\nClass, Picard is the only trucker to\nfight a Kettle Nun and not become\nthe tea! Some say the credit\nbelongs to his friend, Cue, but the\nhumble Penguin denies it. Always\nboldly delivering something to\nsomeone, somewhere.',
+			'A damned good worker and an\neven better friend, Dave is a pretty\nhappy guy most days. These days\nhe\'s a little miffed though, because\nNolok stole his top secret plans for\na virtual reality upgrade to his\nPlaycube x11 console. He sure\ndoes wish he could get that back!',
+			'Studious inventor of all things\nclockwork, Yeti may be grumpy\nat times, but deep down he has a\nheart of fresh cabbage soup!\nRecently Yeti learned that Nolok\nsecretly purchased thousands of\nhis tock-brains. Yeti feels terrible\nthey\'re being used in bombs.'
     ]
   },
   worldObjects: function(){
