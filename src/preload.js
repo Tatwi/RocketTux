@@ -363,7 +363,14 @@ RocketTux.Preload.prototype = {
 			'Space Trucker Extraordinaire, First\nClass, Picard is the only trucker to\nfight a Kettle Nun and not become\nthe tea! Some say the credit\nbelongs to his friend, Cue, but the\nhumble Penguin denies it. Always\nboldly delivering something to\nsomeone, somewhere.',
 			'A damned good worker and an\neven better friend, Dave is a pretty\nhappy guy most days. These days\nhe\'s a little miffed though, because\nNolok stole his top secret plans for\na virtual reality upgrade to his\nPlaycube x11 console. He sure\ndoes wish he could get that back!',
 			'Studious inventor of all things\nclockwork, Yeti may be grumpy\nat times, but deep down he has a\nheart of fresh cabbage soup!\nRecently Yeti learned that Nolok\nsecretly purchased thousands of\nhis tock-brains. Yeti feels terrible\nthey\'re being used in bombs.'
-    ]
+    ],
+    
+    RocketTux.frndItems = [
+			[38,191,13,169,145,51,146,134,58,90],[177,26,62,164,9,192,11,122,167,54],[10,22,33,44,63,77,88,99,111,121],[132,182,4,129,174,100,61,76,83,19],[0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]
+		]
   },
   worldObjects: function(){
     // Each of these are 10 tile wide sections of maps. 

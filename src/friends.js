@@ -44,6 +44,10 @@ RocketTux.Friends.prototype = {
 			boundsAlignH: "left", boundsAlignV: "top"
 		};
 		
+		// Default pages
+		this.fPage = 0;
+		this.cPage = 0;
+		
 		// Buttons
 		this.btFL = this.game.add.button(102, 606, 'ui-map', this.pageFL, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 		this.btFR = this.game.add.button(422, 606, 'ui-map', this.pageFR, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
@@ -65,10 +69,27 @@ RocketTux.Friends.prototype = {
 		this.fDesc = this.game.add.text(218, 160, "", this.descStyle);	
 		this.fMissing = this.game.add.text(108, 406, "Missing Items:", this.descStyle);
 		
+		// Friend item icons
+		this.fIcons = this.game.add.group();
+		var tmpIcon;
+		var mvR = 0;
+		var mvD = 0;
+		
+		for (i = 0; i < 10; i++){
+			tmpIcon = this.fIcons.create(104 + mvR*90, 440 + mvD, 'atlas');
+			tmpIcon.frameName = 'icon-' + RocketTux.frndItems[this.fPage][i];
+			tmpIcon.fixedToCamera = true;
+			
+			mvR++;
+			
+			if (mvR == 5){
+				mvR = 0;
+				mvD = 68;
+			}
+		}
+		
 		// Show first friend and cubimal pages
-		this.fPage = 0;
 		this.showF();
-		this.cPage = 0;
 		this.showC();
 	}, 
 	update: function() {
@@ -108,7 +129,12 @@ RocketTux.Friends.prototype = {
 	},
 	showF: function() {
 		this.fTitle.text = RocketTux.frndName[this.fPage];
-		this.fDesc.text = RocketTux.frndDesc[this.fPage];	
+		this.fDesc.text = RocketTux.frndDesc[this.fPage];
+		
+		// Show items
+		for (i = 0; i < 10; i++){	
+			this.fIcons.getChildAt(i).frameName =  'icon-' + RocketTux.frndItems[this.fPage][i];
+		}
 	},
 	showC: function() {
 	
