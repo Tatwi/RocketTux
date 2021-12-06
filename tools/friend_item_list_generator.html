@@ -1,0 +1,85 @@
+<!-- 
+Created by R. Bassett Jr. (Tatwi) for RocketTux
+2021.12.06
+
+Released under the General Public Licence, version 3
+-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<script>
+function gogo(form){
+	var rares = [13,104,140,96,142,90,177,61,65,4,56,47,169,174,80,162,52,143,16,64,28,194,12,54,79,171,7,11,129,164,73,94,113,59,99,76,192,51,78,24,39,8,31,60,15,183,57,141,69,175,49,125]
+		
+	var all = [];
+	
+	for (i = 0; i < 196; i++){
+		all[i] = i;
+	}
+	
+	var outPut = [
+		[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]
+	];
+	var rng = 0;
+	
+	for (i = 0; i < 18; i++){
+		for (k = 0; k < 10; k++){
+			rng = Math.floor(Math.random() * all.length);
+
+			// Prevent using the same number twice
+			if (all[rng] != 500){
+				outPut[i][k] = all[rng];
+
+				for (m = 0; m < rares.length; m++){
+					if (rares[m] == all[rng]){
+						rares[m] = 500;
+					}
+				}
+				
+				all[rng] = 500;
+			}
+			else {
+				k--;
+			}
+		}
+	}
+	
+	for (i = 0; i < 18; i++){
+		document.write('[',outPut[i][0],',',outPut[i][1],',',outPut[i][2],',',outPut[i][3],',',outPut[i][4],',',outPut[i][5],',',outPut[i][6],',',outPut[i][7],',',outPut[i][8],',',outPut[i][9],'],<br>');
+	}
+	
+	document.write('<br>Unused Rares:<br><br>');
+	
+	for (i = 0; i < rares.length; i++){
+		if (rares[i] != 500){
+			document.write(rares[i],',')
+		}
+	}
+	
+	document.write('<br><br>Unused Normals:<br><br>');
+	
+	for (i = 0; i < 196; i++){
+		if (all[i] != 500){
+			document.write(all[i],',')
+		}
+	}
+}
+</script>
+</head>
+<body>
+<form id="frm1">
+	<h1>Generate Groups of Items</h1>
+	<br />
+	<p>
+		Spits out 18 groups of 10 item numbers from 0-195, without reusing the numbers.
+		<br> There are 52 rare item numbers. Should a rare number not be selected, it will be listed.
+	</p>
+	<p><input type="button" value="Go!" onclick="gogo(this.form)" /></p>
+
+ </form>
+</body>
+</html>

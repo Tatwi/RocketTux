@@ -276,7 +276,7 @@ RocketTux.Preload.prototype = {
             forest1:[69,175,18,19,25,29,34,38,42,53,67,70,72,92,93,102,105,109,138,144,147,166,180,184,186,193,9,10,20,21,22,23,27,33,35,41,44,48,62,63,66,74,75,77,83,84,85,86,87,88,101,103,106,110,111,112,114,115,116,117,118,119,120,121,122,126,127,128,130,131,132,133,134,135,136,137,139,146,150,151,152,153,154,156,161,163,165,167,176,181,182,185,187,188,189,190],
             forest2:[49,125,18,19,25,29,34,38,42,53,67,70,72,92,93,102,105,109,138,144,147,166,180,184,186,193,9,10,20,21,22,23,27,33,35,41,44,48,62,63,66,74,75,77,83,84,85,86,87,88,101,103,106,110,111,112,114,115,116,117,118,119,120,121,122,126,127,128,130,131,132,133,134,135,136,137,139,146,150,151,152,153,154,156,161,163,165,167,176,181,182,185,187,188,189,190]
         }, 
-        rares:[13,104,140,96,142,90,177,61,65,4,56,47,169,174,80,162,52,143,16,64,28,194,12,54,79,171,7,11,129,164,73,94,113,59,99,76,192,51,78,24,39]
+        rares:[13,104,140,96,142,90,177,61,65,4,56,47,169,174,80,162,52,143,16,64,28,194,12,54,79,171,7,11,129,164,73,94,113,59,99,76,192,51,78,24,39,8,31,60,15,183,57,141,69,175,49,125]
     };
     
     RocketTux.lootNames = [
@@ -284,10 +284,10 @@ RocketTux.Preload.prototype = {
         'Golden Apple','Pys Dance Award','Stew Pot','Greenium','Fraisium','Coldite','Darkium','Holiday Bell','Backgammon Set','Barrel','Cubimal Pouch','Purse','Can of Red Soda','Pretty Diorama','Homework Diorama','Tux-o-vision','Golden Box','Pumpkinium','Bananamyte','Linuxinoate','Tuximyte','Television','Greeting Badge','Boxed Movie Camera',
         'Corkboard','Makeup Kit','Green Toolbox','Red Toolbox','Dung Tree','Beach Ball','Can of Blue Ale','Rosegoldium','Nolokium','Rainbowinoate','Plasmonium','Dinner Bell','Birch Syrup','Blender','Best Blender Award','Bird Bath','Garden Gnome','A Brick','Broccoli','Penguin Egg','Butterfly Badge','Cabbage','Camera','Carrot','Busted Caldron',
         'Cheese','Whipped Cheese','Sprocket','Orange Butter','The Platformer','Taco','First Place Trophy','Snow Globe','Cubimal World Trophy','Cubimal Army Trophy','Chocolate Bunny','Desk Lamp','Lamp-O-Gems','Decorative Globe','Decorative Tree','Santa Yeti Doll','Super Multi Tool','A Package','Cornucopia of Food','Cornucopia of Flowers',
-        'Cold Brand Soda','Padlock','Cubimal Kit Season 1','Cubimal Kit Season 2','Dice','Twenty Sided Die','Wrapped Egg','Token of Magic','Token of Storms','Token of Bomerang','Token of Sailing','Token of Humbaba','Token of Indecision','Token of Shoveling','Token of Cruise Ship','Token of Trees','Token of Controller','Token of Peaks',
+        'Cold Brand Soda','Padlock','Cubimal Kit Season 1','Cubimal Kit Season 2','Dice','Twenty Sided Die','Wrapped Egg','Token of Magic','Token of Storms','Token of Boomerang','Token of Sailing','Token of Humbaba','Token of Indecision','Token of Shoveling','Token of Cruise Ship','Token of Trees','Token of Controller','Token of Peaks',
         'Well Loved Plushy','Award of Epicness','Bottle of Liquid Purple','Lemon Floweraide','Whistle','Crystal Ball','Fortune Cookie','Scrub Brush','Fried Egg','Super Juice-O-Matic','Lava Lamp','Over Yonder Painting','Trendy Collage','Moony Night','Vase','Bass Trophy','Cash Register','Gold Fish Bowl','Panda Bowl','Scarecrow Doll',
-        'Vintage Cash Register','Mushroom Lamp','Pixi Lamp','Viewscreen','Glitch Game Box','Royal Crown','Garlic','Amber','Diamond','Moonstone','Ruby','Saphire','Ginger Root','Wrapped Present','Grilled Cheese','Honey','Ice Cube','Crystal Shard','Empty Jar','Vintage Juicer','Plate of Old Cottage','Lemon','Black Licorice','Yeti Doll','Yum Burger',
-        'Strange Toy','Dangerous Toy','Whale Milk','Sack of Pennies','Motar and Pestle','Top Secret Blueprint','Butterfly Ornament','Newstand','Olive Oil','Onion','Orange','Christmas Ornament','Party in a Box','Pick Axe','Pineapple','Playcube x11','Bottled Ranbow','Participation Awrard','Cat-O-Lantern','Pumpkin Pie','Joyful Bookend','Blueberry Snowcone',
+        'Vintage Cash Register','Mushroom Lamp','Pixi Lamp','Viewscreen','Glitch Game Box','Royal Crown','Garlic','Amber','Diamond','Moonstone','Ruby','Sapphire','Ginger Root','Wrapped Present','Grilled Cheese','Honey','Ice Cube','Crystal Shard','Empty Jar','Vintage Juicer','Plate of Old Cottage','Lemon','Black Licorice','Yeti Doll','Yum Burger',
+        'Strange Toy','Dangerous Toy','Whale Milk','Sack of Pennies','Mortar and Pestle','Top Secret Blueprint','Butterfly Ornament','Newstand','Olive Oil','Onion','Orange','Christmas Ornament','Party in a Box','Pick Axe','Pineapple','Playcube x11','Bottled Ranbow','Participation Awrard','Cat-O-Lantern','Pumpkin Pie','Joyful Bookend','Blueberry Snowcone',
         'Rainbow Snowcone','Spinach','Starfruit','Fresh Baked Bread','Telescope','Tomato','Eggplant Smoothie','Turnip','Waffle','Blueberry Jam','Raspberry Jam','Bag of Vegetables','Popcorn','Poutine','Salad','Watermelon','Tux Cap'
     ];
     
@@ -365,11 +365,29 @@ RocketTux.Preload.prototype = {
 			'Studious inventor of all things\nclockwork, Yeti may be grumpy\nat times, but deep down he has a\nheart of fresh cabbage soup!\nRecently Yeti learned that Nolok\nsecretly purchased thousands of\nhis tock-brains. Yeti feels terrible\nthey\'re being used in bombs.'
     ],
     
+    // Generated using tools/friend_item_list_generator.html
+    // Manually adjusted for story items 132,182(Dora), 86(Lloyd), 162(Dave), 89(Yeti)
+    // All rare items used
+    // Unused normal items: 5,29,34,44,74,84,111,122,134,148,150,161,165,178,187,189
     RocketTux.frndItems = [
-			[38,191,13,169,145,51,146,134,58,90],[177,26,62,164,9,192,11,122,167,54],[10,22,33,44,63,77,88,99,111,121],[132,182,4,129,174,100,61,76,83,19],[0,0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]
+			[66,92,87,68,88,58,37,19,195,136],
+			[67,126,174,143,76,7,17,149,38,15],
+			[131,35,170,51,69,169,180,192,81,9],
+			[132,182,145,70,185,6,63,36,139,56],
+			[14,99,113,82,118,137,168,166,109,30],
+			[123,116,177,146,85,57,40,43,151,95],
+			[172,27,155,93,193,72,47,153,119,104],
+			[163,194,49,52,188,60,164,8,59,91],
+			[65,80,121,54,181,28,90,147,71,160],
+			[107,13,110,142,21,124,61,102,103,62],
+			[130,94,75,22,154,98,50,33,125,128],
+			[24,105,78,41,39,127,157,144,23,191],
+			[86,48,73,45,117,31,79,97,20,96],
+			[158,156,18,4,129,12,2,42,1,179],
+			[115,46,101,152,83,106,135,108,114,0],
+			[159,53,175,141,138,133,11,190,112,171],
+			[162,176,32,173,167,25,64,26,120,184],
+			[100,77,16,183,89,186,3,10,55,140]
 		]
   },
   worldObjects: function(){
