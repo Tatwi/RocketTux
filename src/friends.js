@@ -51,8 +51,7 @@ RocketTux.Friends.prototype = {
 		// Buttons
 		this.btFL = this.game.add.button(102, 606, 'ui-map', this.pageFL, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 		this.btFR = this.game.add.button(422, 606, 'ui-map', this.pageFR, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
-		this.btH = this.game.add.button(255, 609, 'ui-map', this.helpF, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
-		
+		this.btH = this.game.add.button(255, 609, 'ui-map', this.helpF, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');		
 		this.btCL = this.game.add.button(774, 606, 'ui-map', this.pageCL, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 		this.btCR = this.game.add.button(1094, 606, 'ui-map', this.pageCR, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 		this.btS = this.game.add.button(927, 609, 'ui-map', this.setC, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
@@ -74,11 +73,21 @@ RocketTux.Friends.prototype = {
 		var tmpIcon;
 		var mvR = 0;
 		var mvD = 0;
+		this.fCheck = this.game.add.group();
+		var tempCheck;
 		
 		for (i = 0; i < 10; i++){
 			tmpIcon = this.fIcons.create(104 + mvR*90, 440 + mvD, 'atlas');
 			tmpIcon.frameName = 'icon-' + RocketTux.frndItems[this.fPage][i];
 			tmpIcon.fixedToCamera = true;
+			
+			// Check mark if player has the item
+			tempCheck = this.fCheck.create(112 + mvR*90, 480 + mvD, 'ui-map');
+			tempCheck.frameName = 'check-selected';
+			tempCheck.fixedToCamera = true;
+			tempCheck.tint = '0x1EDC00';
+			tempCheck.scale.setTo(0.50, 0.50);
+			tempCheck.visible = false;
 			
 			mvR++;
 			
@@ -134,6 +143,13 @@ RocketTux.Friends.prototype = {
 		// Show items
 		for (i = 0; i < 10; i++){	
 			this.fIcons.getChildAt(i).frameName =  'icon-' + RocketTux.frndItems[this.fPage][i];
+			
+			// Show check mark
+			if (parseInt(localStorage.getItem('RocketTux-invItem' + RocketTux.frndItems[this.fPage][i])) > 0){
+				this.fCheck.getChildAt(i).visible = true;
+			} else {
+				this.fCheck.getChildAt(i).visible = false;
+			}
 		}
 	},
 	showC: function() {
