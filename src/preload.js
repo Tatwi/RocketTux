@@ -158,6 +158,14 @@ RocketTux.Preload.prototype = {
         localStorage.setItem('RocketTux-myLuck', '0');
     }
     RocketTux.luck = parseInt(localStorage.getItem('RocketTux-myLuck'));
+    
+    // Friend Completions
+    var tmpfComplete = localStorage.getItem('RocketTux-fComplete');
+    if (tmpfComplete == null || tmpfComplete == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-fComplete', '0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0');
+    }
+
   },
   otherVariables: function(){
     // Variables that are over-written by values from "game save" data (local storage) or during game play

@@ -97,6 +97,9 @@ RocketTux.Friends.prototype = {
 			}
 		}
 		
+		// Friend completion
+		this.completeCheck = [];
+		
 		// Show first friend and cubimal pages
 		this.showF();
 		this.showC();
@@ -125,7 +128,32 @@ RocketTux.Friends.prototype = {
 		this.showF();
 	},
 	helpF: function() {
-	
+		// Check if already completed
+		this.completeCheck = localStorage.getItem('RocketTux-fComplete').split(',');
+		if (this.completeCheck[this.fPage] != 0){
+			return;
+		}
+		
+		// Check if they have all the items
+		for (i = 0; i < 10; i++){	
+			if (parseInt(localStorage.getItem('RocketTux-invItem' + RocketTux.frndItems[this.fPage][i])) < 1){
+				return;
+			}
+		}
+		
+		// Set as complete
+		this.completeCheck[this.fPage] = 1;
+		localStorage.setItem('RocketTux-fComplete', this.completeCheck.join(','));
+		
+		// Show as complete
+		for (i = 0; i < 10; i++){	
+			this.fIcons.getChildAt(i).visible = false;
+			this.fCheck.getChildAt(i).visible = false;
+			this.fMissing.text = 'You successfully return their items!';
+		}
+		
+		// Grant reward
+		localStorage.setItem('RocketTux-myKarma', parseInt(localStorage.getItem('RocketTux-myKarma')) + 1000);
 	},
 	pageCL: function() {
 	
@@ -140,9 +168,25 @@ RocketTux.Friends.prototype = {
 		this.fTitle.text = RocketTux.frndName[this.fPage];
 		this.fDesc.text = RocketTux.frndDesc[this.fPage];
 		
+		// Completion check
+		this.completeCheck = localStorage.getItem('RocketTux-fComplete').split(',');
+	
+		if (this.completeCheck[this.fPage] != 0){
+			for (i = 0; i < 10; i++){	
+				this.fIcons.getChildAt(i).visible = false;
+				this.fCheck.getChildAt(i).visible = false;
+				this.fMissing.text = 'You successfully return their items!';
+			}
+			
+			return;
+		}
+		
+		this.fMissing.text = 'Missing Items:';
+		
 		// Show items
 		for (i = 0; i < 10; i++){	
 			this.fIcons.getChildAt(i).frameName =  'icon-' + RocketTux.frndItems[this.fPage][i];
+			this.fIcons.getChildAt(i).visible = true;
 			
 			// Show check mark
 			if (parseInt(localStorage.getItem('RocketTux-invItem' + RocketTux.frndItems[this.fPage][i])) > 0){
