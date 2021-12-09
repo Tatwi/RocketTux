@@ -98,7 +98,7 @@ Powerups are found in purple blocks throughout the world. They persist through l
 - Mr. Bomb: Walks around, preferably on the ground. He is programmed to run, tick, and explode when Tux gets near him. Large blast radius.
 - Mr. Short-fuse: Walks around, preferably on the ground. He doesn't have time for ticking, he just explodes! Smaller blast radius.
 - Jumpy: Likes to stay in one spot and hop the day away. Invincible, everlasting.
-- Woody: Like Jumpy, but made of wood and only found in the forest.
+- Woody: The forest version of Jumpy, Woody is less robust and may explode on contact!
 - Rocketboots: Flies around, bouncing off things. He is programmed to explode when Tux gets near him, but he may well blow himself up just by bouncing around. Enormous blast radius.
 - Proppy: A special kind of bomb dropped by Nolok when Tux opens orange boxes. Proppy is a bomb who hovers up and down, waiting for Tux to come near. Large blast radius.
 - Fightly Fish: These giant fish love to eat penguins. Normally that's the other way around... best to avoid these bad guys if possible!

@@ -879,7 +879,7 @@ RocketTux.Game.prototype = {
 			}
 
 			this.hurtPlayer();
-		} if (badguy.frameName.indexOf('badguy-4') > -1){ // Rocketboots
+		} else if (badguy.frameName.indexOf('badguy-4') > -1){ // Rocketboots
 			if (badguy.ticking){
 				return;
 			}
@@ -887,6 +887,16 @@ RocketTux.Game.prototype = {
 			badguy.ticking = true;
 			this.sndTicking.play();
 			this.game.time.events.add(Phaser.Timer.SECOND * 1.5, this.blowupBadguy, this, badguy, 200);
+		} else if (badguy.frameName.indexOf('badguy-5') > -1){ // Woody
+			if (!this.playerInvicible){
+				this.sndCollide.play();
+			}
+			
+			this.hurtPlayer();
+			
+			if (this.roll() > 78){
+				this.blowupBadguy(badguy, 72); // Possible double-hurt
+			}
 		}
 	},
 	blowupBadguy: function(badguy, blastRadius){

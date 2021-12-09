@@ -217,8 +217,8 @@ RocketTux.Preload.prototype = {
         snow1:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
         snow2:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
         snow3:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
-        forest1:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
-        forest2:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
+        forest1:['badguy-1', 'badguy-5', 'badguy-3', 'badguy-4'],
+        forest2:['badguy-1', 'badguy-5', 'badguy-3', 'badguy-4'],
         beach:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
         beachfront:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
         candyland:['badguy-1', 'badguy-2', 'badguy-3', 'badguy-4'],
@@ -246,7 +246,13 @@ RocketTux.Preload.prototype = {
             gravity: 30,
             frames: 3,
             fps: 10
-        }
+        },
+        'badguy-5':{ // Woody
+            type: 'hopper',
+            gravity: 200,
+            frames: 2,
+            fps: 7
+        },
     };
     
     // Loot group values are array positions that represent the icon numbers 0 to 196. 
