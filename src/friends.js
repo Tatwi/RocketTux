@@ -97,6 +97,9 @@ RocketTux.Friends.prototype = {
 			}
 		}
 		
+		// Friend Image
+		this.fImage = this.game.add.sprite(100, 200, 'atlas');
+		
 		// Friend completion
 		this.completeCheck = [];
 		
@@ -167,6 +170,7 @@ RocketTux.Friends.prototype = {
 	showF: function() {
 		this.fTitle.text = RocketTux.frndName[this.fPage];
 		this.fDesc.text = RocketTux.frndDesc[this.fPage];
+		this.fImage.frameName = 'frnd-' + this.fPage;
 		
 		// Completion check
 		this.completeCheck = localStorage.getItem('RocketTux-fComplete').split(',');

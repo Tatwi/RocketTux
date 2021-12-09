@@ -133,7 +133,7 @@ The following are links to documents related to the development and use of the g
 - [Google Drive Cache](https://drive.google.com/drive/folders/0By31kDj_eHBcYnlpQjEzZHY4SUU?usp=sharing): All of the folders, including the two above, for files related to _all of my open source projects_ that weren't really appropriate to put in their repositories. There's some other misc RocketTux stuff in here as well.
 
 ## Development Checklist
-*Last Updated: 2021.12.07*  
+*Last Updated: 2021.12.09*  
 This list contains all of the bits and pieces that make up the game. The most current release may not include all of the items that have been checked off. To get the most up to date version, download the Git repository and build it using the builder script (requires BASH in Linux and Windows).  
 
 ### Main Menu
@@ -153,12 +153,11 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Friend paging
 - [x] Friend quest item requirements
 - [x] Friend quest completion
-- [ ] Friend images
+- [x] Friend images
 - [ ] Cubimal paging
 - [ ] Cubimal unlock costs
 - [ ] Cubimal selection
 - [ ] Cubimal images
-- [ ] Friend quest completion toast
 - [ ] H and S button sounds
 - [ ] Tooltips
 
