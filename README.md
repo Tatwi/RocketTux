@@ -16,7 +16,7 @@ RocketTux is an easygoing side-scroller game about collecting coins and items. H
 </a>
 
 **Click the image above to watch a demo video**  
-*Sorry the quality sucks, it's the best I could do*
+*The quality is poor when played from Google Drive. Download and play with VLC for best results.*  
 
 ## System Requirements
 I can verify the game works fine using the following specs:
