@@ -1524,38 +1524,50 @@
     "trimmed": false
     },
     {
-    "filename": "fbadguy-1-0",
+    "filename": "badguy-5-0",
     "frame": {"x":146,"y":1290,"w":44,"h":67},
     "rotated": false,
     "trimmed": false
     },
     {
-    "filename": "fbadguy-1-1",
+    "filename": "badguy-5-1",
     "frame": {"x":190,"y":1290,"w":44,"h":67},
     "rotated": false,
     "trimmed": false
     },
     {
-    "filename": "fbadguy-1-2",
+    "filename": "badguy-5-2",
     "frame": {"x":234,"y":1290,"w":44,"h":67},
     "rotated": false,
     "trimmed": false
     },
     {
-    "filename": "wbadguy-1-0",
+    "filename": "badguy-6-0",
     "frame": {"x":300,"y":1248,"w":37,"h":46},
     "rotated": false,
     "trimmed": false
     },
     {
-    "filename": "wbadguy-1-1",
+    "filename": "badguy-6-1",
     "frame": {"x":337,"y":1248,"w":37,"h":46},
     "rotated": false,
     "trimmed": false
     },
     {
-    "filename": "wbadguy-1-2",
+    "filename": "badguy-6-2",
     "frame": {"x":374,"y":1248,"w":37,"h":46},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-7-0",
+    "frame": {"x":4,"y":1346,"w":38,"h":46},
+    "rotated": false,
+    "trimmed": false
+    },
+    {
+    "filename": "badguy-7-1",
+    "frame": {"x":45,"y":1346,"w":38,"h":46},
     "rotated": false,
     "trimmed": false
     },
@@ -1952,6 +1964,42 @@
     {
 		"filename": "frnd-17",
 		"frame": {"x":324,"y":1389,"w":85,"h":115},
+		"rotated": false,
+		"trimmed": false
+    },
+    {
+		"filename": "nolok",
+		"frame": {"x":480,"y":1280,"w":416,"h":128},
+		"rotated": false,
+		"trimmed": false
+    },
+		{
+		"filename": "rg-chopper",
+		"frame": {"x":512,"y":1408,"w":288,"h":128},
+		"rotated": false,
+		"trimmed": false
+    },
+    {
+		"filename": "lift-0",
+		"frame": {"x":896,"y":1283,"w":128,"h":61},
+		"rotated": false,
+		"trimmed": false
+    },
+    {
+		"filename": "lift-1",
+		"frame": {"x":1024,"y":1283,"w":128,"h":61},
+		"rotated": false,
+		"trimmed": false
+    },
+    {
+		"filename": "lift-2",
+		"frame": {"x":1152,"y":1283,"w":128,"h":61},
+		"rotated": false,
+		"trimmed": false
+    },
+    {
+		"filename": "lift-3",
+		"frame": {"x":1280,"y":1283,"w":128,"h":61},
 		"rotated": false,
 		"trimmed": false
     }
