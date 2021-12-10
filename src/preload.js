@@ -211,6 +211,7 @@ RocketTux.Preload.prototype = {
     RocketTux.boostSpeed = 325; // Preference up to 340.
     RocketTux.bonusBoosts = 0; // Preference up to 3
     RocketTux.tuxGravity = 65; // Air Flower - 15, Earth Flower + 35 (but enemies can't hurt you)
+    RocketTux.hoverBounce = -1.26; // Speed at which hovering items move upwards
     
     // Data used for spawning enemies
     RocketTux.badguyConfig = {
@@ -242,7 +243,7 @@ RocketTux.Preload.prototype = {
             frames: 2,
             fps: 5
         },
-        'badguy-4':{ // Short-Fuse
+        'badguy-4':{ // Rocketboots
             type: 'flyer',
             gravity: 30,
             frames: 3,
@@ -254,6 +255,12 @@ RocketTux.Preload.prototype = {
             frames: 2,
             fps: 7
         },
+        'badguy-7':{ // Proppy
+            type: 'hover',
+            gravity: 27,
+            frames: 2,
+            fps: 7
+        }
     };
     
     // Loot group values are array positions that represent the icon numbers 0 to 196. 

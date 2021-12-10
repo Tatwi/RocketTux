@@ -417,6 +417,11 @@ RocketTux.Game.prototype = {
           
           this.rbLiftTimer = this.game.time.time + this.rbLiftFreq;
         }
+			} else if (enemy.hover){
+				// Move up after falling
+				if (enemy.body.y > 400 + this.roll() && enemy.body.velocity.y > 0){
+					enemy.body.velocity.y *= RocketTux.hoverBounce; // Negative number
+				}
 			}
 		}, this);
 	},
@@ -841,6 +846,7 @@ RocketTux.Game.prototype = {
 		var gravity = RocketTux.badguyConfig[name].gravity;
 		var frames = RocketTux.badguyConfig[name].frames;
 		var fps = RocketTux.badguyConfig[name].fps;
+		var badguy;
 
 		name+= '-';
 
@@ -856,6 +862,12 @@ RocketTux.Game.prototype = {
 		if (badguy.hopper){
 			badguy.body.collideWorldBounds = false;
 			badguy.body.checkCollision.up = false;
+		}
+		
+		// Allow Proppy to move up/down anywhere
+		if (badguy.hover){
+			badguy.body.checkCollision.up = false;
+			badguy.body.checkCollision.down = false;
 		}
 	},
   
@@ -906,6 +918,8 @@ RocketTux.Game.prototype = {
 			if (this.roll() > 78){
 				this.blowupBadguy(badguy, 72); // Possible double-hurt
 			}
+		} else if (badguy.frameName.indexOf('badguy-7') > -1){ // Proppy
+			this.blowupBadguy(badguy, 72);
 		}
 	},
 	blowupBadguy: function(badguy, blastRadius){
@@ -913,17 +927,12 @@ RocketTux.Game.prototype = {
 		this.sndExplosion.play();
 		badguy.kill();
 
-		var x = Math.abs(this.player.x - badguy.x);
-		var y = Math.abs(this.player.y - badguy.y);
-		var disToPlayer = Math.sqrt(x*x + y*y);
+		var xTo = this.player.body.x - badguy.body.x;
+		var yTo = this.player.body.y - badguy.body.y;
 
-		//console.log('blast radius: %s, x: %s, y: %s, hyp: %s \nPlayer y: %s \nBadguy y: %s', blastRadius, x, y, disToPlayer, this.player.y, badguy.y);
-
-		if (disToPlayer > blastRadius){
-			return;
-		}
-
-		this.hurtPlayer();
+		if (Math.abs(xTo) < blastRadius && Math.abs(yTo) < blastRadius){
+			this.hurtPlayer();
+		}	
 	},
 	hurtPlayer: function(){
 		var dir = 1;
@@ -1147,7 +1156,7 @@ RocketTux.Game.prototype = {
 	nolokDropBomb: function(){
 		// Drop only if inbounds
 		if (this.nolok.x > 0 && this.nolok.x < this.levelLength){
-			this.spawnBadGuy('badguy-5', this.nolok.x, this.nolok.y + 100);
+			this.spawnBadGuy('badguy-7', this.nolok.x, this.nolok.y + 100);
 		}
 
 		if (this.nolokIsFlying){
