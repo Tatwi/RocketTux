@@ -59,6 +59,7 @@ RocketTux.Preload.prototype = {
     this.load.audio('explosion', 'data/sounds/explosion.ogg');
     this.load.audio('ticking', 'data/sounds/ticking.ogg');
     this.load.audio('shakeoff', 'data/sounds/shakeoff.ogg');
+    this.load.audio('nolok-flyby', 'data/sounds/nolok-flyby.ogg');
   },
   create: function() {
   	this.state.start('MainMenu');

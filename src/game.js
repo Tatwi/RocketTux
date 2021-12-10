@@ -92,6 +92,13 @@ RocketTux.Game.prototype = {
     this.playerHurt = false;
     this.playerInvicible = false;
     
+    // Add Nolok in his ship
+		this.nolok = this.game.add.sprite(0, 64, 'atlas');
+		this.nolok.frameName = 'nolok';
+		this.nolok.visible = false;
+		this.nolokIsFlying = false;
+		this.nolokSnd = this.game.add.audio('nolok-flyby');
+    
     // Stats that will be augmented by powerups
     this.lvlAirSpeed = RocketTux.airSpeed;
     this.lvlGroundSpeed = RocketTux.groundSpeed;
@@ -228,6 +235,8 @@ RocketTux.Game.prototype = {
     
     // UI Updates (Throttled to 1 update per second)
     this.uiUpdate();
+    
+    this.nolokFlybyUpdate();
 	},
 	movePlayer: function(){
     if (this.playerHurt){ // No input for a bit after touching a badguy or an explosion to enable a push back or "bounce" effect
@@ -1019,6 +1028,17 @@ RocketTux.Game.prototype = {
 		} else if (block.frameName == 'blk-danger'){ // Orange grants rare item and spawns an enemy or detrimental event
 			this.blkDangerSnd.play();
 			this.grantLootItem(block.frameName);
+			
+			if (this.theme == 'snow3'){
+				// Do something else, because it's underground!
+				if (this.roll > 30){
+					this.spawnBadGuy('badguy-1', this.player.x, block.y - 110);
+				} else {
+					this.spawnBadGuy('badguy-1', this.player.x, block.y - 110);
+				}
+			} else {
+				this.nolokFlyby();
+			}
 		} else if (block.frameName == 'blk-powerup'){ // Purple give a power up
 			this.blkPowerupSnd.play();
 			this.applyPowerUp(true);
@@ -1104,6 +1124,39 @@ RocketTux.Game.prototype = {
 			tmpInvVal = 998;
 		}
 		localStorage.setItem('RocketTux-invItem' + itemNumber, tmpInvVal + 1);
+	},
+	nolokFlyby: function(){
+		if (this.nolokIsFlying){
+			return;
+		}
+		
+		this.nolokSnd.play();
+		
+		this.nolok.x = this.player.x - 2300;
+		
+		this.nolok.visible = true;
+		this.nolokIsFlying = true;
+		this.game.time.events.add(Phaser.Timer.SECOND * 8, this.nolokFlybyComplete, this);
+		this.game.time.events.add(Phaser.Timer.SECOND * this.game.rnd.between(260, 288)/100, this.nolokDropBomb, this); // Puts the first bomb close to the block
+	},
+	nolokFlybyUpdate: function(){
+		if (this.nolokIsFlying){
+			this.nolok.x += 14;
+		}
+	},
+	nolokDropBomb: function(){
+		// Drop only if inbounds
+		if (this.nolok.x > 0 && this.nolok.x < this.levelLength){
+			this.spawnBadGuy('badguy-5', this.nolok.x, this.nolok.y + 100);
+		}
+
+		if (this.nolokIsFlying){
+			this.game.time.events.add(Phaser.Timer.SECOND * (this.game.rnd.between(2, 20 + this.lvlLuck))/10, this.nolokDropBomb, this);
+		}
+	},
+	nolokFlybyComplete: function(){
+		this.nolok.visible = false;
+		this.nolokIsFlying = false;
 	},
  
 //==================PAUSE RELATED========================
