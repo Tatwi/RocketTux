@@ -249,7 +249,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Enemy: Mr. Bomb
 - [x] Enemy: Mr. Short-fuse
 - [x] Enemy: Rocketboots
-- [ ] Enemy: Proppy
+- [x] Enemy: Proppy
 - [ ] Enemy: Fightly Fish
 - [x] Improve Rocketboots AI
 - [ ] Make Mr. Bomb turn towards Tux when while ticking
