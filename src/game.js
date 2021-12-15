@@ -758,9 +758,30 @@ RocketTux.Game.prototype = {
 		var doCoin = false;
 		var block;
 		var name = "";
-		var i =0;
+		var i = 0;
+		var j = 0;
+		var fishSpacer = 0;
+		var waterTile = false;
 
 		for (i = 5; i < columns; i++){
+			posX = i * 32;
+			waterTile = false;
+			
+			// Spawn fish in water
+			for (j = 0; j < 23; j++){
+				targetTile = this.map.getTile(i, j, this.theLevel, true);
+				
+				if (targetTile.index == 3964){
+					waterTile = true; // Prevent other enemies from spawning on water
+					
+					if (this.roll() + Math.floor(this.lvlLuck / 2) < 50 && posX > fishSpacer){
+						this.spawnBadGuy('badguy-6', posX, j*32);
+						fishSpacer = posX + 192; // Min 6 blocks between fish
+					}
+				}
+			}
+			
+			// Spawn all other entities
 			if (this.roll() > 78){
 				tilePosY = this.game.rnd.between(0, 20);
 				targetTile = this.map.getTile(i, tilePosY, this.theLevel, true);
@@ -770,8 +791,7 @@ RocketTux.Game.prototype = {
 					continue;
 				}
 						
-				TargetTileIndex = targetTile.index;
-				posX = i * 32;
+				TargetTileIndex = targetTile.index;				
 				posY = tilePosY * 32;
 
 				if (TargetTileIndex < 2881){
@@ -825,10 +845,10 @@ RocketTux.Game.prototype = {
 						posX = posX - 64;
 					}
 
-					if (this.roll() > 50 && badguySpacer > 6){
-						badguySpacer = 0;
+					if (this.roll() > 50 && posX > badguySpacer && waterTile == false){
 						name = RocketTux.badguyConfig[this.theme][Math.floor(Math.random() * RocketTux.badguyConfig[this.theme].length)];
 						this.spawnBadGuy(name, posX, posY);
+						badguySpacer = posX + 384; // Min 12 blocks between badguys
 					}
 
 					badguySpacer++;
@@ -866,6 +886,13 @@ RocketTux.Game.prototype = {
 		
 		// Allow Proppy to move up/down anywhere
 		if (badguy.hover){
+			badguy.body.checkCollision.up = false;
+			badguy.body.checkCollision.down = false;
+		}
+		
+		// Track fish Y spawn location, collision settings
+		if (badguy.fish){
+			badguy.startY = posY;
 			badguy.body.checkCollision.up = false;
 			badguy.body.checkCollision.down = false;
 		}
