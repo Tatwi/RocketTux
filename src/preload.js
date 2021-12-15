@@ -255,11 +255,11 @@ RocketTux.Preload.prototype = {
             frames: 2,
             fps: 7
         },
-         'badguy-6':{ // Fighty Fish
+         'badguy-6':{ // Hungry Fish
             type: 'fish',
             gravity: 200,
             frames: 3,
-            fps: 1
+            fps: 7
         },
         'badguy-7':{ // Proppy
             type: 'hover',

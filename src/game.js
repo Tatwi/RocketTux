@@ -422,6 +422,28 @@ RocketTux.Game.prototype = {
 				if (enemy.body.y > 400 + this.roll() && enemy.body.velocity.y > 0){
 					enemy.body.velocity.y *= RocketTux.hoverBounce; // Negative number
 				}
+			} else if (enemy.fish){
+				if (enemy.visible){
+					if (enemy.body.velocity.y > 0 && enemy.body.y < enemy.startY){
+					// Falling
+					enemy.animations.play('dive');
+					} else if (enemy.body.velocity.y < 0 && enemy.body.y < enemy.startY){
+						// Jumping
+						enemy.animations.play('jump');
+					} else if (enemy.body.y > enemy.startY - 31) {
+						enemy.visible = false;
+					}
+				} else {
+					enemy.swimTime += 1;
+				}
+				
+				if (enemy.swimTime > 120){
+					// Jump!
+					enemy.visible = true;	
+					enemy.y = enemy.startY - 8;
+					enemy.body.velocity.y = this.game.rnd.between(180, 260) * -1;	
+					enemy.swimTime = 0;
+				}
 			}
 		}, this);
 	},
@@ -890,11 +912,16 @@ RocketTux.Game.prototype = {
 			badguy.body.checkCollision.down = false;
 		}
 		
-		// Track fish Y spawn location, collision settings
+		// Track fish Y spawn location, collision settings, animations
 		if (badguy.fish){
 			badguy.startY = posY;
 			badguy.body.checkCollision.up = false;
 			badguy.body.checkCollision.down = false;
+			badguy.animations.add('jump', Phaser.Animation.generateFrameNames(name, 0, 1), fps, true);
+			badguy.animations.add('dive', Phaser.Animation.generateFrameNames(name, 2, 2), fps, true);
+			badguy.animations.play('dive');
+			badguy.body.velocity.y = -300;
+			badguy.swimTime = 0;	
 		}
 	},
   
@@ -945,6 +972,12 @@ RocketTux.Game.prototype = {
 			if (this.roll() > 78){
 				this.blowupBadguy(badguy, 72); // Possible double-hurt
 			}
+		} else if (badguy.frameName.indexOf('badguy-6') > -1){ // Hungry Fish
+			if (!this.playerInvicible){
+				this.sndCollide.play();
+			}
+			
+			this.hurtPlayer();
 		} else if (badguy.frameName.indexOf('badguy-7') > -1){ // Proppy
 			this.blowupBadguy(badguy, 72);
 		}

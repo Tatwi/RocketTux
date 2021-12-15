@@ -101,7 +101,7 @@ Powerups are found in purple blocks throughout the world. They persist through l
 - Woody: The forest version of Jumpy, Woody is less robust and may explode on contact!
 - Rocketboots: Flies around, bouncing off things. He is programmed to explode when Tux gets near him, but he may well blow himself up just by bouncing around. Enormous blast radius.
 - Proppy: A special kind of bomb dropped by Nolok when Tux opens orange boxes. Proppy is a bomb who hovers up and down, waiting for Tux to come near. Large blast radius.
-- Fightly Fish: These giant fish love to eat penguins. Normally that's the other way around... best to avoid these bad guys if possible!
+- Hungry Fish: These giant fish love to eat penguins. Normally that's the other way around... best to avoid these bad guys if possible!
 
 ### Gameplay Tips
 - Each map is a puzzle, where the idea is to collect as many coins and items as possible. However, you only have so many boosts and "coin jumps" to get up to the high coins and to get over obstacles. So the biggest tip is to get up to the top of the screen and go back and forth, collecting highest stuff first, then work your way down.
@@ -250,7 +250,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Enemy: Mr. Short-fuse
 - [x] Enemy: Rocketboots
 - [x] Enemy: Proppy
-- [ ] Enemy: Fightly Fish
+- [x] Enemy: Hungry Fish
 - [x] Improve Rocketboots AI
 - [ ] Make Mr. Bomb turn towards Tux when while ticking
 - [x] Enemy sound effects
