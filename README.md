@@ -244,6 +244,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Item block spawning
 - [x] Enemy spawning
 - [ ] Fix stationary enemies spawning under coins and item boxes
+- [ ] Spawn fewer enemies in easy and normal mode
 - [x] UI: Coin display
 - [x] UI: Powerup display
 - [x] Coin collection
@@ -262,6 +263,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [ ] Make Mr. Bomb turn towards Tux when while ticking
 - [ ] Fix Fish spawning on land
 - [ ] Fix Fish overlapping land
+- [ ] Adjust/lower enemy explosion radius
 - [x] Enemy sound effects
 - [x] Player loses money when bumping into an enemy
 - [x] Visual and sound effects when player loses money
@@ -281,6 +283,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [ ] Water interaction with player
 - [ ] Water interaction with enemies
 - [ ] Fuel usage in hard mode
+
 
 ## License
 The RocketTux source code is released under the General Public License Version 3, 29 June 2007 and the RocketTux artwork is released under the Creative Commons License. See the [LICENSE](LICENSE) file for more information. You may *not* copy or "fork" this repository and sell RocketTux as your own creation, no matter how you've repackaged or re-branded it. 

@@ -104,10 +104,9 @@ RocketTux.Game.prototype = {
 		this.rgChopper.frameName = 'rg-chopper';
 		this.rgChopper.visible = false;
 		this.rgChopperIsFlying = false;
-		this.rgSnd = this.game.add.audio('rg-flyby');
+		this.sndRgFlyby = this.game.add.audio('rg-flyby');
 		this.sndCallWoked = this.game.add.audio('rg-callworked');
 		this.sndCallFailed = this.game.add.audio('rg-callfailed');
-		this.sndWarp = this.game.add.audio('warp');
 		
     // Stats that will be augmented by powerups
     this.lvlAirSpeed = RocketTux.airSpeed;
@@ -1268,7 +1267,7 @@ RocketTux.Game.prototype = {
 		}
 		
 		// Flyby
-		this.rgSnd.play();
+		this.sndRgFlyby.play();
 		
 		this.rgChopper.x = this.player.x - 2200;
 		
@@ -1306,10 +1305,10 @@ RocketTux.Game.prototype = {
 		}, this);	
 	},
 	rgChopperFlybyComplete: function(){
-		this.rgChopper.visible = false;
-		this.rgChopperIsFlying = false;
 		this.rgChopper.x = 0;
 		this.rgChopper.y = 0;
+		this.rgChopper.visible = false;
+		this.rgChopperIsFlying = false;
 	},
  
 //==================PAUSE RELATED========================
@@ -1481,6 +1480,9 @@ RocketTux.Game.prototype = {
 		this.sndRocketRunning.destroy();
 		this.sndRocketWindup.destroy();
 		this.sndRocketBoost.destroy();
+		this.sndRgFlyby.destroy();
+		this.sndCallWoked.destroy();
+		this.sndCallFailed.destroy();
 
 		this.sndWarp.play();
 		music.destroy();
