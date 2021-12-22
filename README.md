@@ -49,7 +49,7 @@ That naughty Nolok has been up to no good, again! This time he and his minions d
 ## Gameplay
 When the game is finished, the following game play will be available.  
 
-- Boost and fly around collecting coins (to unlock levels and purchase Cubimals) and items to complete quests.
+- Boost and fly around collecting coins (to unlock levels and purchase Cubimals) and items to return to your friends.
 - "Coin Jump" or use boosts to puzzle your way around obstacles.
 - Open various blocks (by simply passing over them) that grant items, unlocks, and powerups.
 - Use one of 5 types of powerups to customize your game play experience.
@@ -93,6 +93,13 @@ Powerups are found in purple blocks throughout the world. They persist through l
 - **Water Flower:** Makes Tux invincible and very lucky, but the powerup is consumed after the first time Tux collides with an enemy or an explosion. Luck affects the outcome of opening boxes, making them more likely to generate positive results.
 - **Earth Flower:** Makes Tux completely invincible at the cost of also making him very, very heavy. Tux can only jump 1 block, he will not boost all the way to the top of the level, and he will lose altitude much more quickly.
 - **Air Flower:** Makes Tux much lighter, improving his jumps (3 blocks), coin-jumps, and boosts, while also causing him to lose altitude at a slower rate.
+
+### Call for Help
+Everyone needs a helping hand sometimes and the Rescue Girlies are often there to provide it. Throughout the world you will encounter green blocks with an exclamation point. Activating these blocks will grant you a single use "Call for Help" powerup that persists through level changes. The call works everywhere except in the Crevasse Caverns. The following help is provided:  
+
+- 1 Boost.
+- 1 Random powerup, if you don't already have one.
+- All nearby enemies are safely destroyed.
 
 ### Enemies
 - Mr. Bomb: Walks around, preferably on the ground. He is programmed to run, tick, and explode when Tux gets near him. Large blast radius.
@@ -264,11 +271,10 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] UI: Replace SlickUI with a custom UI
 - [ ] UI: Tooltips
 - [ ] UI: Pause menu Tooltips
-- [ ] Green ! blocks cause Rescue Girlies to fly by
-- [ ] RG grant a powerup if player doesn't have one
+- [x] Green ! blocks cause Rescue Girlies to fly by
+- [x] RG grant a powerup if player doesn't have one
 - [ ] RG destroy all enemies on the screen
-- [ ] RG drop a rare item box
-- [ ] Orange ? blocks cause Nolock to drop Proppy enemies
+- [x] Orange ? blocks cause Nolock to drop Proppy enemies
 - [ ] Cubimal bonuses are applied
 - [ ] Water interaction with player
 - [ ] Water interaction with enemies

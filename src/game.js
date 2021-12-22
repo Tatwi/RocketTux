@@ -100,7 +100,7 @@ RocketTux.Game.prototype = {
 		this.nolokSnd = this.game.add.audio('nolok-flyby');
 		
 		// Add Rescue Girlies helicopter
-		this.rgChopper = this.game.add.sprite(0, 64, 'atlas');
+		this.rgChopper = this.game.add.sprite(0, 0, 'atlas');
 		this.rgChopper.frameName = 'rg-chopper';
 		this.rgChopper.visible = false;
 		this.rgChopperIsFlying = false;
@@ -375,7 +375,7 @@ RocketTux.Game.prototype = {
 			this.globalCooldownStart(1);
 		} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.H, 1)){
 			var canHelp = localStorage.getItem('RocketTux-callHelp');
-			if (canHelp == 'true'){
+			if (canHelp == 'true' && this.theme != 'snow3'){		
 				// Remove call for help
 				localStorage.setItem('RocketTux-callHelp', 'false');
 				this.callHelpIcon.visible = false;
@@ -1270,18 +1270,15 @@ RocketTux.Game.prototype = {
 			return;
 		}
 		
-		if (this.theme == 'snow3'){
-			// Poof appear
-		} else {
-			this.rgSnd.play();
-			
-			this.rgChopper.x = this.player.x - 1800;
-			
-			this.rgChopper.visible = true;
-			this.rgChopperIsFlying = true;
-			this.game.time.events.add(Phaser.Timer.SECOND * 8, this.rgChopperFlybyComplete, this);
-			this.game.time.events.add(Phaser.Timer.SECOND * 4.76, this.rgChopperDrop, this);
-		}
+		// Flyby
+		this.rgSnd.play();
+		
+		this.rgChopper.x = this.player.x - 1800;
+		
+		this.rgChopper.visible = true;
+		this.rgChopperIsFlying = true;
+		this.game.time.events.add(Phaser.Timer.SECOND * 8, this.rgChopperFlybyComplete, this);
+		this.game.time.events.add(Phaser.Timer.SECOND * 4.76, this.rgChopperDrop, this);
 	},
 	rgChopperFlybyUpdate: function(){
 		if (this.rgChopperIsFlying){
@@ -1304,6 +1301,8 @@ RocketTux.Game.prototype = {
 	rgChopperFlybyComplete: function(){
 		this.rgChopper.visible = false;
 		this.rgChopperIsFlying = false;
+		this.rgChopper.x = 0;
+		this.rgChopper.y = 0;
 	},
  
 //==================PAUSE RELATED========================
