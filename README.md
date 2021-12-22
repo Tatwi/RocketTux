@@ -243,9 +243,9 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Coin spawning
 - [x] Item block spawning
 - [x] Enemy spawning
+- [ ] Fix stationary enemies spawning under coins and item boxes
 - [x] UI: Coin display
 - [x] UI: Powerup display
-- [ ] Fix stationary enemies spawning under coins and item boxes
 - [x] Coin collection
 - [x] Item collection
 - [x] Powerup application
@@ -260,6 +260,8 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Enemy: Hungry Fish
 - [x] Improve Rocketboots AI
 - [ ] Make Mr. Bomb turn towards Tux when while ticking
+- [ ] Fix Fish spawning on land
+- [ ] Fix Fish overlapping land
 - [x] Enemy sound effects
 - [x] Player loses money when bumping into an enemy
 - [x] Visual and sound effects when player loses money
@@ -273,7 +275,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [ ] UI: Pause menu Tooltips
 - [x] Green ! blocks cause Rescue Girlies to fly by
 - [x] RG grant a powerup if player doesn't have one
-- [ ] RG destroy all enemies on the screen
+- [x] RG destroy all enemies on the screen
 - [x] Orange ? blocks cause Nolock to drop Proppy enemies
 - [ ] Cubimal bonuses are applied
 - [ ] Water interaction with player

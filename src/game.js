@@ -107,6 +107,7 @@ RocketTux.Game.prototype = {
 		this.rgSnd = this.game.add.audio('rg-flyby');
 		this.sndCallWoked = this.game.add.audio('rg-callworked');
 		this.sndCallFailed = this.game.add.audio('rg-callfailed');
+		this.sndWarp = this.game.add.audio('warp');
 		
     // Stats that will be augmented by powerups
     this.lvlAirSpeed = RocketTux.airSpeed;
@@ -571,17 +572,13 @@ RocketTux.Game.prototype = {
 				y = this.player.body.y;
 		}
 
-		this.emitter = this.game.add.emitter(x, y, 100);
-		this.emitter.makeParticles('atlas', frame.index, num, false, false);
-		this.emitter.gravity = 200;
-		this.emitter.setXSpeed(-200, 200);
-		this.emitter.setYSpeed(-200, 200);
-		this.emitter.setScale(0.1, size, 0.1, size, 4000, Phaser.Easing.Quintic.Out);
-		this.emitter.start(true, dur, null, num);
-		//this.game.time.events.add(dur, this.destroyEmitter, this);
-	},
-	destroyEmitter: function(){
-		this.emitter.destroy();
+		var emitter = this.game.add.emitter(x, y, 100);
+		emitter.makeParticles('atlas', frame.index, num, false, false);
+		emitter.gravity = 200;
+		emitter.setXSpeed(-200, 200);
+		emitter.setYSpeed(-200, 200);
+		emitter.setScale(0.1, size, 0.1, size, 4000, Phaser.Easing.Quintic.Out);
+		emitter.start(true, dur, null, num);	
 	},
 	setPhysicsProperties: function(entity, gravity, bounce, boundingBoxSizeX, boundingBoxSizeY, boundingBoxPosX, boundingBoxPosY){
 		this.game.physics.arcade.enable(entity);
@@ -1273,7 +1270,7 @@ RocketTux.Game.prototype = {
 		// Flyby
 		this.rgSnd.play();
 		
-		this.rgChopper.x = this.player.x - 1800;
+		this.rgChopper.x = this.player.x - 2200;
 		
 		this.rgChopper.visible = true;
 		this.rgChopperIsFlying = true;
@@ -1282,7 +1279,7 @@ RocketTux.Game.prototype = {
 	},
 	rgChopperFlybyUpdate: function(){
 		if (this.rgChopperIsFlying){
-			this.rgChopper.x += 8;
+			this.rgChopper.x += 7;
 		}
 	},
 	rgChopperDrop: function(){
@@ -1295,8 +1292,18 @@ RocketTux.Game.prototype = {
 		
 		// Grant a boost
 		this.boosts += 1;
-		
-		this.blkPowerupSnd.play();
+			
+		// destroy nearby enemies
+		this.sndWarp.play();
+		this.enemies.forEachAlive(function(enemy) {
+			var xTo = this.player.body.x - enemy.body.x;
+			
+			if (Math.abs(xTo) < 666){
+				//	dur, num, frameName, onPlayer, x, y, size
+				this.doParticleExplosion(500, 12, 'pwrup-obj-star', false, enemy.body.x, enemy.body.y, 0.4);
+				enemy.kill();
+			}
+		}, this);	
 	},
 	rgChopperFlybyComplete: function(){
 		this.rgChopper.visible = false;

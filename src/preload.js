@@ -63,6 +63,7 @@ RocketTux.Preload.prototype = {
     this.load.audio('rg-flyby', 'data/sounds/rg-flyby.ogg');
     this.load.audio('rg-callworked', 'data/sounds/rg-callworked.ogg');
     this.load.audio('rg-callfailed', 'data/sounds/rg-callfailed.ogg');
+    this.load.audio('warp', 'data/sounds/warp.ogg');
   },
   create: function() {
   	this.state.start('MainMenu');
