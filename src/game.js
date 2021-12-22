@@ -98,7 +98,16 @@ RocketTux.Game.prototype = {
 		this.nolok.visible = false;
 		this.nolokIsFlying = false;
 		this.nolokSnd = this.game.add.audio('nolok-flyby');
-    
+		
+		// Add Rescue Girlies helicopter
+		this.rgChopper = this.game.add.sprite(0, 64, 'atlas');
+		this.rgChopper.frameName = 'rg-chopper';
+		this.rgChopper.visible = false;
+		this.rgChopperIsFlying = false;
+		this.rgSnd = this.game.add.audio('rg-flyby');
+		this.sndCallWoked = this.game.add.audio('rg-callworked');
+		this.sndCallFailed = this.game.add.audio('rg-callfailed');
+		
     // Stats that will be augmented by powerups
     this.lvlAirSpeed = RocketTux.airSpeed;
     this.lvlGroundSpeed = RocketTux.groundSpeed;
@@ -163,6 +172,7 @@ RocketTux.Game.prototype = {
     
     // Powerup status
     this.powerUpIcon = this.game.add.sprite(6, 5, 'atlas');
+    this.powerUpIcon.scale.setTo(0.66, 0.66);
     this.powerUpIcon.inputEnabled = true;
     this.powerUpIcon.events.onInputDown.add(this.removePowerUp, this);
     this.powerUpIcon.events.onInputOver.add(this.powerUpIconOver, this);
@@ -185,6 +195,18 @@ RocketTux.Game.prototype = {
     this.uiBoostStatus.alignTo(this.boostIcon, Phaser.RIGHT_TOP, 1, 1);
     this.uiBoostStatus.fixedToCamera = true;
     this.uiBoostStatus.text = this.boosts;
+    
+    // Call for help icon
+    this.callHelpIcon = this.game.add.sprite(34, 5, 'atlas');
+    this.callHelpIcon.scale.setTo(0.66, 0.66);
+    this.callHelpIcon.fixedToCamera = true;
+    this.callHelpIcon.frameName = 'blk-quest';
+    var canHelp = localStorage.getItem('RocketTux-callHelp');
+    if (canHelp == 'true'){
+			this.callHelpIcon.visible = true;
+		} else {
+			this.callHelpIcon.visible = false;
+		}
     
     // Temporary startup message
     this.doMessage("Press ESC or Start to Pause/Exit");
@@ -237,6 +259,7 @@ RocketTux.Game.prototype = {
     this.uiUpdate();
     
     this.nolokFlybyUpdate();
+    this.rgChopperFlybyUpdate();
 	},
 	movePlayer: function(){
     if (this.playerHurt){ // No input for a bit after touching a badguy or an explosion to enable a push back or "bounce" effect
@@ -350,6 +373,19 @@ RocketTux.Game.prototype = {
 			}
 
 			this.globalCooldownStart(1);
+		} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.H, 1)){
+			var canHelp = localStorage.getItem('RocketTux-callHelp');
+			if (canHelp == 'true'){
+				// Remove call for help
+				localStorage.setItem('RocketTux-callHelp', 'false');
+				this.callHelpIcon.visible = false;
+				this.sndCallWoked.play();		
+				this.game.time.events.add(Phaser.Timer.SECOND * 3, this.rgChopperFlyby, this);
+			} else {
+				this.sndCallFailed.play();
+			}
+			
+			this.globalCooldownStart(3);
 		} else if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1) || this.pad1.justPressed(9, 20)){ // Gamepad Start
 			if (this.gameOver){
 				this.quit();
@@ -1111,8 +1147,10 @@ RocketTux.Game.prototype = {
 		} else if (block.frameName == 'blk-powerup'){ // Purple give a power up
 			this.blkPowerupSnd.play();
 			this.applyPowerUp(true);
-		} else if (block.frameName == 'blk-quest'){ // Green offers a quest
-			this.blkQuestSnd.play();       
+		} else if (block.frameName == 'blk-quest'){ // Grants a bonus
+			this.blkQuestSnd.play();
+			localStorage.setItem('RocketTux-callHelp', 'true');
+			this.callHelpIcon.visible = true;
 		} 
 
 		block.frameName = 'blk-empty';
@@ -1226,6 +1264,46 @@ RocketTux.Game.prototype = {
 	nolokFlybyComplete: function(){
 		this.nolok.visible = false;
 		this.nolokIsFlying = false;
+	},
+	rgChopperFlyby: function(){
+		if (this.rgChopperIsFlying){
+			return;
+		}
+		
+		if (this.theme == 'snow3'){
+			// Poof appear
+		} else {
+			this.rgSnd.play();
+			
+			this.rgChopper.x = this.player.x - 1800;
+			
+			this.rgChopper.visible = true;
+			this.rgChopperIsFlying = true;
+			this.game.time.events.add(Phaser.Timer.SECOND * 8, this.rgChopperFlybyComplete, this);
+			this.game.time.events.add(Phaser.Timer.SECOND * 4.76, this.rgChopperDrop, this);
+		}
+	},
+	rgChopperFlybyUpdate: function(){
+		if (this.rgChopperIsFlying){
+			this.rgChopper.x += 8;
+		}
+	},
+	rgChopperDrop: function(){
+		var storedPwrup = localStorage.getItem('RocketTux-powerUpActive');
+
+		// Grant powerup if the player doesn't have one
+		if (storedPwrup == 'none') {
+			this.applyPowerUp(true);
+		}
+		
+		// Grant a boost
+		this.boosts += 1;
+		
+		this.blkPowerupSnd.play();
+	},
+	rgChopperFlybyComplete: function(){
+		this.rgChopper.visible = false;
+		this.rgChopperIsFlying = false;
 	},
  
 //==================PAUSE RELATED========================

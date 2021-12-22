@@ -60,6 +60,9 @@ RocketTux.Preload.prototype = {
     this.load.audio('ticking', 'data/sounds/ticking.ogg');
     this.load.audio('shakeoff', 'data/sounds/shakeoff.ogg');
     this.load.audio('nolok-flyby', 'data/sounds/nolok-flyby.ogg');
+    this.load.audio('rg-flyby', 'data/sounds/rg-flyby.ogg');
+    this.load.audio('rg-callworked', 'data/sounds/rg-callworked.ogg');
+    this.load.audio('rg-callfailed', 'data/sounds/rg-callfailed.ogg');
   },
   create: function() {
   	this.state.start('MainMenu');
@@ -166,7 +169,12 @@ RocketTux.Preload.prototype = {
         // Initial first saved data
         localStorage.setItem('RocketTux-fComplete', '0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0');
     }
-
+		
+		var tmpHelp = localStorage.getItem('RocketTux-callHelp');
+    if (tmpHelp == null || tmpHelp == undefined){
+        // Initial first saved data
+        localStorage.setItem('RocketTux-callHelp', 'false');
+    }
   },
   otherVariables: function(){
     // Variables that are over-written by values from "game save" data (local storage) or during game play
