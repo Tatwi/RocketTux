@@ -4,10 +4,10 @@ A penguin with a rocket pack? Sure, why not!
 RocketTux is an easygoing side-scroller game about collecting coins and items. Help Tux navigate his way through the randomly pieced together levels, managing his boosts, earning Cubimals for bonuses, and avoiding the ever mischievous Nolok's walking bombs and other "hilarious machines"...
 
 ## Download
-- Latest Release Version: 0.6.5 (2021.11.28)
+- Latest Release Version: 0.7.5 (2021.12.25)
 - **Windows:** See the [releases](https://github.com/Tatwi/RocketTux/releases) page.
 - **Linux:** See the [releases](https://github.com/Tatwi/RocketTux/releases) page.
-- Previous Versions can be found in my [Google Drive](https://drive.google.com/open?id=1HIeXdRdk2E9728L978p4-uPapfudT1VS).
+- Old Versions can be found in my [Google Drive](https://drive.google.com/open?id=1HIeXdRdk2E9728L978p4-uPapfudT1VS).
 - MacOS: Not supported.
 - Android/iOS: Not supported.
 
