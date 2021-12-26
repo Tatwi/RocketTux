@@ -51,10 +51,13 @@ RocketTux.Friends.prototype = {
 		// Buttons
 		this.btFL = this.game.add.button(102, 606, 'ui-map', this.pageFL, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
 		this.btFR = this.game.add.button(422, 606, 'ui-map', this.pageFR, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
-		this.btH = this.game.add.button(255, 609, 'ui-map', this.helpF, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');		
-		this.btCL = this.game.add.button(774, 606, 'ui-map', this.pageCL, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
-		this.btCR = this.game.add.button(1094, 606, 'ui-map', this.pageCR, this, 'glow-recsml-over', 'glow-recsml-out', 'glow-recsml-down');
-		this.btS = this.game.add.button(927, 609, 'ui-map', this.setC, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+		this.btH = this.game.add.button(255, 609, 'ui-map', this.helpF, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
+		
+		this.btDpadUp = this.game.add.button(842, 511, 'ui-map', this.cMoveU, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+		this.btDpadDown = this.game.add.button(842, 632, 'ui-map', this.cMoveD, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+		this.btDpadLeft = this.game.add.button(780, 571, 'ui-map', this.cMoveL, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');
+		this.btDpadRight = this.game.add.button(902, 571, 'ui-map', this.cMoveR, this, 'glow-sqr-over', 'glow-sqr-out', 'glow-sqr-down');	
+		this.btS = this.game.add.button(1055, 545, 'ui-map', this.cSet, this, 'glow-cir-over', 'glow-cir-out', 'glow-cir-down');
 				
 		// Screen lines
 		var scrLines = this.game.add.graphics();
@@ -120,19 +123,23 @@ RocketTux.Friends.prototype = {
 		// Cubimal text
 		this.cTitle = this.game.add.text(920, 80, "Cubimals", this.titleStyle);
 		this.cDesc = [];
-		this.cDesc[0] = this.game.add.text(844, 130, "Super Farts\n+10 to farts!\nand more farts...", this.descStyle)
-		this.cDesc[0] = this.game.add.text(844, 230, "Super Farts\n+10 to farts!\nand more farts...", this.descStyle)
-		this.cDesc[0] = this.game.add.text(844, 330, "Super Farts\n+10 to farts!\nand more farts...", this.descStyle)
+		this.cDesc[0] = this.game.add.text(844, 130, "", this.descStyle)
+		this.cDesc[1] = this.game.add.text(844, 230, "", this.descStyle)
+		this.cDesc[2] = this.game.add.text(844, 330, "", this.descStyle)
 		this.cCost = this.game.add.text(760, 436, "Cost:", this.titleStyle);
+		this.cCost.visible = false;
 		this.cCoins = this.game.add.text(1080, 438, "8888", this.titleStyle);
+		this.cCoins.visible = false;
 		
 		// Cubimal cost icons
 		this.cIcons = this.game.add.group();
 		for (i = 0; i < 4; i++){
 			tmpIcon = this.cIcons.create(838 + (i*48), 436, 'atlas');
+			this.cIcons.visible = false;
 		}	
 		this.coinIcon = this.game.add.sprite(1040, 436, 'atlas');
 		this.coinIcon.frameName = 'ui-coin';
+		this.coinIcon.visible = false;
 			
 		
 		// Show first friend and cubimal pages
@@ -190,14 +197,20 @@ RocketTux.Friends.prototype = {
 		// Grant reward
 		localStorage.setItem('RocketTux-myKarma', parseInt(localStorage.getItem('RocketTux-myKarma')) + 1000);
 	},
-	pageCL: function() {
-	
+	cMoveU: function() {
+		console.log('up');
 	},
-	pageCR: function() {
-	
+	cMoveD: function() {
+		console.log('down');
 	},
-	setC: function() {
-	
+	cMoveL: function() {
+		console.log('left');
+	},
+	cMoveR: function() {
+		console.log('right');
+	},
+	cSet: function() {
+		console.log('set');
 	},
 	showF: function() {
 		this.fTitle.text = RocketTux.frndName[this.fPage];
@@ -243,9 +256,11 @@ RocketTux.Friends.prototype = {
 			if (this.cActive[i] == -1){
 				this.cImage[i].frameName = 'blk-empty';
 				this.cImage[i].scale.setTo(2.0, 2.0);
+				this.cDesc[i].text = '\nNo Cubimal selected';
 			} else {
 				this.cImage[i].frameName = 'cub-' + this.cActive[i];
 				this.cImage[i].scale.setTo(1.0, 1.0);
+				this.cDesc[i].text = RocketTux.cubNames[this.cActive[i]] + '\n' + RocketTux.cubDesc[this.cActive[i]];
 			}
 		}
 	},

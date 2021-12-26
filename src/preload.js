@@ -342,7 +342,7 @@ RocketTux.Preload.prototype = {
     ];
     
     RocketTux.cubDesc = [
-        'Bonus description goes here description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...',
+        'Bonus description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...',
         'Bonus description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...',
         'Bonus description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...',
         'Bonus description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...','Bonus description goes here...',
