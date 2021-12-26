@@ -95,17 +95,12 @@ RocketTux.Preload.prototype = {
         }
     }
     
-    // Cubimal Data
-    var tmpcubCF = localStorage.getItem('RocketTux-cubItemBonus');
+    // Active Cubimals
+    // Three values from -1 to 44, indicating which bonuses are active, where -1 means no bonus is active
+    var tmpcubCF = localStorage.getItem('RocketTux-cubimals');
     if (tmpcubCF == null || tmpcubCF == undefined){
         // Initial first saved data
-        localStorage.setItem('RocketTux-cubItemBonus', '2'); // 3-6 reduce Cubimal item cost
-    }
-    
-    var tmpcubCF = localStorage.getItem('RocketTux-cubCoinBonus');
-    if (tmpcubCF == null || tmpcubCF == undefined){
-        // Initial first saved data
-        localStorage.setItem('RocketTux-cubCoinBonus', '0'); // Percent change Cubimal coin cost
+        localStorage.setItem('RocketTux-cubimals', '-1,-1,-1');
     }
     
      // Main Menu game controller color
