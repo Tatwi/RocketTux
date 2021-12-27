@@ -164,6 +164,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Cubimal paging
 - [x] Cubimal unlock cost displayed
 - [x] Cubimal name/description displayed
+- [x] Cubimal cost data
 - [ ] Cubimal selection
 - [x] Cubimal images
 - [ ] H and S button sounds
