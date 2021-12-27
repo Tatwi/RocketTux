@@ -299,6 +299,39 @@ RocketTux.Friends.prototype = {
 		this.cDesc[this.cSelectedRow].text = RocketTux.cubNames[this.cPage[this.cSelectedRow]] + '\n' + RocketTux.cubDesc[this.cPage[this.cSelectedRow]] + alreadyActive;
 	},
 	cSet: function() {
+		if (this.cEditMode == false){
+			return;
+		}
+		
+		// Check if already active
+		for (i = 0; i < 3; i++){
+			if (this.cActive[i] == this.cPage[this.cSelectedRow]){
+				console.log('Already Active'); // TODO: Replace with tooltip/message
+				return;
+			}
+		}
+		
+		// Check if they have enough coins
+		if (parseInt(localStorage.getItem('RocketTux-myWallet')) < RocketTux.cubCost[this.cPage[this.cSelectedRow]][0]){
+			console.log('Insufficient Funds'); // TODO: Replace with tooltip/message
+			return;
+		}
+				
+		// Check if they have all the items
+		var missingItems = '';
+		var fail = false;
+		for (i = 0; i < 4; i++){	
+			if (parseInt(localStorage.getItem('RocketTux-invItem' + RocketTux.cubCost[this.cPage[this.cSelectedRow]][i + 1])) < 1){
+				fail = true;
+				missingItems += '\n' + RocketTux.lootNames[RocketTux.cubCost[this.cPage[this.cSelectedRow]][i + 1]];
+			}
+		}
+		
+		if (fail == true){
+			console.log('Missing Items: ' + missingItems); // TODO: Replace with tooltip/message
+			return;
+		}
+		
 		console.log('set');
 	},
 	showF: function() {
