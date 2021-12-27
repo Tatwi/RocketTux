@@ -161,10 +161,11 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Friend quest item requirements
 - [x] Friend quest completion
 - [x] Friend images
-- [ ] Cubimal paging
-- [ ] Cubimal unlock costs
+- [x] Cubimal paging
+- [x] Cubimal unlock cost displayed
+- [x] Cubimal name/description displayed
 - [ ] Cubimal selection
-- [ ] Cubimal images
+- [x] Cubimal images
 - [ ] H and S button sounds
 - [ ] Tooltips
 
@@ -279,6 +280,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] RG grant a powerup if player doesn't have one
 - [x] RG destroy all enemies on the screen
 - [x] Orange ? blocks cause Nolock to drop Proppy enemies
+- [ ] Cubimal bonuses data created
 - [ ] Cubimal bonuses are applied
 - [ ] Water interaction with player
 - [ ] Water interaction with enemies

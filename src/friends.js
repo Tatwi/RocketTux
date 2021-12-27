@@ -112,7 +112,7 @@ RocketTux.Friends.prototype = {
 		this.completeCheck = [];
 
 		// Active Cumbimals
-		this.cActive = [0,0,0];
+		this.cActive = [-1,-1,-1];
 		
 		// Cubimal images
 		this.cImage = [];
@@ -126,8 +126,7 @@ RocketTux.Friends.prototype = {
 		this.cDesc[0] = this.game.add.text(844, 130, "", this.descStyle)
 		this.cDesc[1] = this.game.add.text(844, 230, "", this.descStyle)
 		this.cDesc[2] = this.game.add.text(844, 330, "", this.descStyle)
-		this.cCost = this.game.add.text(760, 436, "Cost:", this.titleStyle);
-		this.cCost.visible = false;
+		this.cCost = this.game.add.text(760, 436, "    Press Up/Down for Edit Mode", this.titleStyle);
 		this.cCoins = this.game.add.text(1080, 438, "8888", this.titleStyle);
 		this.cCoins.visible = false;
 		
@@ -140,8 +139,19 @@ RocketTux.Friends.prototype = {
 		this.coinIcon = this.game.add.sprite(1040, 436, 'atlas');
 		this.coinIcon.frameName = 'ui-coin';
 		this.coinIcon.visible = false;
-			
 		
+		// Highlight rectangle
+		this.highlight;
+		this.highlight = this.game.add.graphics();
+		this.highlight.beginFill("0x" + RocketTux.scrnTextColor, 0.2);
+		this.highlight.drawRect(740, 115, 472, 104);
+		this.highlight.visible = false;
+		
+		// Cubimal edit mod selection, for paging through them
+		this.cSelectedRow = 0;
+		this.cEditMode = false;
+		this.cPage = [0,0,0]; // Edit mode row0 cubimal#, row1 cubimal#, row2 cubimal#
+				
 		// Show first friend and cubimal pages
 		this.showF();
 		this.showC();
@@ -198,16 +208,95 @@ RocketTux.Friends.prototype = {
 		localStorage.setItem('RocketTux-myKarma', parseInt(localStorage.getItem('RocketTux-myKarma')) + 1000);
 	},
 	cMoveU: function() {
-		console.log('up');
+		this.highlight.visible = true;
+		this.cSelectedRow--;
+		
+		if (this.cSelectedRow < 0){
+			this.cSelectedRow = 0;
+		}
+		
+		if (this.highlight.y > 0){
+			this.highlight.y -= 100;
+		}
+		
+		this.cPager();
 	},
 	cMoveD: function() {
-		console.log('down');
+		this.highlight.visible = true;
+		this.cSelectedRow++;
+		
+		if (this.cSelectedRow > 2){
+			this.cSelectedRow = 2;
+		}
+		
+		if (this.highlight.y < 200){
+			this.highlight.y += 100;
+		}
+		
+		this.cPager();
 	},
 	cMoveL: function() {
-		console.log('left');
+		if (this.cEditMode == false){
+			return;
+		}
+		
+		this.cPage[this.cSelectedRow]--;
+		
+		if (this.cPage[this.cSelectedRow] < 0){
+			this.cPage[this.cSelectedRow] = 44;
+		}
+		
+		this.cPager();
 	},
 	cMoveR: function() {
-		console.log('right');
+		if (this.cEditMode == false){
+			return;
+		}
+		
+		this.cPage[this.cSelectedRow]++;
+		
+		if (this.cPage[this.cSelectedRow] > 44){
+			this.cPage[this.cSelectedRow] = 0;
+		}
+		
+		this.cPager();
+	},
+	cPager: function() {
+		// Enter Edit Mode
+		if (this.cEditMode == false){
+			this.cEditMode = true;
+			this.cCost.text = 'Cost:';
+			this.cCoins.visible = true;
+			this.coinIcon.visible = true;
+			
+			for (i = 0; i < 3; i++){
+				if (this.cPage[i] < 0){
+					this.cPage[i] = 0;
+					this.cImage[i].scale.setTo(1.0, 1.0);
+				}
+			}
+			
+			for (i = 0; i < 4; i++){
+				this.cIcons.visible = true;
+			}
+		}
+		
+		// Show cost for highlighted Cubimal
+		for (i = 0; i < 4; i++){
+			this.cIcons.getChildAt(i).frameName =  'icon-' + RocketTux.cubCost[this.cPage[this.cSelectedRow]][i + 1];
+		}
+		this.cCoins.text = RocketTux.cubCost[this.cPage[this.cSelectedRow]][0];
+		
+		var alreadyActive = '';
+		for (i = 0; i < 3; i++){
+			if (this.cActive[i] == this.cPage[this.cSelectedRow]){
+				alreadyActive = '\n** Already Active in slot '+ (i+1) + ' **'; // User facing slot # 1,2,3
+			}
+		}
+		
+		// Update icon and description
+		this.cImage[this.cSelectedRow].frameName = 'cub-' + this.cPage[this.cSelectedRow];		
+		this.cDesc[this.cSelectedRow].text = RocketTux.cubNames[this.cPage[this.cSelectedRow]] + '\n' + RocketTux.cubDesc[this.cPage[this.cSelectedRow]] + alreadyActive;
 	},
 	cSet: function() {
 		console.log('set');
@@ -250,6 +339,7 @@ RocketTux.Friends.prototype = {
 		var cubTmp = localStorage.getItem('RocketTux-cubimals').split(',');
 		for (i = 0; i < 3; i++){
 			this.cActive[i] = parseInt(cubTmp[i]);
+			this.cPage[i] = this.cActive[i];
 		}
 		
 		for (i = 0; i < 3; i++){	
