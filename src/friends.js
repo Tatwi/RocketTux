@@ -337,7 +337,16 @@ RocketTux.Friends.prototype = {
 			return;
 		}
 		
-		console.log('set');
+		// Remove items
+		for (i = 0; i < 4; i++){	
+			localStorage.setItem('RocketTux-invItem' + RocketTux.cubCost[this.cPage[this.cSelectedRow]][i + 1], parseInt(localStorage.getItem('RocketTux-invItem' + RocketTux.cubCost[this.cPage[this.cSelectedRow]][i + 1])) - 1)
+		}
+		
+		// Set and save
+		this.cActive[this.cSelectedRow] = this.cPage[this.cSelectedRow];
+		localStorage.setItem('RocketTux-cubimals', this.cActive.join(','));
+		
+		console.log('Cubimal set in slot ' + (this.cSelectedRow + 1) + ' to ' + RocketTux.cubNames[this.cActive[this.cSelectedRow]]); // TODO: Replace with tooltip/message
 	},
 	showF: function() {
 		this.fTitle.text = RocketTux.frndName[this.fPage];
