@@ -204,6 +204,11 @@ RocketTux.Friends.prototype = {
 			this.fMissing.text = 'You successfully return their items!';
 		}
 		
+		// Remove items
+		for (i = 0; i < 10; i++){	
+			localStorage.setItem('RocketTux-invItem' + RocketTux.frndItems[this.fPage][i], parseInt(localStorage.getItem('RocketTux-invItem' + RocketTux.frndItems[this.fPage][i])) - 1)
+		}
+		
 		// Grant reward
 		localStorage.setItem('RocketTux-myKarma', parseInt(localStorage.getItem('RocketTux-myKarma')) + 1000);
 	},
