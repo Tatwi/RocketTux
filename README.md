@@ -30,7 +30,7 @@ The game _should_ run fine on even the oldest Chromebooks, but with the ever cha
 ## About Development
 The game is quite playable and nearly complete at this stage. See the Development Checklist below for details on what it is currently implemented.  
 
-- **Status:** Playable, just missing some features
+- **Status:** Functionally complete, except Cubimal bonus system, misc details, and some balance/bug fixes. 
 - **Expected Completion Date:** Summer 2022
 - Programmed from scratch using [Phaser CE](https://github.com/photonstorm/phaser-ce).
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
@@ -165,8 +165,10 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Cubimal unlock cost displayed
 - [x] Cubimal name/description displayed
 - [x] Cubimal cost data
-- [ ] Cubimal selection
+- [x] Cubimal selection
 - [x] Cubimal images
+- [ ] Friend quest completion toast
+- [ ] Cubimal selection toast
 - [ ] H and S button sounds
 - [ ] Tooltips
 
@@ -303,8 +305,12 @@ This is an open source project that stands on the backs of many others, which is
 - Sound: [Audacity](http://www.audacityteam.org/), [Sunvox](http://www.warmplace.ru/soft/sunvox/) by Alexander Zolotov.
 - Misc: [Git](https://git-scm.com/), [GitHub](https://github.com/), [Geany](http://www.geany.org/), [Thunar](https://en.wikipedia.org/wiki/Thunar), [Firefox Browser](https://www.mozilla.org/en-US/), [Google Chrome Browser](https://www.google.com/chrome/index.html).
 
+### Programming
+- [R. Bassett Jr.](http://github.com/tatwi) aka Tatwi.
+
 ### Graphics
-- [SuperTux2](https://supertuxproject.org/) Team for the art style and many assets.
+- [R. Bassett Jr.](http://github.com/tatwi) aka Tatwi for user interface, backgrounds, new and modified tiles, tilemaps, icons, and characters.
+- [SuperTux2](https://supertuxproject.org/) Team for the art style and many base tiles, characters, and some backgrounds.
 - [Tiny Spec](https://www.glitchthegame.com/public-domain-game-art/) for the public domain release of the assets they created for their game, Glitch. All the collectable items in RocketTux are from [ThirdPartyNinja's](https://github.com/ThirdPartyNinjas/GlitchAssets) repository of Glitch items converted into PNG format.
 
 ### Sound and Music
