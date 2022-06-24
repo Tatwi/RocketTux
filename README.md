@@ -167,9 +167,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Cubimal cost data
 - [x] Cubimal selection
 - [x] Cubimal images
-- [ ] Friend quest completion toast
-- [ ] Cubimal selection toast
-- [ ] H and S button sounds
+- [x] H and S button sounds
 - [ ] Tooltips
 
 ### Inventory Menu

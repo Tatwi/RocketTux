@@ -25,6 +25,7 @@ RocketTux.Friends.prototype = {
 		
 		//Sounds
 		this.sndFail = this.game.add.audio('collide');
+		this.sndSuccess = this.game.add.audio('blk-powerup');
 			
 		// Load menu tilemaps and draw game device
 		this.makeMenu();
@@ -229,6 +230,7 @@ RocketTux.Friends.prototype = {
 		
 		// Grant reward
 		localStorage.setItem('RocketTux-myKarma', parseInt(localStorage.getItem('RocketTux-myKarma')) + 1000);
+		this.sndSuccess.play();
 	},
 	cMoveU: function() {
 		this.highlight.visible = true;
@@ -377,6 +379,7 @@ RocketTux.Friends.prototype = {
 		// Set and save
 		this.cActive[this.cSelectedRow] = this.cPage[this.cSelectedRow];
 		localStorage.setItem('RocketTux-cubimals', this.cActive.join(','));
+		this.sndSuccess.play();
 		
 		console.log('Cubimal set in slot ' + (this.cSelectedRow + 1) + ' to ' + RocketTux.cubNames[this.cActive[this.cSelectedRow]]); // TODO: Replace with tooltip/message
 	},
