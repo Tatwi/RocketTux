@@ -22,6 +22,10 @@ RocketTux.Inventory.prototype = {
 		this.bgImage.width = this.game.width;
 		this.bgImage.play('stand');
 		this.bgImage.fixedToCamera = true;
+		
+		//Sounds
+		this.sndFail = this.game.add.audio('collide');
+		this.sndSuccess = this.game.add.audio('blk-powerup');
 			
 		// Load menu tilemaps and draw game device
 		this.makeMenu();
@@ -216,6 +220,7 @@ RocketTux.Inventory.prototype = {
 		var newWalletValue = 0;
 		var nameLength = 0;
 		var accumulator = 0;
+		var sold = false;
 		
 		// Verify, remove, reward
 		for (i = 0; i < 8; i++){
@@ -240,8 +245,15 @@ RocketTux.Inventory.prototype = {
 					}
 					 
 					localStorage.setItem('RocketTux-myWallet', newWalletValue);
+					sold = true;
 				}
 			}
+		}
+		
+		if (sold){
+			this.sndSuccess.play();
+		} else {
+			this.sndFail.play();
 		}
 					
 		this.isSelling = false;
@@ -257,6 +269,7 @@ RocketTux.Inventory.prototype = {
 		var tmpInvVal = 0;
 		var pwrupNames = ['star', 'fire', 'water', 'air', 'earth'];
 		var pup = localStorage.getItem('RocketTux-powerUpActive');
+		var sold = false;
 		
 		// Verify, remove, reward
 		for (i = 0; i < 8; i++){
@@ -312,8 +325,15 @@ RocketTux.Inventory.prototype = {
 					}
 					 
 					localStorage.setItem('RocketTux-myKarma', toSave);
+					sold = true;
 				}
 			}
+		}
+		
+		if (sold){
+			this.sndSuccess.play();
+		} else {
+			this.sndFail.play();
 		}
 		
 		this.isSelling = false;

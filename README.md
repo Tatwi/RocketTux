@@ -179,7 +179,7 @@ This list contains all of the bits and pieces that make up the game. The most cu
 - [x] Item donating
 - [ ] Item selling toast
 - [ ] Item donating toast
-- [ ] S and D button sounds
+- [x] S and D button sounds
 - [ ] Tooltips
 
 ### Help Menu
