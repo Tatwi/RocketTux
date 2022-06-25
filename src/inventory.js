@@ -132,7 +132,18 @@ RocketTux.Inventory.prototype = {
 		this.highlight;
 		this.highlight = this.game.add.graphics();
 		this.highlight.beginFill("0x" + RocketTux.scrnTextColor, 0.2);
-		this.highlight.drawRect(168, 135, 656, 64);	
+		this.highlight.drawRect(168, 135, 656, 64);
+		
+		// Toast screen
+		this.toasting = false;
+		this.toastBg = this.game.add.graphics();
+		this.toastBg.beginFill(0x000000, 1);
+		this.toastBg.drawRoundedRect(132, 90, 726, 572);
+		this.toastBg.fixedToCamera = true;
+		this.toastBg.visible = false;
+		this.toastText = this.game.add.text(0, 0, "Toast!", this.titleStyle);
+		this.toastText.setTextBounds(160, 200, 672, 32);
+		this.toastText.visible = false;
 	}, 
 	update: function () {
 		if (this.game.input.keyboard.downDuration(Phaser.Keyboard.ESC, 1)){
@@ -212,6 +223,10 @@ RocketTux.Inventory.prototype = {
 		}
 	},
 	sell: function () {
+		if (this.toasting){
+			return;
+		}
+		
 		this.isSelling = true;
 		
 		var currentPage = this.showPage * 8;
@@ -252,6 +267,7 @@ RocketTux.Inventory.prototype = {
 		
 		if (sold){
 			this.sndSuccess.play();
+			this.showToast("      Items sold!\n\nYou earned " + accumulator + " Coins.");
 		} else {
 			this.sndFail.play();
 		}
@@ -259,6 +275,10 @@ RocketTux.Inventory.prototype = {
 		this.isSelling = false;
 	},
 	donate: function () {
+		if (this.toasting){
+			return;
+		}
+		
 		this.isSelling = true;
 		var currentPage = this.showPage * 8;
 		var toSave = 0;
@@ -269,7 +289,9 @@ RocketTux.Inventory.prototype = {
 		var tmpInvVal = 0;
 		var pwrupNames = ['star', 'fire', 'water', 'air', 'earth'];
 		var pup = localStorage.getItem('RocketTux-powerUpActive');
-		var sold = false;
+		var sold, gotLuck, gotPowerup, gotItem, gotKarma = false;
+		var giftRecieved = "";
+		var toastMsg = "Your donation is appreciated!\n\n";
 		
 		// Verify, remove, reward
 		for (i = 0; i < 8; i++){
@@ -302,15 +324,20 @@ RocketTux.Inventory.prototype = {
 								tmpInvVal = 998;
 							}
 							localStorage.setItem('RocketTux-invItem' + itemNumber, tmpInvVal + 1);
+							
+							giftRecieved = "\n(" + RocketTux.lootNames[itemNumber] + ")\n";
+							gotItem = true;
 						} else if (rng > 70){
 							// Powerup
 							if (pup == 'none'){
 								pup = pwrupNames[this.game.rnd.between(0, 4)];
 								RocketTux.powerUpActive = pup;
 								localStorage.setItem('RocketTux-powerUpActive', pup);
+								gotPowerup = true;
 							} else {
 								// Karma instead
 								toSave += this.game.rnd.between(150, 250);
+								gotKarma = true;
 							}				
 						} else {
 							// Karma
@@ -320,11 +347,12 @@ RocketTux.Inventory.prototype = {
 							if (RocketTux.luck < 42){
 								RocketTux.luck += 1;
 								localStorage.setItem('RocketTux-myLuck', RocketTux.luck);
+								gotLuck = true;
 							}
 						}	
 					}
 					 
-					localStorage.setItem('RocketTux-myKarma', toSave);
+					localStorage.setItem('RocketTux-myKarma', toSave);			
 					sold = true;
 				}
 			}
@@ -332,11 +360,54 @@ RocketTux.Inventory.prototype = {
 		
 		if (sold){
 			this.sndSuccess.play();
+			
+			if(gotLuck){
+				toastMsg += "Your luck has increased!\n";
+			}
+			
+			if(gotPowerup){
+				toastMsg += "You gained a powerup!\n";
+			}
+			
+			if(gotKarma){
+				toastMsg += "You earned bonus Karma!\n";
+			}
+			
+			if(gotItem){
+				toastMsg += "You were given a special gift!\n" + giftRecieved;
+			}
+			
+			toastMsg += "\nKarma: " + toSave + "/1000";
+			this.showToast(toastMsg);
 		} else {
 			this.sndFail.play();
 		}
 		
 		this.isSelling = false;
+	},
+	showToast: function (text){
+		this.toasting = true;
+		this.toastText.text = text;
+		this.toastText.alpha = 0;
+		this.toastBg.alpha = 0;
+		this.toastText.visible = true;
+		this.toastBg.visible = true;
+		
+		this.add.tween(this.toastText).to( { alpha: 1 }, 400, Phaser.Easing.Linear.None, true);
+		this.add.tween(this.toastBg).to( { alpha: 1 }, 480, Phaser.Easing.Linear.None, true);
+		
+		this.time.events.add(Phaser.Timer.SECOND * 5, this.fadeToast, this);
+	},
+	fadeToast: function (){
+		this.add.tween(this.toastText).to( { alpha: 0 }, Phaser.Timer.SECOND * 3, Phaser.Easing.Linear.None, true);
+		this.add.tween(this.toastBg).to( { alpha: 0 }, Phaser.Timer.SECOND * 3, Phaser.Easing.Linear.None, true);
+		this.time.events.add(Phaser.Timer.SECOND * 3, this.hideToast, this);
+	},
+	hideToast: function (){
+		this.toastText.text = "";
+		this.toastText.visible = false;
+		this.toastBg.visible = false;		
+		this.toasting = false;
 	},
 	shutdown: function (){
 		music.destroy();
