@@ -30,8 +30,7 @@ The game _should_ run fine on even the oldest Chromebooks, but with the ever cha
 ## About Development
 The game is quite playable and nearly complete at this stage. See the Development Checklist below for details on what it is currently implemented.  
 
-- **Status:** Functionally complete, except Cubimal bonus system, misc details, and some balance/bug fixes. 
-- **Expected Completion Date:** Summer 2022
+- **Status:** Functionally complete, except Cubimal bonuses, misc details, and some balance/bug fixes. 
 - Programmed from scratch using [Phaser CE](https://github.com/photonstorm/phaser-ce).
 - Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
 - RocketTux is its own unique game, not a clone of Supertux or other platformers.
