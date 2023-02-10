@@ -5,7 +5,8 @@ RocketTux is an easygoing side-scroller game about collecting coins and items. H
 
 <a href="https://tatwi.github.io/RocketTux/" target="_blank">
   <img src="screenshots/levels/candyland_day.png" width="480" height="270" title="Play on GitHub!"/>
-</a>  
+</a>
+
 **Click Image to Play!**  
 
 ## Download
