@@ -3,20 +3,18 @@ A penguin with a rocket pack? Sure, why not!
 
 RocketTux is an easygoing side-scroller game about collecting coins and items. Help Tux navigate his way through the randomly pieced together levels, managing his boosts, earning Cubimals for bonuses, and avoiding the ever mischievous Nolok's walking bombs and other "hilarious machines"...
 
+<a href="https://tatwi.github.io/RocketTux/" target="_blank">
+  <img src="screenshots/levels/candyland_day.png" width="480" height="270" title="Play on GitHub!"/>
+</a>  
+**Click Image to Play!**  
+
 ## Download
 - Latest Release Version: 0.7.5 (2021.12.25)
 - **Windows:** See the [releases](https://github.com/Tatwi/RocketTux/releases) page.
 - **Linux:** See the [releases](https://github.com/Tatwi/RocketTux/releases) page.
 - Old Versions can be found in my [Google Drive](https://drive.google.com/open?id=1HIeXdRdk2E9728L978p4-uPapfudT1VS).
 - MacOS: Not supported.
-- Android/iOS: Not supported.
-
-<a href="https://drive.google.com/file/d/1Ij7XfgNKVXS-uZkfsL7gxVVHSatFu6Kq/view?usp=sharing" target="_blank">
-  <img src="screenshots/levels/candyland_day.png" width="480" height="270" title="Click to watch a demo video!"/>
-</a>
-
-**Click the image above to watch a demo video**  
-*The quality is poor when played from Google Drive. Download and play with VLC for best results.*  
+- Android/iOS: Not supported. 
 
 ## System Requirements
 I can verify the game works fine using the following specs:
