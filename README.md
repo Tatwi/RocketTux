@@ -7,39 +7,7 @@ RocketTux is an easygoing side-scroller game about collecting coins and items. H
   <img src="screenshots/levels/candyland_day.png" width="480" height="270" title="Play on GitHub!"/>
 </a>
 
-**Click Image to Play!**  
-
-## Download
-- Latest Release Version: 0.7.5 (2021.12.25)
-- **Windows:** See the [releases](https://github.com/Tatwi/RocketTux/releases) page.
-- **Linux:** See the [releases](https://github.com/Tatwi/RocketTux/releases) page.
-- Old Versions can be found in my [Google Drive](https://drive.google.com/open?id=1HIeXdRdk2E9728L978p4-uPapfudT1VS).
-- MacOS: Not supported.
-- Android/iOS: Not supported. 
-
-## System Requirements
-I can verify the game works fine using the following specs:
-
-- **CPU:** AMD FX 8320, Intel Core2 Q8200, Intel Celeron N3450
-- **Graphics:** Nvidia Geforce 1660, AMD R9 270, Intel HD Graphics 500 
-- **RAM:** 4GB
-
-The game _should_ run fine on even the oldest Chromebooks, but with the ever changing nature of web browsers, I simply can't guarantee that to always be true. That said, the packaged desktop app will always run well using the above specs.  
-
-## About Development
-The game is quite playable and nearly complete at this stage. See the Development Checklist below for details on what it is currently implemented.  
-
-- **Status:** Functionally complete, except Cubimal bonuses, misc details, and some balance/bug fixes. 
-- Programmed from scratch using [Phaser CE](https://github.com/photonstorm/phaser-ce).
-- Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
-- RocketTux is its own unique game, not a clone of Supertux or other platformers.
-- Created with Linux Mint 17 and Windows 10 64Bit on an AMD FX-8320 based desktop PC. 
-- Originally intended to be a Chrome App and optimized for low end Chromebooks, but it's now intended to be run on a desktop PC. 
-- Packaged as a native application for Windows and Linux using [NW.js](https://github.com/nwjs/nw.js), which is based on [Node.js](https://nodejs.org/en/about/) and the [Chromium](https://www.chromium.org/Home) web browser.
-- **No advertisements, no subscriptions, no micro-transaction, and no purchase fees.** Just free, open source fun!
-
-## Target Audience
-RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn about programming.
+[**Play Online!**](https://tatwi.github.io/RocketTux/)  
 
 ## Story
 That naughty Nolok has been up to no good, again! This time he and his minions decided it would be hilarious if they took people's everyday items and hid them inside of magic blocks all over the world. Someone has to clean up Nolok's mess and Tux is always up for a challenge. Of course, Nolok isn't going to make it easy for him, even though he does think that rocket pack thing is cool. Word is that the [Rescue Girlies](https://github.com/Tatwi/RescueGirlies) are also making an effort to reign in Nolok's chaos.
@@ -114,6 +82,39 @@ Everyone needs a helping hand sometimes and the Rescue Girlies are often there t
 - Don't sweat it if you weren't able to collect all the coins in a level. Yeah, collecting them all kicks you up one tier in bonus coins, but in the grand scheme of things it doesn't matter _that_ much.
 - Every 10 coins you collect bumps you up 1 tier in bonus coin rewards. On normal and hard mode, the higher tier bonuses (for longer levels that have higher coin amounts) are much more generous than the lower tier bonuses.
 
+## Download
+- Latest Release Version: 0.7.5 (2021.12.25)
+- [NW.js](https://nwjs.io/) based web app wrapper. Download zip file, extract, run Rocktux.exe or RocketTux binary.
+- **Windows:** See the [releases](https://github.com/Tatwi/RocketTux/releases) page.
+- **Linux:** See the [releases](https://github.com/Tatwi/RocketTux/releases) page.
+- MacOS: Web browser only.
+- Android/iOS: Not supported, no touch controls. 
+
+## System Requirements
+I can verify the game works fine using the following specs:
+
+- **CPU:** AMD FX 8320, Intel Core2 Q8200, Intel Celeron N3450
+- **Graphics:** Nvidia Geforce 1660, AMD R9 270, Intel HD Graphics 500 
+- **RAM:** 4GB
+- Web Version: Google Chrome, Chromium, or Microsoft Edge
+
+To improve performance on older Chromebooks, only 2 textures are used when playing a level (thereby reducing costly draw calls and fitting into even the worst Chromebook's GPU spec of 2 active textures). That said, the packaged desktop app will always run well using the above specs and the online version hosted on GitHub Pages _should_ play well on any old Chromebook, PC, or Mac.  
+
+## About Development
+The game is playable and nearly complete. See the Development Checklist below for details on what it is currently implemented.  
+
+- **Status:** Functionally complete, except Cubimal bonuses, misc details, and some balance/bug fixes. 
+- Programmed from scratch using [Phaser CE](https://github.com/photonstorm/phaser-ce).
+- Based on visual art assets from [SuperTux](https://supertuxproject.org/) and [Glitch](https://www.glitchthegame.com/public-domain-game-art/).
+- RocketTux is its own unique game, not a clone of Supertux or other platformers.
+- Created with Linux Mint 17 and Windows 10 64Bit on an AMD FX-8320 based desktop PC. 
+- Originally intended to be a Chrome App and optimized for low end Chromebooks, but it's now intended to be run on a desktop PC. 
+- Packaged as a native application for Windows and Linux using [NW.js](https://github.com/nwjs/nw.js), which is based on [Node.js](https://nodejs.org/en/about/) and the [Chromium](https://www.chromium.org/Home) web browser.
+- **No advertisements, no subscriptions, no micro-transaction, and no purchase fees.** Just free, open source fun!
+
+## Target Audience
+RocketTux is designed for kids and light-hearted adults alike. It's not meant to be a difficult or frustrating game. Students can play the game at school and browse or modify the source code to learn about programming.
+
 ## Wiki
 The following are links to documents related to the development and use of the game. Hopefully there is enough information here to help students and hobbyists make sense of how the project is laid out, how to develop for it, and how to use the included tools.
 
@@ -132,10 +133,10 @@ The following are links to documents related to the development and use of the g
 
 ### Screenshots and Google Drive
 - [Screenshots](screenshots): Some fun and helpful screenshots of the game that are located in this repository.
-- [Dev Blog Screenshots](https://drive.google.com/open?id=0By31kDj_eHBceXgtS3hvdnJvT0U): My Google Drive folder filled hundreds of screenshots taken during development. Potentially entertaining and informative.
-- [My Design Book](https://drive.google.com/drive/folders/0By31kDj_eHBcTjJuNllrdm1wVk0?usp=sharing): Pictures of the my paper notebook (and possibly other misc papers) that I used for most of my design/thinking.
-- [GIMP Source Files](https://drive.google.com/drive/folders/0By31kDj_eHBcSmFudlJUcWd3UUU?usp=sharing): The huge, Git-unfriendly GIMP art files that I used to create all of tilemaps, sprites, and other graphics.
-- [Google Drive Cache](https://drive.google.com/drive/folders/0By31kDj_eHBcYnlpQjEzZHY4SUU?usp=sharing): All of the folders, including the two above, for files related to _all of my open source projects_ that weren't really appropriate to put in their repositories. There's some other misc RocketTux stuff in here as well.
+- [Dev Blog Screenshots](https://drive.google.com/drive/folders/0By31kDj_eHBceXgtS3hvdnJvT0U?resourcekey=0-SlCtIq1SRHZQna3EvGXjwQ&usp=share_link): My Google Drive folder filled hundreds of screenshots taken during development. Potentially entertaining and informative.
+- [My Design Book](https://drive.google.com/drive/folders/0By31kDj_eHBcTjJuNllrdm1wVk0?resourcekey=0-3vHMe6d8fKYX5Kogb0VZ9g&usp=share_link): Pictures of the my paper notebook (and possibly other misc papers) that I used for most of my design/thinking.
+- [GIMP Source Files](https://drive.google.com/file/d/1YnaSp3oBypjW-rHvNrFg4GsU771wblSX/view?usp=share_link): The huge, Git-unfriendly GIMP art files that I used to create all of tilemaps, sprites, and other graphics.
+- [Old Releases](https://drive.google.com/drive/folders/1HIeXdRdk2E9728L978p4-uPapfudT1VS?usp=share_link): Older versions of the game throughout its development history.
 
 ## Development Checklist
 *Last Updated: 2021.12.09*  
@@ -299,7 +300,7 @@ This is an open source project that stands on the backs of many others, which is
 - Operating System: [Debian](http://www.debian.org/), [Linux Mint](https://linuxmint.com/), [XFCE](https://xfce.org/).
 - Graphics: [GIMP](https://www.gimp.org/) with some brushes by [Bill Scott](http://www.texturemate.com/content/about).
 - Sound: [Audacity](http://www.audacityteam.org/), [Sunvox](http://www.warmplace.ru/soft/sunvox/) by Alexander Zolotov.
-- Misc: [Git](https://git-scm.com/), [GitHub](https://github.com/), [Geany](http://www.geany.org/), [Thunar](https://en.wikipedia.org/wiki/Thunar), [Firefox Browser](https://www.mozilla.org/en-US/), [Google Chrome Browser](https://www.google.com/chrome/index.html).
+- Misc: [Git](https://git-scm.com/), [GitHub](https://github.com/), [Geany](http://www.geany.org/), [Thunar](https://en.wikipedia.org/wiki/Thunar), [Firefox Browser](https://www.mozilla.org/en-US/), [Google Chrome Browser](https://www.google.com/chrome/index.html), [NW.js](https://nwjs.io/).
 
 ### Programming
 - [R. Bassett Jr.](http://github.com/tatwi) aka Tatwi.
